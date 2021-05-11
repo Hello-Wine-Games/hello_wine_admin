@@ -46,7 +46,7 @@ class AppView extends StatelessWidget {
       child: BlocProvider(
         create: (_) => QuestionCubit(
           repository: _questionsRepository,
-        )..fetchList(),
+        )..fetchQuestions('Everything But The Grape'),
         child: MaterialApp(
           // theme: theme,
           home: FlowBuilder<AppStatus>(

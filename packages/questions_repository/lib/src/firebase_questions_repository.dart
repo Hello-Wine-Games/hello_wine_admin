@@ -9,8 +9,6 @@ import 'package:questions_repository/questions_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseQuestionsRepository implements QuestionsRepository {
-  final categoryCollection = "Everything But The Grape";
-
   final questionsCollection =
       FirebaseFirestore.instance.collection('questions');
 
@@ -25,10 +23,12 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<List<Question>> fetchQuestions() {
-    print('fetching');
+  Future<List<Question>> fetchQuestions(String category) {
+    print('fetching $category');
     return FirebaseFirestore.instance
-        .collection('categories2')
+        .collection('categories')
+        .doc(category)
+        .collection('questions')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs

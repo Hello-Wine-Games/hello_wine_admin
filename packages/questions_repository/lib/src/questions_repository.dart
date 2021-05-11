@@ -11,7 +11,7 @@ abstract class QuestionsRepository {
 
   Future<void> deleteQuestion(String id);
 
-  Future<List<Question>> fetchQuestions();
+  Future<List<Question>> fetchQuestions(String category);
 
   Future<void> updateQuestion(Question question);
 }

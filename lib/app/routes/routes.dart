@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import '../../app/app.dart';
-import 'package:hello_wine_admin/questions/question.dart';
+import '../../questions/question.dart';
 
 List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
   switch (state) {

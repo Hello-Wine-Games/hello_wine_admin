@@ -1,6 +1,6 @@
 part of 'question_cubit.dart';
 
-enum QuestionStatus { loading, success, failure }
+enum QuestionStatus { loading, success, failure, update }
 
 class QuestionState extends Equatable {
   const QuestionState._({

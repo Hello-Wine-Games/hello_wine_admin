@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questions_repository/questions_repository.dart';
+
 import '../question.dart';
 
 class QuestionsPage extends StatelessWidget {
   const QuestionsPage({Key? key}) : super(key: key);
-
   static Page page() => const MaterialPage<void>(child: QuestionsPage());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Complex Question')),
       body: BlocBuilder<QuestionCubit, QuestionState>(
         builder: (context, state) {
           switch (state.status) {
@@ -35,19 +34,33 @@ class _QuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return questions.isEmpty
-        ? const Center(child: Text('no content'))
-        : ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return _QuestionTile(
-                question: questions[index],
-                onDeletePressed: (id) {
-                  context.read<QuestionCubit>().deleteItem(id);
-                },
-              );
-            },
-            itemCount: questions.length,
-          );
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Categories(
+            categoriesChange: (String category) =>
+                {context.read<QuestionCubit>().fetchQuestions(category)},
+          ),
+        ),
+        Expanded(
+          flex: 5,
+          child: questions.isEmpty
+              ? const Center(child: Text('no content'))
+              : ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return _QuestionTile(
+                      question: questions[index],
+                      onDeletePressed: (id) {
+                        context.read<QuestionCubit>().deleteItem(id);
+                      },
+                    );
+                  },
+                  itemCount: questions.length,
+                ),
+        ),
+      ],
+    );
   }
 }
 
