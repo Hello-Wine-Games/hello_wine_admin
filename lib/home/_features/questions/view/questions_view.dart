@@ -4,10 +4,7 @@ import 'package:questions_repository/questions_repository.dart';
 
 import '../question.dart';
 
-class QuestionsPage extends StatelessWidget {
-  const QuestionsPage({Key? key}) : super(key: key);
-  static Page page() => const MaterialPage<void>(child: QuestionsPage());
-
+class QuestionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,33 +31,19 @@ class _QuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Categories(
-            categoriesChange: (String category) =>
-                {context.read<QuestionCubit>().fetchQuestions(category)},
-          ),
-        ),
-        Expanded(
-          flex: 5,
-          child: questions.isEmpty
-              ? const Center(child: Text('no content'))
-              : ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return _QuestionTile(
-                      question: questions[index],
-                      onDeletePressed: (id) {
-                        context.read<QuestionCubit>().deleteItem(id);
-                      },
-                    );
-                  },
-                  itemCount: questions.length,
-                ),
-        ),
-      ],
-    );
+    return questions.isEmpty
+        ? const Center(child: Text('no content'))
+        : ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return _QuestionTile(
+                question: questions[index],
+                onDeletePressed: (id) {
+                  context.read<QuestionCubit>().deleteItem(id);
+                },
+              );
+            },
+            itemCount: questions.length,
+          );
   }
 }
 
@@ -77,7 +60,6 @@ class _QuestionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text('#${question.id}'),
       title: Text(question.question!),
       trailing: question.isDeleting
           ? const CircularProgressIndicator()
