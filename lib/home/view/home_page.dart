@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
 import '../_features/features.dart';
 import '../home.dart';
 
@@ -8,7 +9,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 50,
+        leadingWidth: 200,
+        leading: Container(
+          child: Row(
+            children: [
+              Container(height: 50, child: HWImages.wineGlassIcon()),
+              Text(
+                'Admin',
+                style: HWTheme.lightTheme.textTheme.headline1
+                    ?.copyWith(fontSize: 30),
+              ),
+            ],
+          ),
+        ),
+        actions: [const AdminButton(title: 'Logout')],
+      ),
       body: Row(
         children: [
           Expanded(

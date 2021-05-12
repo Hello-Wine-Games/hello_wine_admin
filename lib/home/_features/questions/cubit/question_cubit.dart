@@ -14,7 +14,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   Future<void> fetchQuestions(String category) async {
     try {
       final questions = await repository.fetchQuestions(category);
-      emit(QuestionState.success(questions, 0));
+      emit(QuestionState.success(questions, 0, category));
     } on Exception {
       emit(const QuestionState.failure());
     }
@@ -34,12 +34,12 @@ class QuestionCubit extends Cubit<QuestionState> {
   //   }));
   // }
 
-  Future<void> updateSelected(String id, int selected) async {
+  Future<void> updateSelected(String id, int selected, String category) async {
     final updateInProgress = state.questions.map((question) {
       return question.id == id
           ? question.copyWith(isSelected: true)
           : question.copyWith(isSelected: false);
     }).toList();
-    emit(QuestionState.success(updateInProgress, selected));
+    emit(QuestionState.success(updateInProgress, selected, category));
   }
 }

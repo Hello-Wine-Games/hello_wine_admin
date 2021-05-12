@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hello_wine_admin/UI/HWTheme.dart';
-import 'package:hello_wine_admin/UI/images.dart';
-import 'package:hello_wine_admin/app/admin/widgets/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
+
+import '../../questions/question.dart';
+import '../widgets/widgets.dart';
 
 class Categories extends StatelessWidget {
   Categories({required this.categoriesChange});
@@ -10,10 +12,11 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final stateCategory = context.watch<QuestionCubit>().state.category;
     return Container(
       color: HWTheme.burgundy,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,7 +24,25 @@ class Categories extends StatelessWidget {
             Expanded(
               child: MenuButton(
                 icon: HWImages.barrelIcon(color: Colors.white),
-                isSelected: true,
+                isSelected: 'Winemaking Process' == stateCategory,
+                onPressed: () {
+                  categoriesChange('Winemaking Process');
+                },
+              ),
+            ),
+            Expanded(
+              child: MenuButton(
+                icon: HWImages.grapesIcon(color: Colors.white),
+                isSelected: 'Varietal Facts' == stateCategory,
+                onPressed: () {
+                  categoriesChange('Varietal Facts');
+                },
+              ),
+            ),
+            Expanded(
+              child: MenuButton(
+                icon: HWImages.corkIcon(color: Colors.white),
+                isSelected: 'Everything But The Grape' == stateCategory,
                 onPressed: () {
                   categoriesChange('Everything But The Grape');
                 },
@@ -29,89 +50,71 @@ class Categories extends StatelessWidget {
             ),
             Expanded(
               child: MenuButton(
-                icon: HWImages.grapesIcon(color: Colors.white),
-                isSelected: false,
-                onPressed: () {
-                  categoriesChange('Michigan Wine');
-                },
-              ),
-            ),
-            Expanded(
-              child: MenuButton(
-                icon: HWImages.corkIcon(color: Colors.white),
-                isSelected: false,
-                onPressed: () {
-                  categoriesChange('Michigan Wine');
-                },
-              ),
-            ),
-            Expanded(
-              child: MenuButton(
                 icon: HWImages.foodIcon(color: Colors.white),
-                isSelected: false,
+                isSelected: 'Pairings, Tastings, and Notes' == stateCategory,
                 onPressed: () {
-                  categoriesChange('Michigan Wine');
+                  categoriesChange('Pairings, Tastings, and Notes');
                 },
               ),
             ),
             Expanded(
               child: MenuButton(
                 icon: HWImages.globeIcon(color: Colors.white),
-                isSelected: false,
+                isSelected: 'Geography' == stateCategory,
                 onPressed: () {
-                  categoriesChange('Michigan Wine');
+                  categoriesChange('Geography');
                 },
               ),
             ),
             Expanded(
               child: MenuButton(
                 icon: HWImages.towerIcon(color: Colors.white),
-                isSelected: false,
+                isSelected: 'Fortified Wine' == stateCategory,
                 onPressed: () {
-                  categoriesChange('Michigan Wine');
+                  categoriesChange('Fortified Wine');
                 },
               ),
             ),
             Expanded(
               child: MenuButton(
                 icon: HWImages.questionIcon(color: Colors.white),
-                isSelected: false,
+                isSelected: 'Random Wine Facts' == stateCategory,
                 onPressed: () {
-                  categoriesChange('Michigan Wine');
+                  categoriesChange('Random Wine Facts');
                 },
               ),
             ),
             Expanded(
               child: MenuButton(
                 icon: HWImages.stateIcon(color: Colors.white),
-                isSelected: false,
+                isSelected: 'Michigan Wine' == stateCategory,
                 onPressed: () {
                   categoriesChange('Michigan Wine');
                 },
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    categoriesChange('Everything But The Grape');
-                  },
-                  child: Text('Everything But The Grape'),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    categoriesChange('Michigan Wine');
-                  },
-                  child: Text('Michigan Wine'),
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         categoriesChange('Everything But The Grape');
+            //       },
+            //       child: Text('Everything But The Grape'),
+            //     ),
+            //   ),
+            // ),
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         categoriesChange('Michigan Wine');
+            //       },
+            //       child: Text('Michigan Wine'),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

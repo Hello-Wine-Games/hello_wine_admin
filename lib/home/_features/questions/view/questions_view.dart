@@ -13,7 +13,8 @@ class QuestionsView extends StatelessWidget {
           case QuestionStatus.failure:
             return const Center(child: Text('Oops something went wrong!'));
           case QuestionStatus.success:
-            return _QuestionView(questions: state.questions);
+            return _QuestionView(
+                questions: state.questions, category: state.category);
           default:
             return const Center(child: CircularProgressIndicator());
         }
@@ -23,9 +24,12 @@ class QuestionsView extends StatelessWidget {
 }
 
 class _QuestionView extends StatelessWidget {
-  const _QuestionView({Key? key, required this.questions}) : super(key: key);
+  const _QuestionView(
+      {Key? key, required this.questions, required this.category})
+      : super(key: key);
 
   final List<Question> questions;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,9 @@ class _QuestionView extends StatelessWidget {
                 index: index,
                 question: questions[index],
                 onSelected: (id) {
-                  context.read<QuestionCubit>().updateSelected(id, index);
+                  context
+                      .read<QuestionCubit>()
+                      .updateSelected(id, index, category);
                 },
                 // onDeletePressed: (id) {
                 //   context.read<QuestionCubit>().deleteItem(id);
