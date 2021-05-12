@@ -30,6 +30,11 @@ class _DetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(question.question!);
+    return Column(
+      children: [
+        Text(question.question!),
+        Text(question.points!.toString()),
+      ],
+    );
   }
 }

@@ -54,12 +54,10 @@ class _QuestionTile extends StatelessWidget {
     Key? key,
     required this.index,
     required this.question,
-    // required this.onDeletePressed,
     required this.onSelected,
   }) : super(key: key);
 
   final Question question;
-  // final ValueSetter<String> onDeletePressed;
   final ValueSetter<String> onSelected;
   final int index;
 
