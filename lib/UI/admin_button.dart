@@ -17,7 +17,7 @@ class AdminButton extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(HWTheme.darkBurgundy),
         padding: MaterialStateProperty.all(
-          const EdgeInsets.all(20),
+          const EdgeInsets.all(10),
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -28,7 +28,7 @@ class AdminButton extends StatelessWidget {
       child: Text(
         title,
         style: HWTheme.lightTheme.textTheme.headline6
-            ?.copyWith(color: Colors.white, fontSize: 16),
+            ?.copyWith(color: Colors.white, fontSize: 10),
       ),
     );
   }

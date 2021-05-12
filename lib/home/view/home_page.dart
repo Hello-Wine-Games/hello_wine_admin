@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: 50,
         leadingWidth: 200,
@@ -25,7 +26,12 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        actions: [const AdminButton(title: 'Logout')],
+        actions: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: AdminButton(title: 'Logout'),
+          )
+        ],
       ),
       body: Row(
         children: [

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 import '../question.dart';
@@ -35,22 +37,75 @@ class _QuestionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return questions.isEmpty
         ? const Center(child: Text('no content'))
-        : ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return _QuestionTile(
-                index: index,
-                question: questions[index],
-                onSelected: (id) {
-                  context
-                      .read<QuestionCubit>()
-                      .updateSelected(id, index, category);
-                },
-                // onDeletePressed: (id) {
-                //   context.read<QuestionCubit>().deleteItem(id);
-                // },
-              );
-            },
-            itemCount: questions.length,
+        : Column(
+            children: [
+              Container(
+                height: 115,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: HWTheme.grayOutline,
+                    ),
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.read<QuestionCubit>().state.category,
+                        style: HWTheme.lightTheme.textTheme.headline5
+                            ?.copyWith(fontSize: 20),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Questions (${context.read<QuestionCubit>().state.questions.length})',
+                            style: HWTheme.lightTheme.textTheme.headline5
+                                ?.copyWith(
+                                    fontSize: 20, color: HWTheme.darkGray),
+                          ),
+                          RawMaterialButton(
+                            onPressed: () {},
+                            elevation: 2.0,
+                            fillColor: HWTheme.burgundy,
+                            padding: const EdgeInsets.all(10.0),
+                            shape: const CircleBorder(),
+                            child: const Icon(
+                              FontAwesomeIcons.plus,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return _QuestionTile(
+                      index: index,
+                      question: questions[index],
+                      onSelected: (id) {
+                        context
+                            .read<QuestionCubit>()
+                            .updateSelected(id, index, category);
+                      },
+                      // onDeletePressed: (id) {
+                      //   context.read<QuestionCubit>().deleteItem(id);
+                      // },
+                    );
+                  },
+                  itemCount: questions.length,
+                ),
+              ),
+            ],
           );
   }
 }
