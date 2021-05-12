@@ -3,16 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../_features/features.dart';
 import '../home.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int selectedQIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,15 +19,11 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             flex: 3,
-            child: QuestionsView(
-              selectedQIndex: selectedQIndex,
-            ),
+            child: QuestionsView(),
           ),
           Expanded(
             flex: 7,
-            child: Details(
-              selectedQIndex: selectedQIndex,
-            ),
+            child: Details(),
           )
         ],
       ),

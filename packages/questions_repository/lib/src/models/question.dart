@@ -9,6 +9,7 @@ class Question extends Equatable {
   final String? question;
   // final List<Answer>? answers;
   final bool isDeleting;
+  final bool isSelected;
 
   Question({
     String? id,
@@ -16,9 +17,11 @@ class Question extends Equatable {
     required String? question,
     // required List<Answer>? answers,
     this.isDeleting = false,
+    this.isSelected = false,
   })  : this.id = id,
         this.points = points,
         this.question = question;
+
   // this.answers = answers;
 
   Question copyWith(
@@ -26,13 +29,15 @@ class Question extends Equatable {
       double? points,
       String? question,
       // List<Answer>? answers,
-      bool? isDeleting}) {
+      bool? isDeleting,
+      bool? isSelected}) {
     return Question(
       id: id ?? this.id,
       points: points ?? this.points,
       question: question ?? this.question,
       // answers: answers ?? this.answers,
       isDeleting: isDeleting ?? this.isDeleting,
+      isSelected: isSelected ?? this.isSelected,
     );
   }
 
@@ -55,5 +60,5 @@ class Question extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, points, question, isDeleting];
+  List<Object?> get props => [id, points, question, isDeleting, isSelected];
 }
