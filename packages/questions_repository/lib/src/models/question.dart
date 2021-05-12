@@ -21,7 +21,6 @@ class Question extends Equatable {
   })  : this.id = id,
         this.points = points,
         this.question = question;
-
   // this.answers = answers;
 
   Question copyWith(
