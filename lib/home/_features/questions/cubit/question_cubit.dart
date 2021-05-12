@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../question.dart';
 import 'package:questions_repository/questions_repository.dart';
 import 'package:pedantic/pedantic.dart';
 
