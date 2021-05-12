@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import '../../home/_features/questions/question.dart';
+import '../../questions/question.dart';
 
 class Details extends StatelessWidget {
   @override
