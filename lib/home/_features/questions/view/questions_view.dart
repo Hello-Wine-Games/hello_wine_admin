@@ -7,19 +7,17 @@ import '../question.dart';
 class QuestionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<QuestionCubit, QuestionState>(
-        builder: (context, state) {
-          switch (state.status) {
-            case QuestionStatus.failure:
-              return const Center(child: Text('Oops something went wrong!'));
-            case QuestionStatus.success:
-              return _QuestionView(questions: state.questions);
-            default:
-              return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+    return BlocBuilder<QuestionCubit, QuestionState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case QuestionStatus.failure:
+            return const Center(child: Text('Oops something went wrong!'));
+          case QuestionStatus.success:
+            return _QuestionView(questions: state.questions);
+          default:
+            return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }
@@ -36,10 +34,14 @@ class _QuestionView extends StatelessWidget {
         : ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return _QuestionTile(
+                index: index,
                 question: questions[index],
-                onDeletePressed: (id) {
-                  context.read<QuestionCubit>().deleteItem(id);
+                onSelected: (id) {
+                  context.read<QuestionCubit>().updateSelected(id, index);
                 },
+                // onDeletePressed: (id) {
+                //   context.read<QuestionCubit>().deleteItem(id);
+                // },
               );
             },
             itemCount: questions.length,
@@ -50,23 +52,23 @@ class _QuestionView extends StatelessWidget {
 class _QuestionTile extends StatelessWidget {
   const _QuestionTile({
     Key? key,
+    required this.index,
     required this.question,
-    required this.onDeletePressed,
+    required this.onSelected,
   }) : super(key: key);
 
   final Question question;
-  final ValueSetter<String> onDeletePressed;
+  final ValueSetter<String> onSelected;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        onSelected(question.id!);
+      },
+      selected: index == context.read<QuestionCubit>().state.selectedQuestion,
       title: Text(question.question!),
-      trailing: question.isDeleting
-          ? const CircularProgressIndicator()
-          : IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => onDeletePressed(question.id!),
-            ),
     );
   }
 }

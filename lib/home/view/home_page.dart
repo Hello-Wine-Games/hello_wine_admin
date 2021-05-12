@@ -8,18 +8,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Row(
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Categories(
               categoriesChange: (String category) =>
                   {context.read<QuestionCubit>().fetchQuestions(category)},
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 3,
             child: QuestionsView(),
+          ),
+          Expanded(
+            flex: 7,
+            child: Details(),
           )
         ],
       ),

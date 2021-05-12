@@ -7,7 +7,11 @@ class QuestionEntity extends Equatable {
   final String? question;
   // final List<Answer> answers;
 
-  const QuestionEntity(this.id, this.points, this.question);
+  const QuestionEntity(
+    this.id,
+    this.points,
+    this.question,
+  );
 
   Map<String, Object?> toJson() {
     return {
@@ -19,11 +23,7 @@ class QuestionEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        id,
-        points,
-        question,
-      ];
+  List<Object?> get props => [id, points, question];
 
   @override
   String toString() {
@@ -57,9 +57,9 @@ class QuestionEntity extends Equatable {
   }
 }
 
-class Answer {
-  final String? answer;
-  final bool? correct;
+// class Answer {
+//   final String? answer;
+//   final bool? correct;
 
-  const Answer(this.answer, this.correct);
-}
+//   const Answer(this.answer, this.correct);
+// }
