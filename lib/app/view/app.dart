@@ -20,16 +20,16 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider.value(value: _authenticationRepository),
-          RepositoryProvider.value(value: _questionsRepository),
-        ],
-        child: BlocProvider(
-          create: (context) => AppBloc(
-              authenticationRepository:
-                  context.read<AuthenticationRepository>()),
-          child: AppView(),
-        ));
+      providers: [
+        RepositoryProvider.value(value: _authenticationRepository),
+        RepositoryProvider.value(value: _questionsRepository),
+      ],
+      child: BlocProvider(
+        create: (context) => AppBloc(
+            authenticationRepository: context.read<AuthenticationRepository>()),
+        child: AppView(),
+      ),
+    );
   }
 }
 

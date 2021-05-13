@@ -97,9 +97,12 @@ class _QuestionView extends StatelessWidget {
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       return _QuestionTile(
-                        index: index,
                         question: questions[index],
-                        isSelected: false,
+                        isSelected: index ==
+                            context
+                                .read<QuestionCubit>()
+                                .state
+                                .selectedQuestion,
                         onSelected: (id) {
                           context
                               .read<QuestionCubit>()
@@ -122,7 +125,6 @@ class _QuestionView extends StatelessWidget {
 class _QuestionTile extends StatelessWidget {
   const _QuestionTile({
     Key? key,
-    required this.index,
     required this.question,
     required this.onSelected,
     required this.isSelected,
@@ -130,7 +132,6 @@ class _QuestionTile extends StatelessWidget {
 
   final Question question;
   final ValueSetter<String> onSelected;
-  final int index;
   final bool isSelected;
 
   @override
@@ -139,9 +140,9 @@ class _QuestionTile extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         border: Border.all(
-          color: HWTheme.grayOutline,
+          color: isSelected ? HWTheme.burgundy : HWTheme.grayOutline,
         ),
-        color: isSelected ? HWTheme.burgundy : Colors.white,
+        color: Colors.white,
       ),
       child: ListTile(
         onTap: () {
@@ -149,12 +150,17 @@ class _QuestionTile extends StatelessWidget {
         },
         leading: Text(
           '500',
-          style: HWTheme.lightTheme.textTheme.headline5,
+          style: isSelected
+              ? HWTheme.lightTheme.textTheme.headline5
+                  ?.copyWith(color: HWTheme.burgundy)
+              : HWTheme.lightTheme.textTheme.headline5
+                  ?.copyWith(color: HWTheme.darkGray),
         ),
-        selected: index == context.read<QuestionCubit>().state.selectedQuestion,
+        selected: isSelected,
         title: Text(
           question.question!,
-          style: TextStyle(color: isSelected ? HWTheme.burgundy : Colors.blue),
+          style: TextStyle(
+              color: isSelected ? HWTheme.burgundy : HWTheme.darkGray),
         ),
       ),
     );
