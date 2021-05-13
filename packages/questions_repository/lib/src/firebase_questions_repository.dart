@@ -13,13 +13,23 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
       FirebaseFirestore.instance.collection('questions');
 
   @override
-  Future<void> addNewQuestion(Question question) {
-    return questionsCollection.add(question.toEntity().toDocument());
+  Future<void> addNewQuestion(Question question, String category) {
+    print(question);
+    return FirebaseFirestore.instance
+        .collection('categories')
+        .doc(category)
+        .collection('questions')
+        .add(question.toEntity().toDocument());
   }
 
   @override
-  Future<void> deleteQuestion(String id) async {
-    return questionsCollection.doc(id).delete();
+  Future<void> deleteQuestion(String id, String category) async {
+    return FirebaseFirestore.instance
+        .collection('categories')
+        .doc(category)
+        .collection('questions')
+        .doc(id)
+        .delete();
   }
 
   @override
@@ -29,6 +39,7 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
         .collection('categories')
         .doc(category)
         .collection('questions')
+        .orderBy('points', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs

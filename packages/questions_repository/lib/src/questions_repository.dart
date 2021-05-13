@@ -7,9 +7,9 @@ import 'dart:async';
 import 'package:questions_repository/questions_repository.dart';
 
 abstract class QuestionsRepository {
-  Future<void> addNewQuestion(Question Question);
+  Future<void> addNewQuestion(Question question, String category);
 
-  Future<void> deleteQuestion(String id);
+  Future<void> deleteQuestion(String id, String category);
 
   Future<List<Question>> fetchQuestions(String category);
 

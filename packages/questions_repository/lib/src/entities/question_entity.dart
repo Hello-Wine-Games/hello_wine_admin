@@ -5,29 +5,28 @@ class QuestionEntity extends Equatable {
   final String? id;
   final double? points;
   final String? question;
-  // final List<Answer> answers;
+  final String? type;
+  final List<dynamic>? answers;
 
   const QuestionEntity(
-    this.id,
-    this.points,
-    this.question,
-  );
+      this.id, this.points, this.question, this.type, this.answers);
 
   Map<String, Object?> toJson() {
     return {
       'id': id,
       'points': points,
+      'type': type,
       'question': question,
-      // 'answers': answers,
+      'answers': answers,
     };
   }
 
   @override
-  List<Object?> get props => [id, points, question];
+  List<Object?> get props => [id, points, question, type, answers];
 
   @override
   String toString() {
-    return 'QuestionEntity { id: $id, points: $points, question: $question,';
+    return 'QuestionEntity { id: $id, points: $points, question: $question, type: $type, answers: $answers';
   }
 
   static QuestionEntity fromJson(Map<String, Object> json) {
@@ -35,7 +34,8 @@ class QuestionEntity extends Equatable {
       json['id'] as String,
       json['points'] as double,
       json['question'] as String,
-      // json['answers'] as List<Answer>,
+      json['type'] as String,
+      json['answers'] as List<dynamic>,
     );
   }
 
@@ -44,7 +44,8 @@ class QuestionEntity extends Equatable {
       snap?.id,
       snap?.data()?['points'],
       snap?.data()?['question'],
-      // snap?.data()?['answers'],
+      snap?.data()?['type'],
+      snap?.data()?['answers'],
     );
   }
 
@@ -52,14 +53,8 @@ class QuestionEntity extends Equatable {
     return {
       'points': points,
       'question': question,
-      // 'answers': answers,
+      'type': type,
+      'answers': answers,
     };
   }
 }
-
-// class Answer {
-//   final String? answer;
-//   final bool? correct;
-
-//   const Answer(this.answer, this.correct);
-// }

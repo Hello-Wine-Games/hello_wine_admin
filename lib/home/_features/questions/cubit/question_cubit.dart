@@ -20,19 +20,19 @@ class QuestionCubit extends Cubit<QuestionState> {
     }
   }
 
-  // Future<void> deleteItem(String id) async {
-  //   final deleteInProgress = state.questions.map((question) {
-  //     return question.id == id ? question.copyWith(isDeleting: true) : question;
-  //   }).toList();
+  Future<void> addNewQuestion(Question question, String category) async {
+    await (repository.addNewQuestion(question, category).then((_) {
+      fetchQuestions(category);
+    }));
+  }
 
-  //   emit(QuestionState.success(deleteInProgress));
-
-  //   unawaited(repository.deleteQuestion(id).then((_) {
-  //     final deleteSuccess = List.of(state.questions)
-  //       ..removeWhere((element) => element.id == id);
-  //     emit(QuestionState.success(deleteSuccess));
-  //   }));
-  // }
+  Future<void> deleteQuestion(String id, String category) async {
+    await (repository.deleteQuestion(id, category).then((_) {
+      final deleteSuccess = List.of(state.questions)
+        ..removeWhere((element) => element.id == id);
+      emit(QuestionState.success(deleteSuccess, 0, category));
+    }));
+  }
 
   Future<void> updateSelected(String id, int selected, String category) async {
     final updateInProgress = state.questions.map((question) {

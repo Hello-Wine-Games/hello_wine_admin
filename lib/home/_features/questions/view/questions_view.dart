@@ -75,7 +75,24 @@ class _QuestionView extends StatelessWidget {
                                         fontSize: 20, color: HWTheme.darkGray),
                               ),
                               RawMaterialButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  var question2 = Question(
+                                    question: 'New Question',
+                                    type: 'mc',
+                                    points: 500,
+                                    answers: [
+                                      {'answer': 'answer 1', 'correct': true},
+                                      {'answer': 'answer 2', 'correct': false},
+                                    ],
+                                  );
+                                  context.read<QuestionCubit>().addNewQuestion(
+                                        question2,
+                                        context
+                                            .read<QuestionCubit>()
+                                            .state
+                                            .category,
+                                      );
+                                },
                                 elevation: 2.0,
                                 fillColor: HWTheme.burgundy,
                                 padding: const EdgeInsets.all(10.0),
@@ -137,7 +154,7 @@ class _QuestionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      // height: 50,
       decoration: BoxDecoration(
         border: Border.all(
           color: isSelected ? HWTheme.burgundy : HWTheme.grayOutline,
@@ -150,7 +167,7 @@ class _QuestionTile extends StatelessWidget {
           onSelected(question.id!);
         },
         leading: Text(
-          '500',
+          question.points!.toString(),
           style: isSelected
               ? HWTheme.lightTheme.textTheme.headline5
                   ?.copyWith(color: HWTheme.burgundy)
