@@ -78,7 +78,7 @@ class _QuestionView extends StatelessWidget {
                                 onPressed: () {
                                   var question2 = Question(
                                     question: 'New Question',
-                                    type: 'mc',
+                                    type: 'Multiple Choice',
                                     points: 500,
                                     answers: [
                                       {'answer': 'answer 1', 'correct': true},
