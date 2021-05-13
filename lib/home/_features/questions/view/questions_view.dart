@@ -141,6 +141,7 @@ class _QuestionTile extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: isSelected ? HWTheme.burgundy : HWTheme.grayOutline,
+          width: isSelected ? 2.0 : 1.0,
         ),
         color: Colors.white,
       ),
