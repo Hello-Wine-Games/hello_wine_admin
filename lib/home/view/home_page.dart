@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:questions_repository/questions_repository.dart';
+
 import '../_features/features.dart';
 import '../home.dart';
 
 class HomePage extends StatelessWidget {
   static Page page() => MaterialPage<void>(child: HomePage());
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          QuestionCubit(repository: context.read<QuestionsRepository>())
+            ..fetchQuestions('Winemaking Process'),
+      child: HomeView(),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

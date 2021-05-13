@@ -19,41 +19,28 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AppBloc(
-          authenticationRepository: _authenticationRepository,
-        ),
-        child: AppView(questionsRepository: _questionsRepository),
-      ),
-    );
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider.value(value: _authenticationRepository),
+          RepositoryProvider.value(value: _questionsRepository),
+        ],
+        child: BlocProvider(
+          create: (context) => AppBloc(
+              authenticationRepository:
+                  context.read<AuthenticationRepository>()),
+          child: AppView(),
+        ));
   }
 }
 
 class AppView extends StatelessWidget {
-  const AppView({
-    Key? key,
-    required QuestionsRepository questionsRepository,
-  })  : _questionsRepository = questionsRepository,
-        super(key: key);
-  final QuestionsRepository _questionsRepository;
-
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _questionsRepository,
-      child: BlocProvider(
-        create: (_) => QuestionCubit(
-          repository: _questionsRepository,
-        )..fetchQuestions('Winemaking Process'),
-        child: MaterialApp(
-          // theme: theme,
-          home: FlowBuilder<AppStatus>(
-            state: context.select((AppBloc bloc) => bloc.state.status),
-            onGeneratePages: onGenerateAppViewPages,
-          ),
-        ),
+    return MaterialApp(
+      // theme: theme,
+      home: FlowBuilder<AppStatus>(
+        state: context.select((AppBloc bloc) => bloc.state.status),
+        onGeneratePages: onGenerateAppViewPages,
       ),
     );
   }
