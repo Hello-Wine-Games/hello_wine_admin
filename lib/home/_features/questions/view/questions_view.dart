@@ -37,75 +37,84 @@ class _QuestionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return questions.isEmpty
         ? const Center(child: Text('no content'))
-        : Column(
-            children: [
-              Container(
-                height: 115,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: HWTheme.grayOutline,
-                    ),
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.read<QuestionCubit>().state.category,
-                        style: HWTheme.lightTheme.textTheme.headline5
-                            ?.copyWith(fontSize: 20),
-                      ),
-                      Row(
+        : Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 44),
+                  child: Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: HWTheme.grayOutline,
+                        ),
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Questions (${context.read<QuestionCubit>().state.questions.length})',
+                            context.read<QuestionCubit>().state.category,
                             style: HWTheme.lightTheme.textTheme.headline5
-                                ?.copyWith(
-                                    fontSize: 20, color: HWTheme.darkGray),
+                                ?.copyWith(fontSize: 20),
                           ),
-                          RawMaterialButton(
-                            onPressed: () {},
-                            elevation: 2.0,
-                            fillColor: HWTheme.burgundy,
-                            padding: const EdgeInsets.all(10.0),
-                            shape: const CircleBorder(),
-                            child: const Icon(
-                              FontAwesomeIcons.plus,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Questions (${context.read<QuestionCubit>().state.questions.length})',
+                                style: HWTheme.lightTheme.textTheme.headline5
+                                    ?.copyWith(
+                                        fontSize: 20, color: HWTheme.darkGray),
+                              ),
+                              RawMaterialButton(
+                                onPressed: () {},
+                                elevation: 2.0,
+                                fillColor: HWTheme.burgundy,
+                                padding: const EdgeInsets.all(10.0),
+                                shape: const CircleBorder(),
+                                child: const Icon(
+                                  FontAwesomeIcons.plus,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return _QuestionTile(
-                      index: index,
-                      question: questions[index],
-                      onSelected: (id) {
-                        context
-                            .read<QuestionCubit>()
-                            .updateSelected(id, index, category);
-                      },
-                      // onDeletePressed: (id) {
-                      //   context.read<QuestionCubit>().deleteItem(id);
-                      // },
-                    );
-                  },
-                  itemCount: questions.length,
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return _QuestionTile(
+                        index: index,
+                        question: questions[index],
+                        isSelected: false,
+                        onSelected: (id) {
+                          context
+                              .read<QuestionCubit>()
+                              .updateSelected(id, index, category);
+                        },
+                        // onDeletePressed: (id) {
+                        //   context.read<QuestionCubit>().deleteItem(id);
+                        // },
+                      );
+                    },
+                    itemCount: questions.length,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
   }
 }
@@ -116,20 +125,38 @@ class _QuestionTile extends StatelessWidget {
     required this.index,
     required this.question,
     required this.onSelected,
+    required this.isSelected,
   }) : super(key: key);
 
   final Question question;
   final ValueSetter<String> onSelected;
   final int index;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        onSelected(question.id!);
-      },
-      selected: index == context.read<QuestionCubit>().state.selectedQuestion,
-      title: Text(question.question!),
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: HWTheme.grayOutline,
+        ),
+        color: isSelected ? HWTheme.burgundy : Colors.white,
+      ),
+      child: ListTile(
+        onTap: () {
+          onSelected(question.id!);
+        },
+        leading: Text(
+          '500',
+          style: HWTheme.lightTheme.textTheme.headline5,
+        ),
+        selected: index == context.read<QuestionCubit>().state.selectedQuestion,
+        title: Text(
+          question.question!,
+          style: TextStyle(color: isSelected ? HWTheme.burgundy : Colors.blue),
+        ),
+      ),
     );
   }
 }
