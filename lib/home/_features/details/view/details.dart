@@ -75,59 +75,11 @@ class __DetailsViewState extends State<_DetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Todo: separate question widget==============================
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Question:',
-                    style: HWTheme.lightTheme.textTheme.headline5
-                        ?.copyWith(fontSize: 20),
-                  ),
-                ),
-                TextFormField(
-                  initialValue: widget.question.question,
-                  validator: (val) {
-                    return val!.trim().isEmpty
-                        ? 'Please enter some text'
-                        : null;
-                  },
-                  onSaved: (value) => _question = value!,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: HWTheme.darkGray),
-                    ),
-                  ),
-                  style: HWTheme.lightTheme.textTheme.headline6
-                      ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
-                ),
-                // Todo: separate dropdown widget==============================
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: QuestionSetting(
-                          dropdownValue: widget.question.type!,
-                          valueList: [
-                            'Multiple Choice',
-                            'True or False',
-                            'Keywords'
-                          ],
-                          bgColor: HWTheme.burgundy,
-                          isPoints: false,
-                        ),
-                      ),
-                      Expanded(
-                        child: QuestionSetting(
-                            dropdownValue: dropdownPoints,
-                            valueList: ['500', '400', '300', '200', '100'],
-                            bgColor: HWTheme.darkGray,
-                            isPoints: true),
-                      ),
-                    ],
-                  ),
-                ),
+                QuestionForm(
+                    initialValue: widget.question.question,
+                    question: _question),
+                QuestionDropdownButtons(
+                    type: widget.question.type, dropdownPoints: dropdownPoints),
                 //MultipleChoiceSection(),
                 //KeywordSection(),
                 //TrueFalseType(),

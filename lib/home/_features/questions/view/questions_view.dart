@@ -39,103 +39,120 @@ class _QuestionView extends StatelessWidget {
         ? const Center(child: Text('no content'))
         : Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 44),
-                  child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: HWTheme.grayOutline,
-                        ),
-                        color: Colors.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            context.read<QuestionCubit>().state.category,
-                            style: HWTheme.lightTheme.textTheme.headline5
-                                ?.copyWith(fontSize: 20),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Questions (${context.read<QuestionCubit>().state.questions.length})',
-                                style: HWTheme.lightTheme.textTheme.headline5
-                                    ?.copyWith(
-                                        fontSize: 20, color: HWTheme.darkGray),
-                              ),
-                              RawMaterialButton(
-                                onPressed: () {
-                                  var question2 = Question(
-                                    question: 'New Question',
-                                    type: 'Multiple Choice',
-                                    points: 500,
-                                    answers: [
-                                      {'answer': 'answer 1', 'correct': true},
-                                      {'answer': 'answer 2', 'correct': false},
-                                    ],
-                                  );
-                                  context.read<QuestionCubit>().addNewQuestion(
-                                        question2,
-                                        context
-                                            .read<QuestionCubit>()
-                                            .state
-                                            .category,
-                                      );
-                                },
-                                elevation: 2.0,
-                                fillColor: HWTheme.burgundy,
-                                padding: const EdgeInsets.all(10.0),
-                                shape: const CircleBorder(),
-                                child: const Icon(
-                                  FontAwesomeIcons.plus,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      return _QuestionTile(
-                        question: questions[index],
-                        isSelected: index ==
-                            context
-                                .read<QuestionCubit>()
-                                .state
-                                .selectedQuestion,
-                        onSelected: (id) {
-                          context
-                              .read<QuestionCubit>()
-                              .updateSelected(id, index, category);
-                        },
-                        // onDeletePressed: (id) {
-                        //   context.read<QuestionCubit>().deleteItem(id);
-                        // },
-                      );
-                    },
-                    itemCount: questions.length,
-                  ),
-                ),
+                const QuestionSummary(),
+                QuestionList(questions: questions, category: category),
               ],
             ),
           );
+  }
+}
+
+class QuestionList extends StatelessWidget {
+  const QuestionList({
+    Key? key,
+    required this.questions,
+    required this.category,
+  }) : super(key: key);
+
+  final List<Question> questions;
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return _QuestionTile(
+            question: questions[index],
+            isSelected:
+                index == context.read<QuestionCubit>().state.selectedQuestion,
+            onSelected: (id) {
+              context.read<QuestionCubit>().updateSelected(id, index, category);
+            },
+            // onDeletePressed: (id) {
+            //   context.read<QuestionCubit>().deleteItem(id);
+            // },
+          );
+        },
+        itemCount: questions.length,
+      ),
+    );
+  }
+}
+
+class QuestionSummary extends StatelessWidget {
+  const QuestionSummary({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 44),
+      child: Container(
+        height: 120,
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 1,
+              color: HWTheme.grayOutline,
+            ),
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.read<QuestionCubit>().state.category,
+                style: HWTheme.lightTheme.textTheme.headline5
+                    ?.copyWith(fontSize: 20),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Questions (${context.read<QuestionCubit>().state.questions.length})',
+                    style: HWTheme.lightTheme.textTheme.headline5
+                        ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () {
+                      var question2 = Question(
+                        question: 'New Question',
+                        type: 'Multiple Choice',
+                        points: 500,
+                        answers: [
+                          {'answer': 'answer 1', 'correct': true},
+                          {'answer': 'answer 2', 'correct': false},
+                        ],
+                      );
+                      context.read<QuestionCubit>().addNewQuestion(
+                            question2,
+                            context.read<QuestionCubit>().state.category,
+                          );
+                    },
+                    elevation: 2.0,
+                    fillColor: HWTheme.burgundy,
+                    padding: const EdgeInsets.all(10.0),
+                    shape: const CircleBorder(),
+                    child: const Icon(
+                      FontAwesomeIcons.plus,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
