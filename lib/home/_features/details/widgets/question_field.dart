@@ -5,11 +5,9 @@ import 'package:questions_repository/questions_repository.dart';
 class QuestionField extends StatelessWidget {
   QuestionField({
     Key? key,
-    required this.initialValue,
     required this.question,
   }) : super(key: key);
 
-  final String? initialValue;
   final Question question; //cant be set as final because is setter
 
   @override
@@ -26,7 +24,7 @@ class QuestionField extends StatelessWidget {
           ),
         ),
         TextFormField(
-          initialValue: initialValue,
+          initialValue: question.question,
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },

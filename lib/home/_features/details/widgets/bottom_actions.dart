@@ -8,8 +8,10 @@ import '../../features.dart';
 class BottomActions extends StatelessWidget {
   const BottomActions({
     Key? key,
+    required this.onDeletePressed,
   }) : super(key: key);
 
+  final ValueSetter<String> onDeletePressed;
   @override
   Widget build(BuildContext context) {
     return Expanded(

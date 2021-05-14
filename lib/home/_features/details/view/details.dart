@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
+import '../widgets/widgets.dart';
+
 import '../details.dart';
 
 import '../../questions/question.dart';
@@ -57,6 +59,7 @@ class __DetailsViewState extends State<_DetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    Question tempQuestion = widget.question;
     return Container(
       color: HWTheme.background,
       child: Padding(
@@ -74,18 +77,18 @@ class __DetailsViewState extends State<_DetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                QuestionField(
-                    initialValue: widget.question.question,
-                    question: widget.question),
-
+                QuestionField(question: tempQuestion),
+                AnswerView(question: tempQuestion),
                 // DropdownButtons(
                 //     type: widget.question.type, dropdownPoints: dropdownPoints),
                 //MultipleChoiceSection(),
                 //KeywordSection(),
                 //TrueFalseType(),
-                RangeType(),
+                // RangeType(),
 
-                const BottomActions()
+                BottomActions(
+                  onDeletePressed: widget.onDeletePressed,
+                )
               ],
             ),
           ),
