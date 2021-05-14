@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 import '../question.dart';
@@ -14,8 +16,7 @@ class QuestionsView extends StatelessWidget {
           case QuestionStatus.failure:
             return const Center(child: Text('Oops something went wrong!'));
           case QuestionStatus.success:
-            return _QuestionView(
-                questions: state.questions, category: state.category);
+            return const _QuestionView();
           default:
             return const Center(child: CircularProgressIndicator());
         }
@@ -25,22 +26,20 @@ class QuestionsView extends StatelessWidget {
 }
 
 class _QuestionView extends StatelessWidget {
-  const _QuestionView(
-      {Key? key, required this.questions, required this.category})
-      : super(key: key);
-
-  final List<Question> questions;
-  final String category;
+  const _QuestionView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final questions = context.watch<QuestionCubit>().state.questions;
+
     return questions.isEmpty
         ? Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             child: Column(
               children: [
-                const QuestionSummary(),
+                QuestionSummary(
+                    title: context.watch<QuestionCubit>().state.category),
                 const Center(child: Text('no content'))
               ],
             ),
@@ -50,8 +49,11 @@ class _QuestionView extends StatelessWidget {
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             child: Column(
               children: [
-                const QuestionSummary(),
-                QuestionList(questions: questions, category: category),
+                QuestionSummary(
+                    title: context.read<QuestionCubit>().state.category),
+                QuestionList(
+                  questions: context.read<QuestionCubit>().state.questions,
+                )
               ],
             ),
           );

@@ -8,7 +8,10 @@ import 'package:questions_repository/questions_repository.dart';
 class QuestionSummary extends StatelessWidget {
   const QuestionSummary({
     Key? key,
+    required this.title,
   }) : super(key: key);
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class QuestionSummary extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.read<QuestionCubit>().state.category,
+                title,
                 style: HWTheme.lightTheme.textTheme.headline5
                     ?.copyWith(fontSize: 20),
               ),

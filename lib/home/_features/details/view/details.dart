@@ -74,9 +74,10 @@ class __DetailsViewState extends State<_DetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                QuestionForm(
+                QuestionField(
                     initialValue: widget.question.question,
-                    question: _question),
+                    question: widget.question),
+
                 // DropdownButtons(
                 //     type: widget.question.type, dropdownPoints: dropdownPoints),
                 //MultipleChoiceSection(),

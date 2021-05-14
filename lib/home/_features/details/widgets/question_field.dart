@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/HWTheme.dart';
+import 'package:questions_repository/questions_repository.dart';
 
-class QuestionForm extends StatelessWidget {
-  QuestionForm({
+class QuestionField extends StatelessWidget {
+  QuestionField({
     Key? key,
     required this.initialValue,
     required this.question,
   }) : super(key: key);
 
   final String? initialValue;
-  String question; //cant be set as final because is setter
+  final Question question; //cant be set as final because is setter
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class QuestionForm extends StatelessWidget {
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
-          onSaved: (value) => question = value ?? 'Unknown',
+          // onSaved: (value) => question = value ?? 'Unknown',
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(color: HWTheme.darkGray),

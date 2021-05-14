@@ -9,11 +9,9 @@ class QuestionList extends StatelessWidget {
   const QuestionList({
     Key? key,
     required this.questions,
-    required this.category,
   }) : super(key: key);
 
   final List<Question> questions;
-  final String category;
 
   @override
   Widget build(BuildContext context) {

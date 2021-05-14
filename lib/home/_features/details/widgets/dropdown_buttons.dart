@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 
-class DropdownButtons extends StatefulWidget {
-  DropdownButtons({
+class DropDownButtons extends StatefulWidget {
+  DropDownButtons({
     Key? key,
     required this.dropdownValue,
     required this.valueList,
@@ -17,10 +17,10 @@ class DropdownButtons extends StatefulWidget {
   final bool isPoints;
 
   @override
-  _DropdownButtonsState createState() => _DropdownButtonsState();
+  _DropDownButtonsState createState() => _DropDownButtonsState();
 }
 
-class _DropdownButtonsState extends State<DropdownButtons> {
+class _DropDownButtonsState extends State<DropDownButtons> {
   @override
   Widget build(BuildContext context) {
     var valueList = widget.valueList;

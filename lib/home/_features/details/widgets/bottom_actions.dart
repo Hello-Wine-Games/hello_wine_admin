@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../features.dart';
 
 class BottomActions extends StatelessWidget {
   const BottomActions({
@@ -24,7 +27,14 @@ class BottomActions extends StatelessWidget {
                 color: HWTheme.burgundy,
                 size: 40,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.read<QuestionCubit>().deleteQuestion(context
+                    .read<QuestionCubit>()
+                    .state
+                    .questions[
+                        context.read<QuestionCubit>().state.selectedQuestion]
+                    .id!);
+              },
             ),
             const AdminButton(title: 'Submit'),
           ],
