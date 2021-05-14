@@ -10,7 +10,7 @@ class QuestionField extends StatelessWidget {
     required this.question,
   }) : super(key: key);
 
-  final Question question;
+  final String question;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,8 @@ class QuestionField extends StatelessWidget {
           ),
         ),
         TextFormField(
-          initialValue: question.question,
+          key: Key(question),
+          initialValue: question,
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },

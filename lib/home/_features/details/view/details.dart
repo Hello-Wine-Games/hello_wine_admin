@@ -19,7 +19,7 @@ class Details extends StatelessWidget {
             return const Center(child: Text('Oops something went wrong!'));
           case QuestionStatus.success:
             return _DetailsView(
-              question: state.questions[state.selectedQuestion],
+              // question: state.questions[state.selectedQuestion],
               onDeletePressed: (id) {
                 context.read<QuestionCubit>().deleteQuestion(id);
               },
@@ -35,11 +35,11 @@ class Details extends StatelessWidget {
 class _DetailsView extends StatefulWidget {
   const _DetailsView({
     Key? key,
-    required this.question,
+    // required this.question,
     required this.onDeletePressed,
   }) : super(key: key);
 
-  final Question question;
+  // final Question question;
   final ValueSetter<String> onDeletePressed;
 
   @override
@@ -61,10 +61,10 @@ class __DetailsViewState extends State<_DetailsView> {
   Widget build(BuildContext context) {
     // Question tempQuestion = widget.question;
 
-    // final question2 = context
-    //     .watch<QuestionCubit>()
-    //     .state
-    //     .questions[context.watch<QuestionCubit>().state.selectedQuestion];
+    final question2 = context
+        .watch<QuestionCubit>()
+        .state
+        .questions[context.watch<QuestionCubit>().state.selectedQuestion];
 
     return Container(
       color: HWTheme.background,
@@ -83,10 +83,10 @@ class __DetailsViewState extends State<_DetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(widget.question.question!),
+                Text(question2.question!),
                 QuestionField(
-                    key: Key(widget.question.question!),
-                    question: widget.question),
+                    // key: Key(question2.question!),
+                    question: question2.question!),
                 // AnswerView(question: question2),
                 // DropdownButtons(
                 //     type: widget.question.type, dropdownPoints: dropdownPoints),
