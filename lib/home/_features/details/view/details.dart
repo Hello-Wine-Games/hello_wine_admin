@@ -47,19 +47,25 @@ class _DetailsView extends StatefulWidget {
 }
 
 class __DetailsViewState extends State<_DetailsView> {
-  String dropdownValue = 'Multiple Choice';
-  String dropdownPoints = '500';
+  // String dropdownValue = 'Multiple Choice';
+  // String dropdownPoints = '500';
 
-  String _question = 'question';
-  int _points = 0;
-  String _type = 'type';
-  List<dynamic> _answer = [
-    {'answer': 'answer', 'correct': true}
-  ];
+  // String _question = 'question';
+  // int _points = 0;
+  // String _type = 'type';
+  // List<dynamic> _answer = [
+  //   {'answer': 'answer', 'correct': true}
+  // ];
 
   @override
   Widget build(BuildContext context) {
-    Question tempQuestion = widget.question;
+    // Question tempQuestion = widget.question;
+
+    // final question2 = context
+    //     .watch<QuestionCubit>()
+    //     .state
+    //     .questions[context.watch<QuestionCubit>().state.selectedQuestion];
+
     return Container(
       color: HWTheme.background,
       child: Padding(
@@ -77,8 +83,11 @@ class __DetailsViewState extends State<_DetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                QuestionField(question: tempQuestion),
-                AnswerView(question: tempQuestion),
+                Text(widget.question.question!),
+                QuestionField(
+                    key: Key(widget.question.question!),
+                    question: widget.question),
+                // AnswerView(question: question2),
                 // DropdownButtons(
                 //     type: widget.question.type, dropdownPoints: dropdownPoints),
                 //MultipleChoiceSection(),

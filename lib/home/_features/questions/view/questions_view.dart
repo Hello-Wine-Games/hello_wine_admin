@@ -39,7 +39,7 @@ class _QuestionView extends StatelessWidget {
             child: Column(
               children: [
                 QuestionSummary(
-                    title: context.watch<QuestionCubit>().state.category),
+                    title: context.read<QuestionCubit>().state.category),
                 const Center(child: Text('no content'))
               ],
             ),

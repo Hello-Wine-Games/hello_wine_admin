@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/HWTheme.dart';
+import 'package:hello_wine_admin/home/_features/features.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class QuestionField extends StatelessWidget {
@@ -8,7 +10,7 @@ class QuestionField extends StatelessWidget {
     required this.question,
   }) : super(key: key);
 
-  final Question question; //cant be set as final because is setter
+  final Question question;
 
   @override
   Widget build(BuildContext context) {
