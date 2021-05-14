@@ -20,21 +20,30 @@ class QuestionCubit extends Cubit<QuestionState> {
     }
   }
 
-  Future<void> addNewQuestion(Question question, String category) async {
-    await (repository.addNewQuestion(question, category).then((_) {
-      fetchQuestions(category);
+  Future<void> addNewQuestion(Question question) async {
+    await (repository.addNewQuestion(question, state.category).then((_) {
+      fetchQuestions(state.category);
     }));
   }
 
-  Future<void> deleteQuestion(String id, String category) async {
-    await (repository.deleteQuestion(id, category).then((_) {
+  Future<void> deleteQuestion(String id) async {
+    await (repository.deleteQuestion(id, state.category).then((_) {
       final deleteSuccess = List.of(state.questions)
         ..removeWhere((element) => element.id == id);
-      emit(QuestionState.success(deleteSuccess, 0, category));
+      emit(QuestionState.success(deleteSuccess, 0, state.category));
     }));
   }
 
-  Future<void> updateSelected(String id, int selected, String category) async {
+  Future<void> updateSelected(String id, int selected) async {
+    final updateInProgress = state.questions.map((question) {
+      return question.id == id
+          ? question.copyWith(isSelected: true)
+          : question.copyWith(isSelected: false);
+    }).toList();
+    emit(QuestionState.success(updateInProgress, selected, state.category));
+  }
+
+  Future<void> updateAnswer(String id, int selected, String category) async {
     final updateInProgress = state.questions.map((question) {
       return question.id == id
           ? question.copyWith(isSelected: true)

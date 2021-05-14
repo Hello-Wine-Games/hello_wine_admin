@@ -25,7 +25,7 @@ class QuestionList extends StatelessWidget {
             isSelected:
                 index == context.read<QuestionCubit>().state.selectedQuestion,
             onSelected: (id) {
-              context.read<QuestionCubit>().updateSelected(id, index, category);
+              context.read<QuestionCubit>().updateSelected(id, index);
             },
             // onDeletePressed: (id) {
             //   context.read<QuestionCubit>().deleteItem(id);

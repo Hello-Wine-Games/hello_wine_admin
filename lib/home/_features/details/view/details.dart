@@ -19,8 +19,7 @@ class Details extends StatelessWidget {
             return _DetailsView(
               question: state.questions[state.selectedQuestion],
               onDeletePressed: (id) {
-                context.read<QuestionCubit>().deleteQuestion(
-                    id, context.read<QuestionCubit>().state.category);
+                context.read<QuestionCubit>().deleteQuestion(id);
               },
             );
           default:
@@ -84,6 +83,7 @@ class __DetailsViewState extends State<_DetailsView> {
                 //KeywordSection(),
                 //TrueFalseType(),
                 RangeType(),
+
                 const BottomActions()
               ],
             ),

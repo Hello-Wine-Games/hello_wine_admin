@@ -55,7 +55,6 @@ class QuestionSummary extends StatelessWidget {
                       );
                       context.read<QuestionCubit>().addNewQuestion(
                             question2,
-                            context.read<QuestionCubit>().state.category,
                           );
                     },
                     elevation: 2.0,
