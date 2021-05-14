@@ -78,8 +78,8 @@ class __DetailsViewState extends State<_DetailsView> {
                 QuestionForm(
                     initialValue: widget.question.question,
                     question: _question),
-                QuestionDropdownButtons(
-                    type: widget.question.type, dropdownPoints: dropdownPoints),
+                // QuestionDropdownButtons(
+                //     type: widget.question.type, dropdownPoints: dropdownPoints),
                 //MultipleChoiceSection(),
                 //KeywordSection(),
                 //TrueFalseType(),

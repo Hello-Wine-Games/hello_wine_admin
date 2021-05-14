@@ -23,6 +23,8 @@ class HomePage extends StatelessWidget {
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final emptyList = context.watch<QuestionCubit>().state.questions.isEmpty;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -61,10 +63,13 @@ class HomeView extends StatelessWidget {
             flex: 3,
             child: QuestionsView(),
           ),
-          Expanded(
-            flex: 7,
-            child: Details(),
-          )
+          !emptyList
+              ? Expanded(
+                  flex: 7,
+                  child: Details(),
+                )
+              : const Expanded(
+                  flex: 7, child: Center(child: Text('no content')))
         ],
       ),
     );
