@@ -8,9 +8,11 @@ class QuestionField extends StatelessWidget {
   QuestionField({
     Key? key,
     required this.question,
+    required this.tempQuestion,
   }) : super(key: key);
 
   final String question;
+  String tempQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,8 @@ class QuestionField extends StatelessWidget {
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
-          // onSaved: (value) => question = value ?? 'Unknown',
-          decoration: InputDecoration(
+          onSaved: (value) => tempQuestion = value ?? 'Unknown',
+          decoration: const InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(color: HWTheme.darkGray),
             ),

@@ -49,8 +49,11 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<void> updateQuestion(Question update) {
-    return questionsCollection
+  Future<void> updateQuestion(Question update, String category) {
+    return FirebaseFirestore.instance
+        .collection('categories')
+        .doc(category)
+        .collection('questions')
         .doc(update.id)
         .update(update.toEntity().toDocument());
   }

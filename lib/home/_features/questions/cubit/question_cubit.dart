@@ -43,12 +43,9 @@ class QuestionCubit extends Cubit<QuestionState> {
     emit(QuestionState.success(updateInProgress, selected, state.category));
   }
 
-  Future<void> updateAnswer(String id, int selected, String category) async {
-    final updateInProgress = state.questions.map((question) {
-      return question.id == id
-          ? question.copyWith(isSelected: true)
-          : question.copyWith(isSelected: false);
-    }).toList();
-    emit(QuestionState.success(updateInProgress, selected, category));
+  Future<void> updateAnswer(Question question) async {
+    await (repository.updateQuestion(question, state.category).then((_) {
+      fetchQuestions(state.category);
+    }));
   }
 }

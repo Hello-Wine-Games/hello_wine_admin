@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
@@ -19,7 +20,7 @@ class Details extends StatelessWidget {
             return const Center(child: Text('Oops something went wrong!'));
           case QuestionStatus.success:
             return _DetailsView(
-              // question: state.questions[state.selectedQuestion],
+              question: state.questions[state.selectedQuestion],
               onDeletePressed: (id) {
                 context.read<QuestionCubit>().deleteQuestion(id);
               },
@@ -35,11 +36,11 @@ class Details extends StatelessWidget {
 class _DetailsView extends StatefulWidget {
   const _DetailsView({
     Key? key,
-    // required this.question,
+    required this.question,
     required this.onDeletePressed,
   }) : super(key: key);
 
-  // final Question question;
+  final Question question;
   final ValueSetter<String> onDeletePressed;
 
   @override
@@ -47,10 +48,12 @@ class _DetailsView extends StatefulWidget {
 }
 
 class __DetailsViewState extends State<_DetailsView> {
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // String dropdownValue = 'Multiple Choice';
   // String dropdownPoints = '500';
 
-  // String _question = 'question';
+  String tempQuestion = 'question';
   // int _points = 0;
   // String _type = 'type';
   // List<dynamic> _answer = [
@@ -60,11 +63,6 @@ class __DetailsViewState extends State<_DetailsView> {
   @override
   Widget build(BuildContext context) {
     // Question tempQuestion = widget.question;
-
-    final question2 = context
-        .watch<QuestionCubit>()
-        .state
-        .questions[context.watch<QuestionCubit>().state.selectedQuestion];
 
     return Container(
       color: HWTheme.background,
@@ -80,25 +78,106 @@ class __DetailsViewState extends State<_DetailsView> {
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(question2.question!),
-                QuestionField(
-                    // key: Key(question2.question!),
-                    question: question2.question!),
-                // AnswerView(question: question2),
-                // DropdownButtons(
-                //     type: widget.question.type, dropdownPoints: dropdownPoints),
-                //MultipleChoiceSection(),
-                //KeywordSection(),
-                //TrueFalseType(),
-                // RangeType(),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          'Question:',
+                          style: HWTheme.lightTheme.textTheme.headline5
+                              ?.copyWith(fontSize: 20),
+                        ),
+                      ),
+                      TextFormField(
+                        key: Key(widget.question.question!),
+                        initialValue: widget.question.question,
+                        validator: (val) {
+                          return val!.trim().isEmpty
+                              ? 'Please enter some text'
+                              : null;
+                        },
+                        onSaved: (value) => tempQuestion = value ?? 'Unknown',
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: HWTheme.darkGray),
+                          ),
+                        ),
+                        style: HWTheme.lightTheme.textTheme.headline6
+                            ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
+                      ),
+                    ],
+                  ),
 
-                BottomActions(
-                  onDeletePressed: widget.onDeletePressed,
-                )
-              ],
+                  // QuestionField(
+                  //     tempQuestion: tempQuestion,
+                  //     question: widget.question.question!),
+                  // AnswerView(question: question2),
+                  // DropdownButtons(
+                  //     type: widget.question.type, dropdownPoints: dropdownPoints),
+                  //MultipleChoiceSection(),
+                  //KeywordSection(),
+                  //TrueFalseType(),
+                  // RangeType(),
+                  // BottomActions(
+                  //   onDeletePressed: widget.onDeletePressed,
+                  // )
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        padding: const EdgeInsets.all(0),
+                        icon: const Icon(
+                          FontAwesomeIcons.solidTrashAlt,
+                          color: HWTheme.burgundy,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<QuestionCubit>()
+                              .deleteQuestion(widget.question.id!);
+                        },
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            context.read<QuestionCubit>().updateAnswer(
+                                  widget.question
+                                      .copyWith(question: tempQuestion),
+                                );
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              HWTheme.darkBurgundy),
+                          padding: MaterialStateProperty.all(
+                            const EdgeInsets.all(10),
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: const BorderSide(
+                                    color: HWTheme.darkBurgundy)),
+                          ),
+                        ),
+                        child: Text(
+                          'submit',
+                          style: HWTheme.lightTheme.textTheme.headline6
+                              ?.copyWith(color: Colors.white, fontSize: 10),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
