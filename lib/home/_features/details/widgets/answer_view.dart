@@ -18,25 +18,46 @@ class AnswerView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DropDownButton(
-                dropdownValue: question.type!,
-                valueList: ['Multiple Choice', 'True or False', 'Keywords'],
-                bgColor: HWTheme.burgundy,
-                isPoints: false,
-              ),
-              DropDownButton(
-                  dropdownValue: question.points!.toString(),
-                  valueList: ['500', '400', '300', '200', '100'],
-                  bgColor: HWTheme.darkGray,
-                  isPoints: true),
-            ],
-          ),
-          // const MultipleChoiceType(),
+          AnswerSettings(question: question),
+          const MultipleChoiceType(),
+          //const KeywordType(),
+          //const TrueFalseType(),
+          //RangeType(),
         ],
       ),
+    );
+  }
+}
+
+class AnswerSettings extends StatelessWidget {
+  const AnswerSettings({
+    Key? key,
+    required this.question,
+  }) : super(key: key);
+
+  final Question question;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: DropDownButton(
+            dropdownValue: question.type!,
+            valueList: ['Multiple Choice', 'True or False', 'Keywords'],
+            bgColor: HWTheme.burgundy,
+            isPoints: false,
+          ),
+        ),
+        Expanded(
+          child: DropDownButton(
+              dropdownValue: question.points!.toString(),
+              valueList: ['500', '400', '300', '200', '100'],
+              bgColor: HWTheme.darkGray,
+              isPoints: true),
+        ),
+      ],
     );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
-import 'package:hello_wine_admin/home/home.dart';
 
-class RangeType extends StatefulWidget {
-  @override
-  _RangeTypeState createState() => _RangeTypeState();
-}
+import 'create_textfield.dart';
 
-class _RangeTypeState extends State<RangeType> {
+class KeywordType extends StatelessWidget {
+  const KeywordType({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,17 +16,23 @@ class _RangeTypeState extends State<RangeType> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'The answer is between:',
+              'Keywords:',
               style: HWTheme.lightTheme.textTheme.headline5
                   ?.copyWith(fontSize: 20),
             ),
           ],
         ),
         const CreateTextField(
-          label: 'First Number:',
+          label: 'A:',
         ),
         const CreateTextField(
-          label: 'Second Number:',
+          label: 'B:',
+        ),
+        const CreateTextField(
+          label: 'C:',
+        ),
+        const CreateTextField(
+          label: 'D:',
         ),
       ],
     );

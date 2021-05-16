@@ -8,29 +8,24 @@ class MultipleChoiceType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 6,
+    return Container(
+      height: 400,
       child: Column(
         children: [
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    'Choices:',
-                    style: HWTheme.lightTheme.textTheme.headline5
-                        ?.copyWith(fontSize: 20),
-                  ),
+                Text(
+                  'Choices:',
+                  style: HWTheme.lightTheme.textTheme.headline5
+                      ?.copyWith(fontSize: 20),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    'Correct Answer:',
-                    style: HWTheme.lightTheme.textTheme.headline5
-                        ?.copyWith(fontSize: 20),
-                  ),
+                Text(
+                  'Correct Answer:',
+                  style: HWTheme.lightTheme.textTheme.headline5
+                      ?.copyWith(fontSize: 20),
                 ),
               ],
             ),
@@ -69,37 +64,41 @@ class CreateChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Row(
-          children: [
-            Text(
-              label,
-              style: HWTheme.lightTheme.textTheme.headline5
-                  ?.copyWith(fontSize: 20),
-            ),
-            SizedBox(width: 12),
-            Container(
-              height: 25,
-              child: Expanded(
-                flex: 2,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: HWTheme.darkGray),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style:
+                HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Container(
+                    height: 50,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: HWTheme.darkGray),
+                        ),
+                      ),
+                      style: HWTheme.lightTheme.textTheme.headline6
+                          ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
                     ),
                   ),
-                  style: HWTheme.lightTheme.textTheme.headline6
-                      ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
                 ),
-              ),
+              ],
             ),
-            Expanded(
-              child: Checkbox(value: isAnswer, onChanged: null),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: Checkbox(value: isAnswer, onChanged: null),
+          ),
+        ],
       ),
     );
   }

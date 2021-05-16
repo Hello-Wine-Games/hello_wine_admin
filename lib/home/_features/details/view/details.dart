@@ -117,7 +117,7 @@ class __DetailsViewState extends State<_DetailsView> {
                   // QuestionField(
                   //     tempQuestion: tempQuestion,
                   //     question: widget.question.question!),
-                  // AnswerView(question: question2),
+                  AnswerView(question: widget.question),
                   // DropdownButtons(
                   //     type: widget.question.type, dropdownPoints: dropdownPoints),
                   //MultipleChoiceSection(),
@@ -127,54 +127,57 @@ class __DetailsViewState extends State<_DetailsView> {
                   // BottomActions(
                   //   onDeletePressed: widget.onDeletePressed,
                   // )
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        padding: const EdgeInsets.all(0),
-                        icon: const Icon(
-                          FontAwesomeIcons.solidTrashAlt,
-                          color: HWTheme.burgundy,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<QuestionCubit>()
-                              .deleteQuestion(widget.question.id!);
-                        },
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            context.read<QuestionCubit>().updateAnswer(
-                                  widget.question
-                                      .copyWith(question: tempQuestion),
-                                );
-                          }
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              HWTheme.darkBurgundy),
-                          padding: MaterialStateProperty.all(
-                            const EdgeInsets.all(10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(0),
+                          icon: const Icon(
+                            FontAwesomeIcons.solidTrashAlt,
+                            color: HWTheme.burgundy,
+                            size: 40,
                           ),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: const BorderSide(
-                                    color: HWTheme.darkBurgundy)),
+                          onPressed: () {
+                            context
+                                .read<QuestionCubit>()
+                                .deleteQuestion(widget.question.id!);
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              context.read<QuestionCubit>().updateAnswer(
+                                    widget.question
+                                        .copyWith(question: tempQuestion),
+                                  );
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                HWTheme.darkBurgundy),
+                            padding: MaterialStateProperty.all(
+                              const EdgeInsets.all(20),
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(
+                                      color: HWTheme.darkBurgundy)),
+                            ),
+                          ),
+                          child: Text(
+                            'Submit',
+                            style: HWTheme.lightTheme.textTheme.headline6
+                                ?.copyWith(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        child: Text(
-                          'submit',
-                          style: HWTheme.lightTheme.textTheme.headline6
-                              ?.copyWith(color: Colors.white, fontSize: 10),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
