@@ -20,12 +20,12 @@ class MultipleChoiceType extends StatelessWidget {
                 Text(
                   'Choices:',
                   style: HWTheme.lightTheme.textTheme.headline5
-                      ?.copyWith(fontSize: 20),
+                      ?.copyWith(fontSize: 16),
                 ),
                 Text(
                   'Correct Answer:',
                   style: HWTheme.lightTheme.textTheme.headline5
-                      ?.copyWith(fontSize: 20),
+                      ?.copyWith(fontSize: 16),
                 ),
               ],
             ),
@@ -71,13 +71,13 @@ class CreateChoice extends StatelessWidget {
           Text(
             label,
             style:
-                HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
+                HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 16),
           ),
           Expanded(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Container(
                     height: 50,
                     child: TextFormField(
@@ -87,7 +87,7 @@ class CreateChoice extends StatelessWidget {
                         ),
                       ),
                       style: HWTheme.lightTheme.textTheme.headline6
-                          ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
+                          ?.copyWith(fontSize: 16, color: HWTheme.darkGray),
                     ),
                   ),
                 ),
@@ -95,7 +95,7 @@ class CreateChoice extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Checkbox(value: isAnswer, onChanged: null),
           ),
         ],

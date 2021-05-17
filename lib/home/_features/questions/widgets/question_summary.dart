@@ -16,7 +16,7 @@ class QuestionSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 44),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
       child: Container(
         height: 120,
         decoration: BoxDecoration(

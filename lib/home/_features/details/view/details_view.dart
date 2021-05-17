@@ -136,52 +136,15 @@ class __DetailsViewState extends State<_DetailsView> {
                     ],
                   ),
                   // ========================Answer===========================
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              'Answer:',
-                              style: HWTheme.lightTheme.textTheme.headline5
-                                  ?.copyWith(fontSize: 20),
-                            ),
-                          ),
-                          DropDownButton(
-                            notifyParent: refresh,
-                            dropdownValue: initialDropdownType,
-                            valueList: [
-                              'Multiple Choice',
-                              'True or False',
-                              'Keywords'
-                            ],
-                            bgColor: HWTheme.burgundy,
-                            isPoints: false,
-                          ),
-                          Text(_dropdownType!),
-                          Container(
-                            height: 100,
-                            child: ListView.builder(
-                              itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  children: [
-                                    Text(widget.question.answers![index]
-                                        ['answer']),
-                                    Text(widget
-                                        .question.answers![index]['correct']
-                                        .toString()),
-                                  ],
-                                );
-                              },
-                              itemCount: widget.question.answers!.length,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
+                  AnswerView(
+                    question: widget.question,
+                    notifyParent: refresh,
+                    dropdownValue: initialDropdownType,
+                    valueList: ['Multiple Choice', 'True or False', 'Keywords'],
+                    bgColor: HWTheme.burgundy,
                   ),
+
                   //========================bottom buttons======================
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
