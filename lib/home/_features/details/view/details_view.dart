@@ -59,9 +59,11 @@ class __DetailsViewState extends State<_DetailsView> {
     var _dropdownType = widget.question.type;
     var _dropdownPoints = widget.question.points! as int?;
     var tempQuestion = 'question';
-
-    var initialDropdownType = widget.question.type!;
-    var initialDropdownPoints = widget.question.points;
+    var _tempAnswer = widget.question.answers;
+    // var _tempAnswer = <dynamic>[
+    //   {'answer': 'answer 1', 'correct': true},
+    //   {'answer': 'answer 2', 'correct': false},
+    // ];
 
     void refresh(String childValue) {
       _dropdownType = childValue;
@@ -69,6 +71,10 @@ class __DetailsViewState extends State<_DetailsView> {
 
     void refresh2(int childValue) {
       _dropdownPoints = childValue;
+    }
+
+    void refreshAnswer(List<dynamic> childValue) {
+      _tempAnswer = childValue;
     }
 
     return Container(
@@ -107,7 +113,7 @@ class __DetailsViewState extends State<_DetailsView> {
                       ),
                       DropDownButton2(
                         notifyParent: refresh2,
-                        dropdownValue: initialDropdownPoints!.toInt(),
+                        dropdownValue: _dropdownPoints!.toInt(),
                         valueList: [500, 400, 300, 200, 100],
                         bgColor: HWTheme.darkGray,
                       ),
@@ -138,11 +144,11 @@ class __DetailsViewState extends State<_DetailsView> {
                   // ========================Answer===========================
 
                   AnswerView(
+                    notifyParentAnswer: refreshAnswer,
                     question: widget.question,
                     notifyParent: refresh,
                     dropdownValue: _dropdownType!,
                     valueList: ['Multiple Choice', 'True or False', 'Keywords'],
-                    bgColor: HWTheme.burgundy,
                   ),
 
                   //========================bottom buttons======================
@@ -173,7 +179,8 @@ class __DetailsViewState extends State<_DetailsView> {
                                     widget.question.copyWith(
                                         question: tempQuestion,
                                         type: _dropdownType,
-                                        points: _dropdownPoints!.toDouble()),
+                                        points: _dropdownPoints!.toDouble(),
+                                        answers: _tempAnswer),
                                   );
                               _formKey.currentState!.reset();
                             }

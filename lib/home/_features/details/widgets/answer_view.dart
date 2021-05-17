@@ -9,16 +9,16 @@ class AnswerView extends StatefulWidget {
     Key? key,
     required this.question,
     required this.notifyParent,
+    required this.notifyParentAnswer,
     required this.dropdownValue,
     required this.valueList,
-    required this.bgColor,
   }) : super(key: key);
 
   String dropdownValue;
   final List<String> valueList;
-  final Color bgColor;
   final Function(String something) notifyParent;
   final Question question;
+  final Function(List<dynamic> something) notifyParentAnswer;
 
   @override
   _AnswerViewState createState() => _AnswerViewState();
@@ -47,12 +47,12 @@ class _AnswerViewState extends State<AnswerView> {
               child: Container(
                 height: 40,
                 width: 200,
-                color: widget.bgColor,
+                color: HWTheme.burgundy,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
-                      dropdownColor: widget.bgColor,
+                      dropdownColor: HWTheme.burgundy,
                       value: widget.dropdownValue,
                       icon: const Icon(
                         FontAwesomeIcons.caretDown,
@@ -85,9 +85,15 @@ class _AnswerViewState extends State<AnswerView> {
                 // is updated.
                 switch (type) {
                   case ('Multiple Choice'):
-                    return const MultipleChoiceType();
+                    return MultipleChoiceType(
+                      question: widget.question,
+                      notifyParentAnswer: widget.notifyParentAnswer,
+                    );
                   case ('True or False'):
-                    return const TrueFalseType();
+                    return TrueFalseType(
+                      question: widget.question,
+                      notifyParentAnswer: widget.notifyParentAnswer,
+                    );
                   case ('Keyword'):
                     return const KeywordType();
                   default:

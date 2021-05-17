@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:questions_repository/questions_repository.dart';
 
-class TrueFalseType extends StatelessWidget {
-  const TrueFalseType({
-    Key? key,
-  }) : super(key: key);
+class TrueFalseType extends StatefulWidget {
+  const TrueFalseType(
+      {Key? key, required this.question, required this.notifyParentAnswer})
+      : super(key: key);
 
+  final Question question;
+  final Function(List<dynamic> something) notifyParentAnswer;
+
+  @override
+  _TrueFalseTypeState createState() => _TrueFalseTypeState();
+}
+
+class _TrueFalseTypeState extends State<TrueFalseType> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +27,10 @@ class TrueFalseType extends StatelessWidget {
           style: HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
         ),
         TrueFalseDropdown(
-          dropdownValue: 'True',
+          notifyParentAnswer: widget.notifyParentAnswer,
+          dropdownValue: widget.question.type! == 'True or False'
+              ? widget.question.answers![0]['answer']
+              : 'False',
           valueList: ['True', 'False'],
         ),
       ],
@@ -27,14 +39,16 @@ class TrueFalseType extends StatelessWidget {
 }
 
 class TrueFalseDropdown extends StatefulWidget {
-  TrueFalseDropdown({
-    Key? key,
-    required this.dropdownValue,
-    required this.valueList,
-  }) : super(key: key);
+  TrueFalseDropdown(
+      {Key? key,
+      required this.dropdownValue,
+      required this.valueList,
+      required this.notifyParentAnswer})
+      : super(key: key);
 
   String dropdownValue;
   List<String> valueList;
+  final Function(List<dynamic> something) notifyParentAnswer;
 
   @override
   _TrueFalseDropdownState createState() => _TrueFalseDropdownState();
@@ -42,10 +56,15 @@ class TrueFalseDropdown extends StatefulWidget {
 
 class _TrueFalseDropdownState extends State<TrueFalseDropdown> {
   @override
-  Widget build(BuildContext context) {
-    var valueList = widget.valueList;
-    var dropdownValue = widget.dropdownValue;
+  void initState() {
+    widget.notifyParentAnswer(<dynamic>[
+      {'answer': 'False', 'correct': true},
+    ]);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
       child: Container(
@@ -75,10 +94,14 @@ class _TrueFalseDropdownState extends State<TrueFalseDropdown> {
                   ?.copyWith(color: Colors.grey, fontSize: 16),
               onChanged: (String? newValue) {
                 setState(() {
-                  dropdownValue = newValue!;
+                  widget.dropdownValue = newValue!;
+                  widget.notifyParentAnswer(<dynamic>[
+                    {'answer': newValue, 'correct': true},
+                  ]);
                 });
               },
-              items: valueList.map<DropdownMenuItem<String>>((String value) {
+              items: widget.valueList
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
