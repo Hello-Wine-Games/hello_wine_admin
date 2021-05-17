@@ -140,7 +140,7 @@ class __DetailsViewState extends State<_DetailsView> {
                   AnswerView(
                     question: widget.question,
                     notifyParent: refresh,
-                    dropdownValue: initialDropdownType,
+                    dropdownValue: _dropdownType!,
                     valueList: ['Multiple Choice', 'True or False', 'Keywords'],
                     bgColor: HWTheme.burgundy,
                   ),

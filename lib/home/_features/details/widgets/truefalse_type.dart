@@ -13,15 +13,9 @@ class TrueFalseType extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'The answer is:',
-              style: HWTheme.lightTheme.textTheme.headline5
-                  ?.copyWith(fontSize: 20),
-            ),
-          ],
+        Text(
+          'The answer is:',
+          style: HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
         ),
         TrueFalseDropdown(
           dropdownValue: 'True',
@@ -54,43 +48,42 @@ class _TrueFalseDropdownState extends State<TrueFalseDropdown> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
-      child: Expanded(
-        child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: HWTheme.grayOutline,
-            ),
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
+      child: Container(
+        height: 50,
+        width: 150,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: HWTheme.grayOutline,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                dropdownColor: Colors.white,
-                value: widget.dropdownValue,
-                icon: const Icon(
-                  FontAwesomeIcons.caretDown,
-                  color: Colors.grey,
-                  size: 40,
-                ),
-                style: HWTheme.lightTheme.textTheme.headline5
-                    ?.copyWith(color: Colors.grey, fontSize: 20),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: valueList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              dropdownColor: Colors.white,
+              value: widget.dropdownValue,
+              icon: const Icon(
+                FontAwesomeIcons.caretDown,
+                color: Colors.grey,
+                size: 32,
               ),
+              style: HWTheme.lightTheme.textTheme.headline5
+                  ?.copyWith(color: Colors.grey, fontSize: 16),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: valueList.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
           ),
         ),

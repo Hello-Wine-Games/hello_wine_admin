@@ -61,7 +61,7 @@ class _QuestionTile extends StatelessWidget {
           onSelected(question.id!);
         },
         leading: Text(
-          question.points!.toString(),
+          '${question.points!}',
           style: question.isSelected
               ? HWTheme.lightTheme.textTheme.headline5
                   ?.copyWith(color: HWTheme.burgundy)
@@ -69,10 +69,21 @@ class _QuestionTile extends StatelessWidget {
                   ?.copyWith(color: HWTheme.darkGray),
         ),
         selected: question.isSelected,
-        title: Text(
-          question.question!,
-          style: TextStyle(
-              color: question.isSelected ? HWTheme.burgundy : HWTheme.darkGray),
+        title: Text.rich(
+          TextSpan(
+            text: '${question.type}: ',
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black),
+            children: <TextSpan>[
+              TextSpan(
+                text: question.question!,
+                style: TextStyle(
+                    color: question.isSelected
+                        ? HWTheme.burgundy
+                        : HWTheme.darkGray),
+              ),
+            ],
+          ),
         ),
       ),
     );
