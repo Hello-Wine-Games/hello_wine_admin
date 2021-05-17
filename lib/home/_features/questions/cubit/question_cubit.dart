@@ -76,6 +76,7 @@ class QuestionCubit extends Cubit<QuestionState> {
                 points: question.points,
                 question: question.question,
                 answers: question.answers,
+                type: question.type,
               )
             : question2.copyWith();
       }).toList();

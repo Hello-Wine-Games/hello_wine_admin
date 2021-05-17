@@ -39,25 +39,26 @@ class AnswerSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: DropDownButton(
-            dropdownValue: question.type!,
-            valueList: ['Multiple Choice', 'True or False', 'Keywords'],
-            bgColor: HWTheme.burgundy,
-            isPoints: false,
-          ),
-        ),
-        Expanded(
-          child: DropDownButton(
-              dropdownValue: question.points!.toString(),
-              valueList: ['500', '400', '300', '200', '100'],
-              bgColor: HWTheme.darkGray,
-              isPoints: true),
-        ),
-      ],
-    );
+    return Container();
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //   children: [
+    //     Expanded(
+    //       child: DropDownButton(
+    //         dropdownValue: question.type!,
+    //         valueList: ['Multiple Choice', 'True or False', 'Keywords'],
+    //         bgColor: HWTheme.burgundy,
+    //         isPoints: false,
+    //       ),
+    //     ),
+    //     Expanded(
+    //       child: DropDownButton(
+    //           dropdownValue: question.points!.toString(),
+    //           valueList: ['500', '400', '300', '200', '100'],
+    //           bgColor: HWTheme.darkGray,
+    //           isPoints: true),
+    //     ),
+    //   ],
+    // );
   }
 }

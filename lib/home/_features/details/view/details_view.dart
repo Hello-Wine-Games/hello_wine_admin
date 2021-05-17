@@ -18,29 +18,19 @@ class Details extends StatelessWidget {
         switch (state.status) {
           case QuestionStatus.failure:
             return const Center(child: Text('Oops something went wrong!'));
+          case QuestionStatus.empty:
+            return const Center(child: Text('no content'));
           case QuestionStatus.success:
             return _DetailsView(
               // dropdownPoints:
               //     state.questions[state.selectedQuestion].points.toString(),
               // dropdownType: state.questions[state.selectedQuestion].type!,
-              question: state.questions.isEmpty
-                  ? const Question(
-                      question: 'New Question',
-                      type: 'Multiple Choice',
-                      points: 500,
-                      answers: [
-                        {'answer': 'answer 1', 'correct': true},
-                        {'answer': 'answer 2', 'correct': false},
-                      ],
-                    )
-                  : state.selectedQuestion,
+              question: state.selectedQuestion,
 
               onDeletePressed: (id) {
                 context.read<QuestionCubit>().deleteQuestion(id);
               },
             );
-          case QuestionStatus.empty:
-            return const Center(child: Text('no content'));
           default:
             return const Center(child: CircularProgressIndicator());
         }
@@ -66,9 +56,11 @@ class _DetailsView extends StatefulWidget {
 class __DetailsViewState extends State<_DetailsView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _dropdownType = 'Multiple Choice';
-  String _dropdownPoints = '500';
-  String tempQuestion = 'question';
+  // String _dropdownType = 'Multiple Choice';
+  // int _dropdownPoints = 500;
+  // String tempQuestion = 'question';
+
+  // bool _enableBtn = false;
   // int _points = 0;
   // String _type = 'type';
   // List<dynamic> _answer = [
@@ -77,9 +69,16 @@ class __DetailsViewState extends State<_DetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    // _dropdownValue = widget.question.type!;
-    // _dropdownPoints = widget.question.points.toString();
-    // Question tempQuestion = widget.question;
+    var _dropdownType = 'Multiple Choice';
+    int? _dropdownPoints = 500;
+    var tempQuestion = 'question';
+
+    var initialDropdownType = widget.question.type!;
+    var _initialDropdownPoints = widget.question.points;
+
+    void refresh(dynamic childValue) {
+      _dropdownType = childValue;
+    }
 
     return Container(
       color: HWTheme.background,
@@ -97,6 +96,8 @@ class __DetailsViewState extends State<_DetailsView> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
             child: Form(
               key: _formKey,
+              // onChanged: () => setState(
+              //     () => _enableBtn = _formKey.currentState!.validate()),
               child: ListView(
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -131,95 +132,96 @@ class __DetailsViewState extends State<_DetailsView> {
                       ),
                     ],
                   ),
-                  //========================dropdowns===========================
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
-                  //       child: Container(
-                  //         height: 40,
-                  //         color: HWTheme.burgundy,
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: 12.0),
-                  //           child: DropdownButtonHideUnderline(
-                  //             child: DropdownButton<String>(
-                  //               dropdownColor: HWTheme.burgundy,
-                  //               value: _dropdownType,
-                  //               icon: const Icon(
-                  //                 FontAwesomeIcons.caretDown,
-                  //                 color: Colors.white,
-                  //                 size: 32,
-                  //               ),
-                  //               style: HWTheme
-                  //                   .lightTheme.textTheme.headline5
-                  //                   ?.copyWith(
-                  //                       color: Colors.white,
-                  //                       fontSize: 16),
-                  //               onChanged: (String? newValue) {
-                  //                 setState(() {
-                  //                   _dropdownType = newValue!;
-                  //                 });
-                  //               },
-                  //               items: [
-                  //                 'Multiple Choice',
-                  //                 'True or False',
-                  //                 'Keywords'
-                  //               ].map<DropdownMenuItem<String>>(
-                  //                   (String value) {
-                  //                 return DropdownMenuItem<String>(
-                  //                   value: value,
-                  //                   child: Text(value),
-                  //                 );
-                  //               }).toList(),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.fromLTRB(20, 16, 0, 16),
-                  //       child: Container(
-                  //         height: 40,
-                  //         color: HWTheme.darkGray,
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: 12.0),
-                  //           child: DropdownButtonHideUnderline(
-                  //             child: DropdownButton<String>(
-                  //               dropdownColor: HWTheme.darkGray,
-                  //               value: _dropdownPoints,
-                  //               icon: const Icon(
-                  //                 FontAwesomeIcons.caretDown,
-                  //                 color: Colors.white,
-                  //                 size: 32,
-                  //               ),
-                  //               style: HWTheme
-                  //                   .lightTheme.textTheme.headline5
-                  //                   ?.copyWith(
-                  //                       color: Colors.white,
-                  //                       fontSize: 16),
-                  //               onChanged: (String? newValue) {
-                  //                 setState(() {
-                  //                   _dropdownPoints = newValue!;
-                  //                 });
-                  //               },
-                  //               items: ['500', '400', '300', '200', '100']
-                  //                   .map<DropdownMenuItem<String>>(
-                  //                       (String value) {
-                  //                 return DropdownMenuItem<String>(
-                  //                   value: value,
-                  //                   child: Text(value),
-                  //                 );
-                  //               }).toList(),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  // ========================dropdowns===========================
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DropDownButton(
+                        notifyParent: refresh,
+                        dropdownValue: initialDropdownType,
+                        valueList: [
+                          'Multiple Choice',
+                          'True or False',
+                          'Keywords'
+                        ],
+                        bgColor: HWTheme.burgundy,
+                        isPoints: false,
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
+                      //   child: Container(
+                      //     height: 40,
+                      //     color: HWTheme.burgundy,
+                      //     child: Padding(
+                      //       padding:
+                      //           const EdgeInsets.symmetric(horizontal: 12.0),
+                      //       child: DropdownButtonHideUnderline(
+                      //         child: DropdownButton<String>(
+                      //           dropdownColor: HWTheme.burgundy,
+                      //           value: _initalDropdownType,
+                      //           icon: const Icon(
+                      //             FontAwesomeIcons.caretDown,
+                      //             color: Colors.white,
+                      //             size: 32,
+                      //           ),
+                      //           style: HWTheme.lightTheme.textTheme.headline5
+                      //               ?.copyWith(
+                      //                   color: Colors.white, fontSize: 16),
+                      //           onChanged: (String? newValue) {
+                      //             _dropdownType = newValue!;
+                      //           },
+                      //           items: [
+                      //             'Multiple Choice',
+                      //             'True or False',
+                      //             'Keywords'
+                      //           ].map<DropdownMenuItem<String>>((String value) {
+                      //             return DropdownMenuItem<String>(
+                      //               value: value,
+                      //               child: Text(value),
+                      //             );
+                      //           }).toList(),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 16, 0, 16),
+                        child: Container(
+                          height: 40,
+                          color: HWTheme.darkGray,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<int>(
+                                dropdownColor: HWTheme.darkGray,
+                                value: _initialDropdownPoints!.toInt(),
+                                icon: const Icon(
+                                  FontAwesomeIcons.caretDown,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                                style: HWTheme.lightTheme.textTheme.headline5
+                                    ?.copyWith(
+                                        color: Colors.white, fontSize: 16),
+                                onChanged: (int? newValue) {
+                                  _dropdownPoints = newValue;
+                                },
+                                items: [500, 400, 300, 200, 100]
+                                    .map<DropdownMenuItem<int>>((int value) {
+                                  return DropdownMenuItem<int>(
+                                    value: value,
+                                    child: Text(value.toString()),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   // AnswerView(question: widget.question),
                   // DropdownButtons(
                   //     type: widget.question.type, dropdownPoints: dropdownPoints),
@@ -249,13 +251,19 @@ class __DetailsViewState extends State<_DetailsView> {
                           },
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              context.read<QuestionCubit>().updateQuestion(
-                                    widget.question
-                                        .copyWith(question: tempQuestion),
+
+                              await context
+                                  .read<QuestionCubit>()
+                                  .updateQuestion(
+                                    widget.question.copyWith(
+                                        question: tempQuestion,
+                                        type: _dropdownType,
+                                        points: _dropdownPoints!.toDouble()),
                                   );
+                              _formKey.currentState!.reset();
                             }
                           },
                           style: ButtonStyle(
