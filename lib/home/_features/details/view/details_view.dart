@@ -22,11 +22,7 @@ class Details extends StatelessWidget {
             return const Center(child: Text('no content'));
           case QuestionStatus.success:
             return _DetailsView(
-              // dropdownPoints:
-              //     state.questions[state.selectedQuestion].points.toString(),
-              // dropdownType: state.questions[state.selectedQuestion].type!,
               question: state.selectedQuestion,
-
               onDeletePressed: (id) {
                 context.read<QuestionCubit>().deleteQuestion(id);
               },
@@ -93,8 +89,9 @@ class __DetailsViewState extends State<_DetailsView> {
               key: _formKey,
               // onChanged: () => setState(
               //     () => _enableBtn = _formKey.currentState!.validate()),
-              child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //========================question============================
                   Column(
@@ -108,6 +105,12 @@ class __DetailsViewState extends State<_DetailsView> {
                               ?.copyWith(fontSize: 20),
                         ),
                       ),
+                      DropDownButton2(
+                        notifyParent: refresh2,
+                        dropdownValue: initialDropdownPoints!.toInt(),
+                        valueList: [500, 400, 300, 200, 100],
+                        bgColor: HWTheme.darkGray,
+                      ),
                       TextFormField(
                         controller: _controller,
                         onTap: () => _controller.selection = TextSelection(
@@ -116,7 +119,6 @@ class __DetailsViewState extends State<_DetailsView> {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         key: Key(widget.question.question!),
-                        // initialValue: widget.question.question,
                         validator: (val) {
                           return val!.trim().isEmpty
                               ? 'Please enter some text'
@@ -133,39 +135,53 @@ class __DetailsViewState extends State<_DetailsView> {
                       ),
                     ],
                   ),
-                  // ========================dropdowns===========================
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      DropDownButton(
-                        notifyParent: refresh,
-                        dropdownValue: initialDropdownType,
-                        valueList: [
-                          'Multiple Choice',
-                          'True or False',
-                          'Keywords'
+                  // ========================Answer===========================
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              'Answer:',
+                              style: HWTheme.lightTheme.textTheme.headline5
+                                  ?.copyWith(fontSize: 20),
+                            ),
+                          ),
+                          DropDownButton(
+                            notifyParent: refresh,
+                            dropdownValue: initialDropdownType,
+                            valueList: [
+                              'Multiple Choice',
+                              'True or False',
+                              'Keywords'
+                            ],
+                            bgColor: HWTheme.burgundy,
+                            isPoints: false,
+                          ),
+                          Text(_dropdownType!),
+                          Container(
+                            height: 100,
+                            child: ListView.builder(
+                              itemBuilder: (BuildContext context, int index) {
+                                return Row(
+                                  children: [
+                                    Text(widget.question.answers![index]
+                                        ['answer']),
+                                    Text(widget
+                                        .question.answers![index]['correct']
+                                        .toString()),
+                                  ],
+                                );
+                              },
+                              itemCount: widget.question.answers!.length,
+                            ),
+                          ),
                         ],
-                        bgColor: HWTheme.burgundy,
-                        isPoints: false,
                       ),
-                      DropDownButton2(
-                        notifyParent: refresh2,
-                        dropdownValue: initialDropdownPoints!.toInt(),
-                        valueList: [500, 400, 300, 200, 100],
-                        bgColor: HWTheme.darkGray,
-                      ),
-                    ],
+                    ),
                   ),
-                  // AnswerView(question: widget.question),
-                  // DropdownButtons(
-                  //     type: widget.question.type, dropdownPoints: dropdownPoints),
-                  //MultipleChoiceSection(),
-                  //KeywordSection(),
-                  //TrueFalseType(),
-                  // RangeType(),
-                  // BottomActions(
-                  //   onDeletePressed: widget.onDeletePressed,
-                  // )
                   //========================bottom buttons======================
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -259,17 +275,17 @@ extension TextEditingControllerExt on TextEditingController {
 //           icon: const Icon(Icons.delete, color: Colors.red),
 //           onPressed: () => onDeletePressed(question.id!),
 //         ),
-//         Expanded(
-//           child: ListView.builder(
-//             itemBuilder: (BuildContext context, int index) {
-//               return Row(
-//                 children: [
-//                   Text(question.answers![index]['answer']),
-//                   Text(question.answers![index]['correct'].toString()),
-//                 ],
-//               );
-//             },
-//             itemCount: question.answers!.length,
+// Expanded(
+//   child: ListView.builder(
+//     itemBuilder: (BuildContext context, int index) {
+//       return Row(
+//         children: [
+//           Text(question.answers![index]['answer']),
+//           Text(question.answers![index]['correct'].toString()),
+//         ],
+//       );
+//     },
+//     itemCount: question.answers!.length,
 //           ),
 //         )
 //       ],

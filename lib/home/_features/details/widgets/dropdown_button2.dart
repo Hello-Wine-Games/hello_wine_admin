@@ -24,9 +24,10 @@ class _DropDownButton2State extends State<DropDownButton2> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 0, 16),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Container(
         height: 40,
+        width: 200,
         color: HWTheme.darkGray,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),

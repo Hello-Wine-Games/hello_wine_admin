@@ -35,6 +35,7 @@ class _DropDownButtonState extends State<DropDownButton> {
           : const EdgeInsets.fromLTRB(0, 16, 20, 16),
       child: Container(
         height: 40,
+        width: 200,
         color: widget.bgColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
