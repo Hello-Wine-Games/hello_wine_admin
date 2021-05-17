@@ -55,20 +55,11 @@ class _DetailsView extends StatefulWidget {
 
 class __DetailsViewState extends State<_DetailsView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // String _dropdownType = 'Multiple Choice';
-  // int _dropdownPoints = 500;
-  // String tempQuestion = 'question';
-
-  // bool _enableBtn = false;
-  // int _points = 0;
-  // String _type = 'type';
-  // List<dynamic> _answer = [
-  //   {'answer': 'answer', 'correct': true}
-  // ];
+  var _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _controller = TextEditingController()..text = widget.question.question!;
     var _dropdownType = widget.question.type;
     var _dropdownPoints = widget.question.points! as int?;
     var tempQuestion = 'question';
@@ -118,8 +109,14 @@ class __DetailsViewState extends State<_DetailsView> {
                         ),
                       ),
                       TextFormField(
+                        controller: _controller,
+                        onTap: () => _controller.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: _controller.value.text.length),
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
                         key: Key(widget.question.question!),
-                        initialValue: widget.question.question,
+                        // initialValue: widget.question.question,
                         validator: (val) {
                           return val!.trim().isEmpty
                               ? 'Please enter some text'
@@ -235,6 +232,12 @@ class __DetailsViewState extends State<_DetailsView> {
   }
 }
 
+extension TextEditingControllerExt on TextEditingController {
+  void selectAll() {
+    if (text.isEmpty) return;
+    selection = TextSelection(baseOffset: 0, extentOffset: text.length);
+  }
+}
 // class _DetailsView extends StatelessWidget {
 //   const _DetailsView({
 //     Key? key,

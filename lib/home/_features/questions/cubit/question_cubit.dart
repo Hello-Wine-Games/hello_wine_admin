@@ -41,6 +41,10 @@ class QuestionCubit extends Cubit<QuestionState> {
     }
   }
 
+  /// {@template updateSelected}
+  /// This function updates the selected question by iterating
+  /// through the list and setting the isSelected bool
+  /// {@endtemplate}
   Future<void> updateSelected(String id, int selected) async {
     final updateInProgress = state.questions.map((question) {
       return question.id == id
@@ -50,6 +54,11 @@ class QuestionCubit extends Cubit<QuestionState> {
     emit(QuestionState.success(updateInProgress, state.questions[selected]));
   }
 
+  /// {@template addQuestion}
+  /// This function calls the backend to add a new question
+  /// and then calls fetchQuestions in order
+  /// to refresh the list
+  /// {@endtemplate}
   Future<void> addNewQuestion(Question question) async {
     await (repository
         .addNewQuestion(question, _categoriesCubit.state.category)
@@ -58,6 +67,11 @@ class QuestionCubit extends Cubit<QuestionState> {
     }));
   }
 
+  /// {@template deleteQuestion}
+  /// This function calls the backend to delete the question
+  /// based on the ID and then calls fetchQuestions in order
+  /// to refresh the list
+  /// {@endtemplate}
   Future<void> deleteQuestion(String id) async {
     await (repository
         .deleteQuestion(id, _categoriesCubit.state.category)
@@ -66,6 +80,12 @@ class QuestionCubit extends Cubit<QuestionState> {
     }));
   }
 
+  /// {@template updateQuestion}
+  /// This function updates the question in the backend.
+  /// Then, instead of calling fetchQuestions again,
+  /// it copies the updated question back into the list
+  /// and then reorders it based on points
+  /// {@endtemplate}
   Future<void> updateQuestion(Question question) async {
     await (repository
         .updateQuestion(question, _categoriesCubit.state.category)
@@ -79,7 +99,9 @@ class QuestionCubit extends Cubit<QuestionState> {
                 type: question.type,
               )
             : question2.copyWith();
-      }).toList();
+      }).toList()
+        ..sort((a, b) => b.points!.compareTo(a.points!));
+
       emit(QuestionState.success(updateInProgress, question));
     }));
   }
