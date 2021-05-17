@@ -30,12 +30,8 @@ class BottomActions extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                context.read<QuestionCubit>().deleteQuestion(context
-                    .read<QuestionCubit>()
-                    .state
-                    .questions[
-                        context.read<QuestionCubit>().state.selectedQuestion]
-                    .id!);
+                context.read<QuestionCubit>().deleteQuestion(
+                    context.read<QuestionCubit>().state.selectedQuestion.id!);
               },
             ),
             const AdminButton(title: 'Submit'),

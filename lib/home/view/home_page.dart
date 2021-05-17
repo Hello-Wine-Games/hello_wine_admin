@@ -13,8 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          QuestionCubit(repository: context.read<QuestionsRepository>())
-            ..fetchQuestions('Winemaking Process'),
+          CategoriesCubit(repository: context.read<QuestionsRepository>())
+            ..updateCategory('Winemaking Process'),
       child: HomeView(),
     );
   }
@@ -23,54 +23,57 @@ class HomePage extends StatelessWidget {
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final emptyList = context.watch<QuestionCubit>().state.questions.isEmpty;
+    final emptyList = context.watch<CategoriesCubit>().state.category.isEmpty;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        toolbarHeight: 50,
-        leadingWidth: 200,
-        leading: Container(
-          child: Row(
-            children: [
-              Container(height: 50, child: HWImages.wineGlassIcon()),
-              Text(
-                'Admin',
-                style: HWTheme.lightTheme.textTheme.headline1
-                    ?.copyWith(fontSize: 30),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: AdminButton(title: 'Logout'),
-          )
-        ],
-      ),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Categories(
-              categoriesChange: (String category) =>
-                  {context.read<QuestionCubit>().fetchQuestions(category)},
+    return BlocProvider(
+      create: (context) => QuestionCubit(
+        repository: context.read<QuestionsRepository>(),
+        categoriesCubit: BlocProvider.of<CategoriesCubit>(context),
+      )..fetchQuestions('Winemaking Process'),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          toolbarHeight: 50,
+          leadingWidth: 200,
+          leading: Container(
+            child: Row(
+              children: [
+                Container(height: 50, child: HWImages.wineGlassIcon()),
+                Text(
+                  'Admin',
+                  style: HWTheme.lightTheme.textTheme.headline1
+                      ?.copyWith(fontSize: 30),
+                ),
+              ],
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: QuestionsView(),
-          ),
-          !emptyList
-              ? Expanded(
-                  flex: 7,
-                  child: Details(),
-                )
-              : const Expanded(
-                  flex: 7, child: Center(child: Text('no content')))
-        ],
+          actions: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: AdminButton(title: 'Logout'),
+            )
+          ],
+        ),
+        body: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Categories(
+                categoriesChange: (String category) =>
+                    {context.read<CategoriesCubit>().updateCategory(category)},
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: QuestionsView(),
+            ),
+            Expanded(
+              flex: 7,
+              child: Details(),
+            )
+          ],
+        ),
       ),
     );
   }

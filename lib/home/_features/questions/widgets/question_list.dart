@@ -20,14 +20,11 @@ class QuestionList extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return _QuestionTile(
             question: questions[index],
-            isSelected:
-                index == context.read<QuestionCubit>().state.selectedQuestion,
+            // isSelected: questions[index] ==
+            //     context.read<QuestionCubit>().state.selectedQuestion,
             onSelected: (id) {
               context.read<QuestionCubit>().updateSelected(id, index);
             },
-            // onDeletePressed: (id) {
-            //   context.read<QuestionCubit>().deleteItem(id);
-            // },
           );
         },
         itemCount: questions.length,
@@ -41,12 +38,12 @@ class _QuestionTile extends StatelessWidget {
     Key? key,
     required this.question,
     required this.onSelected,
-    required this.isSelected,
+    // required this.isSelected,
   }) : super(key: key);
 
   final Question question;
   final ValueSetter<String> onSelected;
-  final bool isSelected;
+  // final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +51,8 @@ class _QuestionTile extends StatelessWidget {
       // height: 50,
       decoration: BoxDecoration(
         border: Border.all(
-          color: isSelected ? HWTheme.burgundy : HWTheme.grayOutline,
-          width: isSelected ? 2.0 : 1.0,
+          color: question.isSelected ? HWTheme.burgundy : HWTheme.grayOutline,
+          width: question.isSelected ? 2.0 : 1.0,
         ),
         color: Colors.white,
       ),
@@ -65,17 +62,17 @@ class _QuestionTile extends StatelessWidget {
         },
         leading: Text(
           question.points!.toString(),
-          style: isSelected
+          style: question.isSelected
               ? HWTheme.lightTheme.textTheme.headline5
                   ?.copyWith(color: HWTheme.burgundy)
               : HWTheme.lightTheme.textTheme.headline5
                   ?.copyWith(color: HWTheme.darkGray),
         ),
-        selected: isSelected,
+        selected: question.isSelected,
         title: Text(
           question.question!,
           style: TextStyle(
-              color: isSelected ? HWTheme.burgundy : HWTheme.darkGray),
+              color: question.isSelected ? HWTheme.burgundy : HWTheme.darkGray),
         ),
       ),
     );

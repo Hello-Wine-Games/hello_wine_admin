@@ -13,7 +13,7 @@ class Question extends Equatable {
   final bool isDeleting;
   final bool isSelected;
 
-  Question({
+  const Question({
     String? id,
     required double? points,
     required String? question,

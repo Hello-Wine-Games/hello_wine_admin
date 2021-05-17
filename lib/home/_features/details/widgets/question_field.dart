@@ -9,10 +9,12 @@ class QuestionField extends StatelessWidget {
     Key? key,
     required this.question,
     required this.tempQuestion,
+    required this.onSubmitPressed,
   }) : super(key: key);
 
   final String question;
   String tempQuestion;
+  final ValueSetter<String> onSubmitPressed;
 
   @override
   Widget build(BuildContext context) {

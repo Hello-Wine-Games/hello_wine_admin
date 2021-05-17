@@ -57,4 +57,12 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
         .doc(update.id)
         .update(update.toEntity().toDocument());
   }
+
+  @override
+  Future<bool> getCategories(String category) {
+    return FirebaseFirestore.instance
+        .collection('categories')
+        .snapshots()
+        .contains(category);
+  }
 }

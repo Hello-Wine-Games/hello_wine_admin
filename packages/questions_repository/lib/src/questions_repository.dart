@@ -14,4 +14,6 @@ abstract class QuestionsRepository {
   Future<List<Question>> fetchQuestions(String category);
 
   Future<void> updateQuestion(Question question, String category);
+
+  Future<bool> getCategories(String category);
 }

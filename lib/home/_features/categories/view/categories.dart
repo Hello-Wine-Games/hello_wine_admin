@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 
-import '../../questions/question.dart';
+import '../../categories/categories.dart';
 import '../widgets/widgets.dart';
 
 class Categories extends StatelessWidget {
@@ -12,7 +12,7 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stateCategory = context.watch<QuestionCubit>().state.category;
+    final stateCategory = context.watch<CategoriesCubit>().state.category;
     return Container(
       color: HWTheme.burgundy,
       child: Padding(
