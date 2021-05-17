@@ -69,15 +69,19 @@ class __DetailsViewState extends State<_DetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    var _dropdownType = 'Multiple Choice';
-    int? _dropdownPoints = 500;
+    var _dropdownType = widget.question.type;
+    var _dropdownPoints = widget.question.points! as int?;
     var tempQuestion = 'question';
 
     var initialDropdownType = widget.question.type!;
-    var _initialDropdownPoints = widget.question.points;
+    var initialDropdownPoints = widget.question.points;
 
-    void refresh(dynamic childValue) {
+    void refresh(String childValue) {
       _dropdownType = childValue;
+    }
+
+    void refresh2(int childValue) {
+      _dropdownPoints = childValue;
     }
 
     return Container(
@@ -147,78 +151,11 @@ class __DetailsViewState extends State<_DetailsView> {
                         bgColor: HWTheme.burgundy,
                         isPoints: false,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
-                      //   child: Container(
-                      //     height: 40,
-                      //     color: HWTheme.burgundy,
-                      //     child: Padding(
-                      //       padding:
-                      //           const EdgeInsets.symmetric(horizontal: 12.0),
-                      //       child: DropdownButtonHideUnderline(
-                      //         child: DropdownButton<String>(
-                      //           dropdownColor: HWTheme.burgundy,
-                      //           value: _initalDropdownType,
-                      //           icon: const Icon(
-                      //             FontAwesomeIcons.caretDown,
-                      //             color: Colors.white,
-                      //             size: 32,
-                      //           ),
-                      //           style: HWTheme.lightTheme.textTheme.headline5
-                      //               ?.copyWith(
-                      //                   color: Colors.white, fontSize: 16),
-                      //           onChanged: (String? newValue) {
-                      //             _dropdownType = newValue!;
-                      //           },
-                      //           items: [
-                      //             'Multiple Choice',
-                      //             'True or False',
-                      //             'Keywords'
-                      //           ].map<DropdownMenuItem<String>>((String value) {
-                      //             return DropdownMenuItem<String>(
-                      //               value: value,
-                      //               child: Text(value),
-                      //             );
-                      //           }).toList(),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 16, 0, 16),
-                        child: Container(
-                          height: 40,
-                          color: HWTheme.darkGray,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<int>(
-                                dropdownColor: HWTheme.darkGray,
-                                value: _initialDropdownPoints!.toInt(),
-                                icon: const Icon(
-                                  FontAwesomeIcons.caretDown,
-                                  color: Colors.white,
-                                  size: 32,
-                                ),
-                                style: HWTheme.lightTheme.textTheme.headline5
-                                    ?.copyWith(
-                                        color: Colors.white, fontSize: 16),
-                                onChanged: (int? newValue) {
-                                  _dropdownPoints = newValue;
-                                },
-                                items: [500, 400, 300, 200, 100]
-                                    .map<DropdownMenuItem<int>>((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
+                      DropDownButton2(
+                        notifyParent: refresh2,
+                        dropdownValue: initialDropdownPoints!.toInt(),
+                        valueList: [500, 400, 300, 200, 100],
+                        bgColor: HWTheme.darkGray,
                       ),
                     ],
                   ),
@@ -254,7 +191,6 @@ class __DetailsViewState extends State<_DetailsView> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-
                               await context
                                   .read<QuestionCubit>()
                                   .updateQuestion(
