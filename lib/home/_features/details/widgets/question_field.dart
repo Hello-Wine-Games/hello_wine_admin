@@ -4,20 +4,24 @@ import 'package:hello_wine_admin/UI/HWTheme.dart';
 import 'package:hello_wine_admin/home/_features/features.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-class QuestionField extends StatelessWidget {
+class QuestionField extends StatefulWidget {
   QuestionField({
     Key? key,
     required this.question,
-    required this.tempQuestion,
-    required this.onSubmitPressed,
   }) : super(key: key);
 
-  final String question;
-  String tempQuestion;
-  final ValueSetter<String> onSubmitPressed;
+  final Question question;
 
   @override
+  _QuestionFieldState createState() => _QuestionFieldState();
+}
+
+class _QuestionFieldState extends State<QuestionField> {
+  final _controller = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    _controller.text = widget.question.question!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,12 +34,17 @@ class QuestionField extends StatelessWidget {
           ),
         ),
         TextFormField(
-          key: Key(question),
-          initialValue: question,
+          controller: _controller,
+          onTap: () => _controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: _controller.value.text.length),
+          key: Key(widget.question.question!),
+          // initialValue: widget.question.question!,
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
-          onSaved: (value) => tempQuestion = value ?? 'Unknown',
+          onSaved: (value) {
+            context.read<DeetsCubit>().updateQuestion(value);
+          },
           decoration: const InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(color: HWTheme.darkGray),
@@ -46,5 +55,12 @@ class QuestionField extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+extension TextEditingControllerExt on TextEditingController {
+  void selectAll() {
+    if (text.isEmpty) return;
+    selection = TextSelection(baseOffset: 0, extentOffset: text.length);
   }
 }

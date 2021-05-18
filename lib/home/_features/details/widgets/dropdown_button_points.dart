@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
+
+import '../details.dart';
+
+class DropdownButtonPoints extends StatefulWidget {
+  DropdownButtonPoints({
+    Key? key,
+    required this.dropdownValue,
+    required this.onChange,
+  }) : super(key: key);
+
+  final double? dropdownValue;
+  final ValueSetter<double> onChange;
+
+  @override
+  _DropdownButtonPointsState createState() => _DropdownButtonPointsState();
+}
+
+class _DropdownButtonPointsState extends State<DropdownButtonPoints> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 200,
+      color: HWTheme.darkGray,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
+            dropdownColor: HWTheme.darkGray,
+            value: widget.dropdownValue!.toInt(),
+            icon: const Icon(
+              FontAwesomeIcons.caretDown,
+              color: Colors.white,
+              size: 32,
+            ),
+            style: HWTheme.lightTheme.textTheme.headline5
+                ?.copyWith(color: Colors.white, fontSize: 16),
+            onChanged: (int? newValue) {
+              context.read<DeetsCubit>().updatePoints(newValue!.toDouble());
+              // setState(() {
+              //   context.read<DeetsCubit>().updatePoints(newValue!.toDouble());
+              // });
+            },
+            items: [500, 400, 300, 200, 100]
+                .map<DropdownMenuItem<int>>((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}

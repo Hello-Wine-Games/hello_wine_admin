@@ -27,4 +27,22 @@ class DeetsCubit extends Cubit<DeetsState> {
     _questionSubscription?.cancel();
     return super.close();
   }
+
+  Future<void> updateQuestion(String? question) async {
+    final output = state.question.copyWith(question: question);
+
+    emit(DeetsState.success(output));
+  }
+
+  Future<void> updatePoints(double points) async {
+    final output = state.question.copyWith(points: points);
+
+    emit(DeetsState.success(output));
+  }
+
+  Future<void> updateType(String? type) async {
+    final output = state.question.copyWith(type: type);
+
+    emit(DeetsState.success(output));
+  }
 }

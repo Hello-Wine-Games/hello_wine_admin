@@ -90,7 +90,7 @@ class QuestionCubit extends Cubit<QuestionState> {
     await (repository
         .updateQuestion(question, _categoriesCubit.state.category)
         .then((_) {
-      final updateInProgress = state.questions.map((question2) {
+      final updatedList = state.questions.map((question2) {
         return question2.id == question.id
             ? question2.copyWith(
                 points: question.points,
@@ -102,7 +102,7 @@ class QuestionCubit extends Cubit<QuestionState> {
       }).toList()
         ..sort((a, b) => b.points!.compareTo(a.points!));
 
-      emit(QuestionState.success(updateInProgress, question));
+      emit(QuestionState.success(updatedList, question));
     }));
   }
 

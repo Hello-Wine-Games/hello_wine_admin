@@ -21,9 +21,6 @@ class Details extends StatelessWidget {
           case DeetStatus.success:
             return _DetailsView(
               question: state.question,
-              onDeletePressed: (id) {
-                context.read<QuestionCubit>().deleteQuestion(id);
-              },
             );
           default:
             return const Center(child: CircularProgressIndicator());
@@ -37,11 +34,9 @@ class _DetailsView extends StatefulWidget {
   const _DetailsView({
     Key? key,
     required this.question,
-    required this.onDeletePressed,
   }) : super(key: key);
 
   final Question question;
-  final ValueSetter<String> onDeletePressed;
 
   @override
   __DetailsViewState createState() => __DetailsViewState();
@@ -49,31 +44,13 @@ class _DetailsView extends StatefulWidget {
 
 class __DetailsViewState extends State<_DetailsView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _controller = TextEditingController()..text = widget.question.question!;
-    var _dropdownType = widget.question.type;
-    var _dropdownPoints = widget.question.points! as int?;
-    var tempQuestion = 'question';
-    var _tempAnswer = widget.question.answers;
     // var _tempAnswer = <dynamic>[
     //   {'answer': 'answer 1', 'correct': true},
     //   {'answer': 'answer 2', 'correct': false},
     // ];
-
-    void refresh(String childValue) {
-      _dropdownType = childValue;
-    }
-
-    void refresh2(int childValue) {
-      _dropdownPoints = childValue;
-    }
-
-    void refreshAnswer(List<dynamic> childValue) {
-      _tempAnswer = childValue;
-    }
 
     return Container(
       color: HWTheme.background,
@@ -98,55 +75,14 @@ class __DetailsViewState extends State<_DetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //========================question============================
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          'Question:',
-                          style: HWTheme.lightTheme.textTheme.headline5
-                              ?.copyWith(fontSize: 20),
-                        ),
-                      ),
-                      DropDownButton2(
-                        notifyParent: refresh2,
-                        dropdownValue: _dropdownPoints!.toInt(),
-                        valueList: [500, 400, 300, 200, 100],
-                        bgColor: HWTheme.darkGray,
-                      ),
-                      TextFormField(
-                        controller: _controller,
-                        onTap: () => _controller.selection = TextSelection(
-                            baseOffset: 0,
-                            extentOffset: _controller.value.text.length),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        key: Key(widget.question.question!),
-                        validator: (val) {
-                          return val!.trim().isEmpty
-                              ? 'Please enter some text'
-                              : null;
-                        },
-                        onSaved: (value) => tempQuestion = value ?? 'Unknown',
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: HWTheme.darkGray),
-                          ),
-                        ),
-                        style: HWTheme.lightTheme.textTheme.headline6
-                            ?.copyWith(fontSize: 16, color: HWTheme.darkGray),
-                      ),
-                    ],
-                  ),
+                  QuestionField(question: widget.question),
+
                   // ========================Answer===========================
 
                   AnswerView(
-                    notifyParentAnswer: refreshAnswer,
                     question: widget.question,
-                    notifyParent: refresh,
-                    dropdownValue: _dropdownType!,
-                    valueList: ['Multiple Choice', 'True or False', 'Keywords'],
+
+                    // valueList: ['Multiple Choice', 'True or False', 'Keywords'],
                   ),
 
                   //========================bottom buttons======================
@@ -164,21 +100,20 @@ class __DetailsViewState extends State<_DetailsView> {
                             size: 32,
                           ),
                           onPressed: () {
-                            widget.onDeletePressed(widget.question.id!);
+                            context
+                                .read<QuestionCubit>()
+                                .deleteQuestion(widget.question.id!);
                           },
                         ),
                         TextButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              print('save');
                               await context
                                   .read<QuestionCubit>()
                                   .updateQuestion(
-                                    widget.question.copyWith(
-                                        question: tempQuestion,
-                                        type: _dropdownType,
-                                        points: _dropdownPoints!.toDouble(),
-                                        answers: _tempAnswer),
+                                    context.read<DeetsCubit>().state.question,
                                   );
                               _formKey.currentState!.reset();
                             }
@@ -215,48 +150,3 @@ class __DetailsViewState extends State<_DetailsView> {
     );
   }
 }
-
-extension TextEditingControllerExt on TextEditingController {
-  void selectAll() {
-    if (text.isEmpty) return;
-    selection = TextSelection(baseOffset: 0, extentOffset: text.length);
-  }
-}
-// class _DetailsView extends StatelessWidget {
-//   const _DetailsView({
-//     Key? key,
-//     required this.question,
-//     required this.onDeletePressed,
-//   }) : super(key: key);
-
-//   final Question question;
-//   final ValueSetter<String> onDeletePressed;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Text(question.question!),
-//         Text(question.points!.toString()),
-//         Text(question.type!),
-//         IconButton(
-//           icon: const Icon(Icons.delete, color: Colors.red),
-//           onPressed: () => onDeletePressed(question.id!),
-//         ),
-// Expanded(
-//   child: ListView.builder(
-//     itemBuilder: (BuildContext context, int index) {
-//       return Row(
-//         children: [
-//           Text(question.answers![index]['answer']),
-//           Text(question.answers![index]['correct'].toString()),
-//         ],
-//       );
-//     },
-//     itemCount: question.answers!.length,
-//           ),
-//         )
-//       ],
-//     );
-//   }
-// }
