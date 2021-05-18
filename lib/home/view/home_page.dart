@@ -13,8 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          CategoriesCubit(repository: context.read<QuestionsRepository>())
-            ..updateCategory('Winemaking Process'),
+          CategoriesCubit(repository: context.read<QuestionsRepository>()),
       child: HomeView(),
     );
   }
@@ -23,13 +22,22 @@ class HomePage extends StatelessWidget {
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final emptyList = context.watch<CategoriesCubit>().state.category.isEmpty;
-
     return BlocProvider(
       create: (context) => QuestionCubit(
         repository: context.read<QuestionsRepository>(),
         categoriesCubit: BlocProvider.of<CategoriesCubit>(context),
       )..fetchQuestions('Winemaking Process'),
+      child: _HomeView(),
+    );
+  }
+}
+
+class _HomeView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          DeetsCubit(questionCubit: context.read<QuestionCubit>()),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

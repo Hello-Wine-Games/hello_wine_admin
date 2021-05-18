@@ -4,25 +4,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import '../widgets/widgets.dart';
-
-import '../details.dart';
-
 import '../../questions/question.dart';
+import '../details.dart';
+import '../widgets/widgets.dart';
 
 class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QuestionCubit, QuestionState>(
+    return BlocBuilder<DeetsCubit, DeetsState>(
       builder: (context, state) {
         switch (state.status) {
-          case QuestionStatus.failure:
+          case DeetStatus.failure:
             return const Center(child: Text('Oops something went wrong!'));
-          case QuestionStatus.empty:
+          case DeetStatus.loading:
             return const Center(child: Text('no content'));
-          case QuestionStatus.success:
+          case DeetStatus.success:
             return _DetailsView(
-              question: state.selectedQuestion,
+              question: state.question,
               onDeletePressed: (id) {
                 context.read<QuestionCubit>().deleteQuestion(id);
               },
