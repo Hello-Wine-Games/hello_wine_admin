@@ -14,7 +14,7 @@ class MultipleChoiceType extends StatefulWidget {
       : super(key: key);
 
   final Question question;
-  final ValueSetter<List<dynamic>?> onChange;
+  final ValueSetter<Question> onChange;
   final ValueSetter<String?> onUpdated;
 
   @override
@@ -50,9 +50,9 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
       /// and we prime our temporary question with this value
       /// in the case that we decide to hit the submit button
       // widget.question.copyWith(answers: answers);
-      context.read<DeetsCubit>().update(
-            widget.question.copyWith(answers: answers),
-          );
+      widget.onChange(
+        widget.question.copyWith(answers: answers),
+      );
     }
     super.initState();
   }
@@ -141,7 +141,8 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                           };
 
                           setState(() {});
-                          widget.onChange(answers);
+                          widget.onChange(
+                              widget.question.copyWith(answers: answers));
                         },
                       ),
                     ),

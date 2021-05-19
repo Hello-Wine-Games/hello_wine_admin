@@ -14,7 +14,6 @@ class DeetsCubit extends Cubit<DeetsState> {
     _questionSubscription = questionCubit.stream.listen((state) {
       if (state.status == QuestionStatus.success) {
         emit(DeetsState.success(state.selectedQuestion));
-        // success(state.selectedQuestion)
       } else {
         emit(const DeetsState.loading());
       }
@@ -32,19 +31,6 @@ class DeetsCubit extends Cubit<DeetsState> {
 
   Future<void> reload() async {
     emit(DeetsState.success(state.question));
-  }
-
-  Future<void> success(Question question2) async {
-    print('hitting from success');
-
-    final output = state.question.copyWith(
-      id: question2.id,
-      question: question2.question,
-      type: question2.type,
-      points: question2.points,
-      answers: question2.answers,
-    );
-    emit(DeetsState.updated(output));
   }
 
   Future<void> update(Question question) async {

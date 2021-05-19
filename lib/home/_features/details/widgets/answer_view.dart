@@ -57,7 +57,7 @@ class AnswerView extends StatelessWidget {
                       key: Key(question.id!),
                       question: question,
                       onChange: (value) {
-                        context.read<DeetsCubit>().updateAnswer(value);
+                        context.read<DeetsCubit>().update(value);
                       },
                       onUpdated: (value) =>
                           context.read<DeetsCubit>().updatedField(),
