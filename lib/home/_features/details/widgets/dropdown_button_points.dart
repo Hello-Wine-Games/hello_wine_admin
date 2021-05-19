@@ -5,7 +5,7 @@ import 'package:hello_wine_admin/UI/ui.dart';
 
 import '../details.dart';
 
-class DropdownButtonPoints extends StatefulWidget {
+class DropdownButtonPoints extends StatelessWidget {
   DropdownButtonPoints({
     Key? key,
     required this.dropdownValue,
@@ -15,11 +15,6 @@ class DropdownButtonPoints extends StatefulWidget {
   final double? dropdownValue;
   final ValueSetter<double> onChange;
 
-  @override
-  _DropdownButtonPointsState createState() => _DropdownButtonPointsState();
-}
-
-class _DropdownButtonPointsState extends State<DropdownButtonPoints> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +26,7 @@ class _DropdownButtonPointsState extends State<DropdownButtonPoints> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<int>(
             dropdownColor: HWTheme.darkGray,
-            value: widget.dropdownValue!.toInt(),
+            value: dropdownValue!.toInt(),
             icon: const Icon(
               FontAwesomeIcons.caretDown,
               color: Colors.white,
@@ -40,10 +35,7 @@ class _DropdownButtonPointsState extends State<DropdownButtonPoints> {
             style: HWTheme.lightTheme.textTheme.headline5
                 ?.copyWith(color: Colors.white, fontSize: 16),
             onChanged: (int? newValue) {
-              context.read<DeetsCubit>().updatePoints(newValue!.toDouble());
-              // setState(() {
-              //   context.read<DeetsCubit>().updatePoints(newValue!.toDouble());
-              // });
+              onChange(newValue!.toDouble());
             },
             items: [500, 400, 300, 200, 100]
                 .map<DropdownMenuItem<int>>((int value) {

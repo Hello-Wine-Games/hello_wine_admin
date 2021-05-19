@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 
-import '../details.dart';
-
-class DropdownButtonType extends StatefulWidget {
+class DropdownButtonType extends StatelessWidget {
   DropdownButtonType({
     Key? key,
     required this.dropdownValue,
@@ -14,12 +11,7 @@ class DropdownButtonType extends StatefulWidget {
 
   final String? dropdownValue;
   final ValueSetter<String> onChange;
-
   @override
-  _DropdownButtonTypeState createState() => _DropdownButtonTypeState();
-}
-
-class _DropdownButtonTypeState extends State<DropdownButtonType> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +23,7 @@ class _DropdownButtonTypeState extends State<DropdownButtonType> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             dropdownColor: HWTheme.burgundy,
-            value: widget.dropdownValue,
+            value: dropdownValue,
             icon: const Icon(
               FontAwesomeIcons.caretDown,
               color: Colors.white,
@@ -40,7 +32,7 @@ class _DropdownButtonTypeState extends State<DropdownButtonType> {
             style: HWTheme.lightTheme.textTheme.headline5
                 ?.copyWith(color: Colors.white, fontSize: 16),
             onChanged: (String? newValue) {
-              context.read<DeetsCubit>().updateType(newValue);
+              onChange(newValue!);
             },
             items: ['Multiple Choice', 'True or False', 'Keyword']
                 .map<DropdownMenuItem<String>>((String value) {

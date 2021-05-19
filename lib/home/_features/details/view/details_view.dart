@@ -47,11 +47,6 @@ class __DetailsViewState extends State<_DetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    // var _tempAnswer = <dynamic>[
-    //   {'answer': 'answer 1', 'correct': true},
-    //   {'answer': 'answer 2', 'correct': false},
-    // ];
-
     return Container(
       color: HWTheme.background,
       child: Padding(
@@ -74,18 +69,14 @@ class __DetailsViewState extends State<_DetailsView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //========================question============================
-                  QuestionField(question: widget.question),
-
-                  // ========================Answer===========================
-
+                  QuestionField(
+                    question: widget.question,
+                    onSaved: (value) =>
+                        context.read<DeetsCubit>().updateQuestion(value),
+                  ),
                   AnswerView(
                     question: widget.question,
-
-                    // valueList: ['Multiple Choice', 'True or False', 'Keywords'],
                   ),
-
-                  //========================bottom buttons======================
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
@@ -110,11 +101,19 @@ class __DetailsViewState extends State<_DetailsView> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               print('save');
+                              final question =
+                                  context.read<DeetsCubit>().state.question;
                               await context
                                   .read<QuestionCubit>()
-                                  .updateQuestion(
-                                    context.read<DeetsCubit>().state.question,
-                                  );
+                                  .updateQuestion(question);
+
+                              /// this is literally just so I can make the
+                              /// simplest of updates. Will is cause bugs?
+                              /// I hope not !
+
+                              await context
+                                  .read<DeetsCubit>()
+                                  .success(question.copyWith(isDeleting: true));
                               _formKey.currentState!.reset();
                             }
                           },

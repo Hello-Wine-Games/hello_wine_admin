@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/HWTheme.dart';
-import 'package:hello_wine_admin/home/_features/features.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class QuestionField extends StatefulWidget {
   QuestionField({
     Key? key,
     required this.question,
+    required this.onSaved,
   }) : super(key: key);
 
   final Question question;
+  final ValueSetter<String?> onSaved;
 
   @override
   _QuestionFieldState createState() => _QuestionFieldState();
 }
 
 class _QuestionFieldState extends State<QuestionField> {
-  final _controller = TextEditingController();
+  // final _controller = TextEditingController();
+
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    _controller.text = widget.question.question!;
+    // _controller.text = widget.question.question!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,16 +41,16 @@ class _QuestionFieldState extends State<QuestionField> {
           ),
         ),
         TextFormField(
-          controller: _controller,
-          onTap: () => _controller.selection = TextSelection(
-              baseOffset: 0, extentOffset: _controller.value.text.length),
+          // controller: _controller,
+          // onTap: () => _controller.selection = TextSelection(
+          //     baseOffset: 0, extentOffset: _controller.value.text.length),
           key: Key(widget.question.question!),
-          // initialValue: widget.question.question!,
+          initialValue: widget.question.question!,
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
           onSaved: (value) {
-            context.read<DeetsCubit>().updateQuestion(value);
+            widget.onSaved(value);
           },
           decoration: const InputDecoration(
             border: OutlineInputBorder(
@@ -55,12 +62,5 @@ class _QuestionFieldState extends State<QuestionField> {
         ),
       ],
     );
-  }
-}
-
-extension TextEditingControllerExt on TextEditingController {
-  void selectAll() {
-    if (text.isEmpty) return;
-    selection = TextSelection(baseOffset: 0, extentOffset: text.length);
   }
 }

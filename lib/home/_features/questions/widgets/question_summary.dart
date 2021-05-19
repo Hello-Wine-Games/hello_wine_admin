@@ -54,6 +54,8 @@ class QuestionSummary extends StatelessWidget {
                         answers: [
                           {'answer': 'answer 1', 'correct': true},
                           {'answer': 'answer 2', 'correct': false},
+                          {'answer': 'answer 3', 'correct': false},
+                          {'answer': 'answer 4', 'correct': false},
                         ],
                       );
                       context.read<QuestionCubit>().addNewQuestion(

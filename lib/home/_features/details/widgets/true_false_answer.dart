@@ -2,34 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../features.dart';
 
 class TrueFalseAnswer extends StatefulWidget {
   TrueFalseAnswer({
     Key? key,
     required this.question,
+    required this.onChange,
   }) : super(key: key);
 
   final Question question;
+  final ValueSetter<List<dynamic>> onChange;
 
   @override
   _TrueFalseAnswerState createState() => _TrueFalseAnswerState();
 }
 
 class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
-  late String dropdownValue;
+  late String? dropdownValue;
+
+  /// What's goin on here is pretty confusing at first
+  ///
+  /// Thing is.. We need a temporary state for the
+  /// dropdown t/f box.
+  /// This is separate from the temporary question
+  /// (which is floated in DeetsState)
 
   @override
   void initState() {
-    if (widget.question.type == 'True or False') {
+    /// So, if the actual question type is indeed this type
+    if (context.read<QuestionCubit>().state.selectedQuestion.type ==
+        'True or False') {
+      /// Then we set our value to the actual answer
       dropdownValue = widget.question.answers![0]['answer'];
     } else {
+      /// If not, then we set a default temp value
       dropdownValue = 'False';
 
-      widget.question.copyWith(
-        answers: <dynamic>[
-          {'answer': 'False', 'correct': true},
-        ],
-      );
+      /// and we prime our temporary question with this value
+      /// in the case that we decide to hit the submit button
+      context.read<DeetsCubit>().update(
+            widget.question.copyWith(
+              answers: <dynamic>[
+                {'answer': 'False', 'correct': true},
+              ],
+            ),
+          );
     }
     super.initState();
   }
@@ -72,12 +92,16 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                   style: HWTheme.lightTheme.textTheme.headline5
                       ?.copyWith(color: Colors.grey, fontSize: 16),
                   onChanged: (String? newValue) {
+                    /// So here we set our temporary state for the widget
                     setState(() {
-                      dropdownValue = newValue!;
-                      // widget.notifyParentAnswer(<dynamic>[
-                      //   {'answer': newValue, 'correct': true},
-                      // ]);
+                      dropdownValue = newValue;
                     });
+
+                    /// and here we prime our temporary question in the
+                    /// case we decide to hit submit
+                    widget.onChange(<dynamic>[
+                      {'answer': newValue.toString(), 'correct': newValue},
+                    ]);
                   },
                   items: ['True', 'False']
                       .map<DropdownMenuItem<String>>((String value) {

@@ -48,7 +48,7 @@ class Question extends Equatable {
 
   @override
   String toString() {
-    return 'Question{id: $id, question: $question}';
+    return 'Question{id: $id}';
   }
 
   QuestionEntity toEntity() {

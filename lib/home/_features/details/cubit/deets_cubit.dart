@@ -13,8 +13,9 @@ class DeetsCubit extends Cubit<DeetsState> {
         super(const DeetsState.loading()) {
     _questionSubscription = questionCubit.stream.listen((state) {
       if (state.status == QuestionStatus.success) {
-        print('deets success');
         emit(DeetsState.success(state.selectedQuestion));
+      } else {
+        emit(const DeetsState.loading());
       }
     });
   }
@@ -28,21 +29,37 @@ class DeetsCubit extends Cubit<DeetsState> {
     return super.close();
   }
 
+  Future<void> success(Question question) async {
+    // final output = state.question.copyWith(question: question);
+    emit(DeetsState.success(question));
+  }
+
+  Future<void> update(Question question) async {
+    emit(DeetsState.success(question));
+  }
+
   Future<void> updateQuestion(String? question) async {
     final output = state.question.copyWith(question: question);
-
     emit(DeetsState.success(output));
   }
 
   Future<void> updatePoints(double points) async {
     final output = state.question.copyWith(points: points);
-
     emit(DeetsState.success(output));
   }
 
   Future<void> updateType(String? type) async {
     final output = state.question.copyWith(type: type);
+    emit(DeetsState.success(output));
+  }
 
+  Future<void> updateAnswer(List<dynamic>? answers) async {
+    final output = state.question.copyWith(answers: answers);
+    emit(DeetsState.success(output));
+  }
+
+  Future<void> updateCorrect(List<dynamic> answers) async {
+    final output = state.question.copyWith(answers: answers);
     emit(DeetsState.success(output));
   }
 }
