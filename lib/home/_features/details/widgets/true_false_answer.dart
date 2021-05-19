@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../features.dart';
 
 class TrueFalseAnswer extends StatefulWidget {
   TrueFalseAnswer({
     Key? key,
     required this.question,
+    required this.originalType,
     required this.onChange,
   }) : super(key: key);
 
   final Question question;
-  final ValueSetter<List<dynamic>> onChange;
+  final String? originalType;
+  final ValueSetter<Question> onChange;
 
   @override
   _TrueFalseAnswerState createState() => _TrueFalseAnswerState();
@@ -33,8 +32,7 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
   @override
   void initState() {
     /// So, if the actual question type is indeed this type
-    if (context.read<QuestionCubit>().state.selectedQuestion.type ==
-        'True or False') {
+    if (widget.originalType == 'True or False') {
       /// Then we set our value to the actual answer
       dropdownValue = widget.question.answers![0]['answer'];
     } else {
@@ -43,13 +41,13 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
 
       /// and we prime our temporary question with this value
       /// in the case that we decide to hit the submit button
-      context.read<DeetsCubit>().update(
-            widget.question.copyWith(
-              answers: <dynamic>[
-                {'answer': 'False', 'correct': false},
-              ],
-            ),
-          );
+      widget.onChange(
+        widget.question.copyWith(
+          answers: <dynamic>[
+            {'answer': 'False', 'correct': false},
+          ],
+        ),
+      );
     }
     super.initState();
   }
@@ -99,13 +97,9 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
 
                     /// and here we prime our temporary question in the
                     /// case we decide to hit submit
-                    widget.onChange(<dynamic>[
+                    widget.onChange(widget.question.copyWith(answers: <dynamic>[
                       {'answer': newValue.toString(), 'correct': newValue},
-                    ]);
-                    print(
-                        'QuestionCubit answers: ${context.read<QuestionCubit>().state.selectedQuestion.answers}');
-                    print(
-                        'DeetsCubit answers: ${context.read<DeetsCubit>().state.question.answers}');
+                    ]));
                   },
                   items: ['True', 'False']
                       .map<DropdownMenuItem<String>>((String value) {

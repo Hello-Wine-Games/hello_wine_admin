@@ -16,6 +16,9 @@ class AnswerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _deetsCubit = context.read<DeetsCubit>();
+    var _questionCubit = context.read<QuestionCubit>();
+
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -37,13 +40,13 @@ class AnswerView extends StatelessWidget {
                   DropdownButtonType(
                     dropdownValue: question.type,
                     onChange: (value) {
-                      context.read<DeetsCubit>().updateType(value);
+                      _deetsCubit.updateType(value);
                     },
                   ),
                   DropdownButtonPoints(
                     dropdownValue: question.points,
                     onChange: (value) {
-                      context.read<DeetsCubit>().updatePoints(value);
+                      _deetsCubit.updatePoints(value);
                     },
                   ),
                 ],
@@ -52,31 +55,39 @@ class AnswerView extends StatelessWidget {
             BlocBuilder<DeetsCubit, DeetsState>(
               builder: (context, state) {
                 switch (question.type) {
+                  case 'True or False':
+                    return TrueFalseAnswer(
+                      key: Key(question.id!),
+                      originalType: context
+                          .read<QuestionCubit>()
+                          .state
+                          .selectedQuestion
+                          .type,
+                      question: question,
+                      onChange: (value) {
+                        _deetsCubit.update(value);
+                      },
+                    );
                   case 'Multiple Choice':
                     return MultipleChoiceType(
                       key: Key(question.id!),
                       question: question,
+                      originalType: _questionCubit.state.selectedQuestion.type,
                       onChange: (value) {
-                        context.read<DeetsCubit>().update(value);
+                        _deetsCubit.update(value);
                       },
-                      onUpdated: (value) =>
-                          context.read<DeetsCubit>().updatedField(),
+                      onUpdated: (value) => _deetsCubit.updatedField(),
                     );
-                  case 'True or False':
-                    return TrueFalseAnswer(
-                      key: Key(question.id!),
-                      question: question,
-                      onChange: (value) {
-                        context.read<DeetsCubit>().updateAnswer(value);
-                      },
-                    );
+
                   case 'Keyword':
                     return KeywordType(
                       key: Key(question.id!),
                       question: question,
+                      originalType: _questionCubit.state.selectedQuestion.type,
                       onChange: (value) {
-                        context.read<DeetsCubit>().updateAnswer(value);
+                        _deetsCubit.update(value);
                       },
+                      onUpdated: (value) => _deetsCubit.updatedField(),
                     );
                   default:
                     return const Text('default');

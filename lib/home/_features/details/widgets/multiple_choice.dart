@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
-
-import '../../features.dart';
 
 class MultipleChoiceType extends StatefulWidget {
   const MultipleChoiceType(
       {Key? key,
       required this.question,
+      required this.originalType,
       required this.onChange,
       required this.onUpdated})
       : super(key: key);
 
   final Question question;
+  final String? originalType;
   final ValueSetter<Question> onChange;
   final ValueSetter<String?> onUpdated;
 
@@ -34,8 +33,7 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
   @override
   void initState() {
     /// So, if the actual question type is indeed this type
-    if (context.read<QuestionCubit>().state.selectedQuestion.type ==
-        'Multiple Choice') {
+    if (widget.originalType == 'Multiple Choice') {
       /// Then we set our value to the actual answer
       answers = widget.question.answers!.map((e) => e).toList();
     } else {
