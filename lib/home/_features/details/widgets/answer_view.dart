@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
+import '../../features.dart';
 import '../details.dart';
 import './widgets.dart';
 
@@ -58,17 +59,25 @@ class AnswerView extends StatelessWidget {
                       onChange: (value) {
                         context.read<DeetsCubit>().updateAnswer(value);
                       },
+                      onUpdated: (value) =>
+                          context.read<DeetsCubit>().updatedField(),
                     );
                   case 'True or False':
                     return TrueFalseAnswer(
                       key: Key(question.id!),
+                      question: question,
                       onChange: (value) {
                         context.read<DeetsCubit>().updateAnswer(value);
                       },
-                      question: question,
                     );
                   case 'Keyword':
-                    return const KeywordType();
+                    return KeywordType(
+                      key: Key(question.id!),
+                      question: question,
+                      onChange: (value) {
+                        context.read<DeetsCubit>().updateAnswer(value);
+                      },
+                    );
                   default:
                     return const Text('default');
                 }

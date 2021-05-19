@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
@@ -9,11 +7,15 @@ import '../../features.dart';
 
 class MultipleChoiceType extends StatefulWidget {
   const MultipleChoiceType(
-      {Key? key, required this.question, required this.onChange})
+      {Key? key,
+      required this.question,
+      required this.onChange,
+      required this.onUpdated})
       : super(key: key);
 
   final Question question;
   final ValueSetter<List<dynamic>?> onChange;
+  final ValueSetter<String?> onUpdated;
 
   @override
   _MultipleChoiceTypeState createState() => _MultipleChoiceTypeState();
@@ -33,9 +35,9 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
   void initState() {
     /// So, if the actual question type is indeed this type
     if (context.read<QuestionCubit>().state.selectedQuestion.type ==
-        widget.question.type) {
+        'Multiple Choice') {
       /// Then we set our value to the actual answer
-      answers = context.read<QuestionCubit>().state.selectedQuestion.answers!;
+      answers = widget.question.answers!.map((e) => e).toList();
     } else {
       /// If not, then we set a default temp value
       answers = <dynamic>[
@@ -47,7 +49,7 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
 
       /// and we prime our temporary question with this value
       /// in the case that we decide to hit the submit button
-      widget.question.copyWith(answers: answers);
+      // widget.question.copyWith(answers: answers);
       context.read<DeetsCubit>().update(
             widget.question.copyWith(answers: answers),
           );
@@ -80,6 +82,7 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
         Container(
           height: 350,
           child: ListView.builder(
+            key: Key(widget.question.answers.toString()),
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -99,6 +102,8 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                             height: 50,
                             width: 500,
                             child: TextFormField(
+                              key: Key(answers![index].hashCode.toString()),
+                              onChanged: (value) => widget.onUpdated(value),
                               onSaved: (value) {
                                 setState(() {
                                   answers![index]['answer'] = value;
@@ -127,12 +132,15 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Checkbox(
-                        value: answers![index]['correct'],
+                        key: Key(answers![index].hashCode.toString()),
+                        value: widget.question.answers![index]['correct'],
                         onChanged: (newValue) {
-                          setState(() {
-                            answers![index]['correct'] = newValue;
-                          });
+                          answers![index] = {
+                            'answer': answers![index]['answer'],
+                            'correct': newValue
+                          };
 
+                          setState(() {});
                           widget.onChange(answers);
                         },
                       ),

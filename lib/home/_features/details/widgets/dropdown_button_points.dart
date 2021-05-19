@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
-
-import '../details.dart';
 
 class DropdownButtonPoints extends StatelessWidget {
   DropdownButtonPoints({

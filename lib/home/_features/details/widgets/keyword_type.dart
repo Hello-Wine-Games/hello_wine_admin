@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:questions_repository/questions_repository.dart';
 
 import 'create_textfield.dart';
 
 class KeywordType extends StatelessWidget {
-  const KeywordType({
-    Key? key,
-  }) : super(key: key);
+  const KeywordType({Key? key, required this.question, required this.onChange})
+      : super(key: key);
+
+  final Question question;
+  final ValueSetter<List<dynamic>?> onChange;
 
   @override
   Widget build(BuildContext context) {

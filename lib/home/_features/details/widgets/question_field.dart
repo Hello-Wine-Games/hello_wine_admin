@@ -7,10 +7,12 @@ class QuestionField extends StatefulWidget {
     Key? key,
     required this.question,
     required this.onSaved,
+    required this.onUpdated,
   }) : super(key: key);
 
   final Question question;
-  final ValueSetter<String?> onSaved;
+  final ValueSetter<Question> onSaved;
+  final ValueSetter<String?> onUpdated;
 
   @override
   _QuestionFieldState createState() => _QuestionFieldState();
@@ -41,6 +43,7 @@ class _QuestionFieldState extends State<QuestionField> {
           ),
         ),
         TextFormField(
+          onChanged: (value) => widget.onUpdated(value),
           // controller: _controller,
           // onTap: () => _controller.selection = TextSelection(
           //     baseOffset: 0, extentOffset: _controller.value.text.length),
@@ -50,7 +53,7 @@ class _QuestionFieldState extends State<QuestionField> {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
           onSaved: (value) {
-            widget.onSaved(value);
+            widget.onSaved(widget.question.copyWith(question: value));
           },
           decoration: const InputDecoration(
             border: OutlineInputBorder(

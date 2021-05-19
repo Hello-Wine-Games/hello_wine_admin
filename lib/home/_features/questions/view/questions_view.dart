@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:questions_repository/questions_repository.dart';
 
+import '../../categories/categories.dart';
 import '../question.dart';
 import '../widgets/widgets.dart';
-import '../../categories/categories.dart';
 
 class QuestionsView extends StatelessWidget {
   @override

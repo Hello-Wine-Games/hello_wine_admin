@@ -46,7 +46,7 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
       context.read<DeetsCubit>().update(
             widget.question.copyWith(
               answers: <dynamic>[
-                {'answer': 'False', 'correct': true},
+                {'answer': 'False', 'correct': false},
               ],
             ),
           );
@@ -102,6 +102,10 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                     widget.onChange(<dynamic>[
                       {'answer': newValue.toString(), 'correct': newValue},
                     ]);
+                    print(
+                        'QuestionCubit answers: ${context.read<QuestionCubit>().state.selectedQuestion.answers}');
+                    print(
+                        'DeetsCubit answers: ${context.read<DeetsCubit>().state.question.answers}');
                   },
                   items: ['True', 'False']
                       .map<DropdownMenuItem<String>>((String value) {

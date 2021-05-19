@@ -14,6 +14,7 @@ class DeetsCubit extends Cubit<DeetsState> {
     _questionSubscription = questionCubit.stream.listen((state) {
       if (state.status == QuestionStatus.success) {
         emit(DeetsState.success(state.selectedQuestion));
+        // success(state.selectedQuestion)
       } else {
         emit(const DeetsState.loading());
       }
@@ -29,37 +30,52 @@ class DeetsCubit extends Cubit<DeetsState> {
     return super.close();
   }
 
-  Future<void> success(Question question) async {
-    // final output = state.question.copyWith(question: question);
-    emit(DeetsState.success(question));
+  Future<void> reload() async {
+    emit(DeetsState.success(state.question));
+  }
+
+  Future<void> success(Question question2) async {
+    print('hitting from success');
+
+    final output = state.question.copyWith(
+      id: question2.id,
+      question: question2.question,
+      type: question2.type,
+      points: question2.points,
+      answers: question2.answers,
+    );
+    emit(DeetsState.updated(output));
   }
 
   Future<void> update(Question question) async {
-    emit(DeetsState.success(question));
+    emit(DeetsState.updated(question));
+  }
+
+  /// This is to bypass updating the entire state
+  /// when I just want to set off the alarm that
+  /// a field has been changed
+
+  Future<void> updatedField() async {
+    emit(DeetsState.updatedField(state.question));
   }
 
   Future<void> updateQuestion(String? question) async {
     final output = state.question.copyWith(question: question);
-    emit(DeetsState.success(output));
+    emit(DeetsState.updated(output));
   }
 
   Future<void> updatePoints(double points) async {
     final output = state.question.copyWith(points: points);
-    emit(DeetsState.success(output));
+    emit(DeetsState.updated(output));
   }
 
   Future<void> updateType(String? type) async {
     final output = state.question.copyWith(type: type);
-    emit(DeetsState.success(output));
+    emit(DeetsState.updated(output));
   }
 
   Future<void> updateAnswer(List<dynamic>? answers) async {
     final output = state.question.copyWith(answers: answers);
-    emit(DeetsState.success(output));
-  }
-
-  Future<void> updateCorrect(List<dynamic> answers) async {
-    final output = state.question.copyWith(answers: answers);
-    emit(DeetsState.success(output));
+    emit(DeetsState.updated(output));
   }
 }

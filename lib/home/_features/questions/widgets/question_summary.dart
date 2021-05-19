@@ -47,7 +47,7 @@ class QuestionSummary extends StatelessWidget {
                   ),
                   RawMaterialButton(
                     onPressed: () {
-                      var question2 = Question(
+                      var question2 = const Question(
                         question: 'New Question',
                         type: 'Multiple Choice',
                         points: 500,

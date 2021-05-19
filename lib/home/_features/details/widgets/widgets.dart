@@ -8,7 +8,5 @@ export 'dropdown_button_type.dart';
 export 'keyword_type.dart';
 export 'multiple_choice.dart';
 export 'question_field.dart';
-export 'question_setting.dart';
 export 'range_type.dart';
-export 'truefalse_type.dart';
 export 'true_false_answer.dart';

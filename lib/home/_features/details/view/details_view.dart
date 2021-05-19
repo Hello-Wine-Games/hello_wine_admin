@@ -18,12 +18,10 @@ class Details extends StatelessWidget {
             return const Center(child: Text('Oops something went wrong!'));
           case DeetStatus.loading:
             return const Center(child: Text('no content'));
-          case DeetStatus.success:
+          default:
             return _DetailsView(
               question: state.question,
             );
-          default:
-            return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -63,16 +61,17 @@ class __DetailsViewState extends State<_DetailsView> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
             child: Form(
               key: _formKey,
-              // onChanged: () => setState(
-              //     () => _enableBtn = _formKey.currentState!.validate()),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   QuestionField(
+                    key: Key(widget.question.id!),
                     question: widget.question,
                     onSaved: (value) =>
-                        context.read<DeetsCubit>().updateQuestion(value),
+                        context.read<DeetsCubit>().update(value),
+                    onUpdated: (value) =>
+                        context.read<DeetsCubit>().updatedField(),
                   ),
                   AnswerView(
                     question: widget.question,
@@ -97,40 +96,62 @@ class __DetailsViewState extends State<_DetailsView> {
                           },
                         ),
                         TextButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              print('save');
-                              final question =
-                                  context.read<DeetsCubit>().state.question;
-                              await context
-                                  .read<QuestionCubit>()
-                                  .updateQuestion(question);
+                          onPressed: (context.read<DeetsCubit>().state.status ==
+                                  DeetStatus.updated)
+                              ? () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    print('save');
 
-                              /// this is literally just so I can make the
-                              /// simplest of updates. Will is cause bugs?
-                              /// I hope not !
+                                    final question = context
+                                        .read<DeetsCubit>()
+                                        .state
+                                        .question;
+                                    await context
+                                        .read<QuestionCubit>()
+                                        .updateQuestion(question);
 
-                              await context
-                                  .read<DeetsCubit>()
-                                  .success(question.copyWith(isDeleting: true));
-                              _formKey.currentState!.reset();
-                            }
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                HWTheme.darkBurgundy),
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.all(20),
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: const BorderSide(
-                                      color: HWTheme.darkBurgundy)),
-                            ),
-                          ),
+                                    /// this works :D
+                                    await context.read<DeetsCubit>().reload();
+
+                                    _formKey.currentState!.reset();
+                                  }
+                                }
+                              : null,
+                          style: (context.read<DeetsCubit>().state.status ==
+                                  DeetStatus.updated)
+                              ? ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          HWTheme.darkBurgundy),
+                                  padding: MaterialStateProperty.all(
+                                    const EdgeInsets.all(20),
+                                  ),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        side: const BorderSide(
+                                            color: HWTheme.darkBurgundy)),
+                                  ),
+                                )
+                              : ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          HWTheme.darkGray),
+                                  padding: MaterialStateProperty.all(
+                                    const EdgeInsets.all(20),
+                                  ),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        side: const BorderSide(
+                                            color: HWTheme.darkGray)),
+                                  ),
+                                ),
                           child: Text(
                             'Submit',
                             style: HWTheme.lightTheme.textTheme.headline6
