@@ -34,8 +34,10 @@ class DropdownButtonType extends StatelessWidget {
             onChanged: (String? newValue) {
               onChange(newValue!);
             },
-            items: ['Multiple Choice', 'True or False', 'Keyword']
-                .map<DropdownMenuItem<String>>((String value) {
+            items: [
+              'Multiple Choice',
+              'True or False',
+            ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
