@@ -54,66 +54,71 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          'The answer is:',
-          style: HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 20, 16),
-          child: Container(
-            height: 50,
-            width: 150,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: HWTheme.grayOutline,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'The answer is:',
+            style:
+                HWTheme.lightTheme.textTheme.headline5?.copyWith(fontSize: 20),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Container(
+              height: 50,
+              width: 150,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: HWTheme.grayOutline,
+                ),
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
               ),
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  dropdownColor: Colors.white,
-                  value: dropdownValue,
-                  icon: const Icon(
-                    FontAwesomeIcons.caretDown,
-                    color: Colors.grey,
-                    size: 32,
-                  ),
-                  style: HWTheme.lightTheme.textTheme.headline5
-                      ?.copyWith(color: Colors.grey, fontSize: 16),
-                  onChanged: (String? newValue) {
-                    /// So here we set our temporary state for the widget
-                    setState(() {
-                      dropdownValue = newValue;
-                    });
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    dropdownColor: Colors.white,
+                    value: dropdownValue,
+                    icon: const Icon(
+                      FontAwesomeIcons.caretDown,
+                      color: Colors.grey,
+                      size: 32,
+                    ),
+                    style: HWTheme.lightTheme.textTheme.headline5
+                        ?.copyWith(color: Colors.grey, fontSize: 16),
+                    onChanged: (String? newValue) {
+                      /// So here we set our temporary state for the widget
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
 
-                    /// and here we prime our temporary question in the
-                    /// case we decide to hit submit
-                    widget.onChange(widget.question.copyWith(answers: <dynamic>[
-                      {'answer': newValue.toString(), 'correct': newValue},
-                    ]));
-                  },
-                  items: ['True', 'False']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                      /// and here we prime our temporary question in the
+                      /// case we decide to hit submit
+                      widget
+                          .onChange(widget.question.copyWith(answers: <dynamic>[
+                        {'answer': newValue.toString(), 'correct': newValue},
+                      ]));
+                    },
+                    items: ['True', 'False']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -67,12 +67,12 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
               Text(
                 'Choices:',
                 style: HWTheme.lightTheme.textTheme.headline5
-                    ?.copyWith(fontSize: 16),
+                    ?.copyWith(fontSize: 20),
               ),
               Text(
                 'Correct Answer:',
                 style: HWTheme.lightTheme.textTheme.headline5
-                    ?.copyWith(fontSize: 16),
+                    ?.copyWith(fontSize: 20),
               ),
             ],
           ),

@@ -56,15 +56,18 @@ class _RangeTypeState extends State<RangeType> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'The answer is between:',
-              style: HWTheme.lightTheme.textTheme.headline5
-                  ?.copyWith(fontSize: 16),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'The answer is between:',
+                style: HWTheme.lightTheme.textTheme.headline5
+                    ?.copyWith(fontSize: 20),
+              ),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),

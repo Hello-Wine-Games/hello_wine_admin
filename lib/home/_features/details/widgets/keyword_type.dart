@@ -60,15 +60,18 @@ class _KeywordTypeState extends State<KeywordType> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Keywords:',
-              style: HWTheme.lightTheme.textTheme.headline5
-                  ?.copyWith(fontSize: 20),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Keywords:',
+                style: HWTheme.lightTheme.textTheme.headline5
+                    ?.copyWith(fontSize: 20),
+              ),
+            ],
+          ),
         ),
 
         ///====================================================================
