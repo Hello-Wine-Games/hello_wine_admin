@@ -5,7 +5,7 @@ import 'package:questions_repository/questions_repository.dart';
 
 import '../question.dart';
 
-class QuestionList extends StatelessWidget {
+class QuestionList extends StatefulWidget {
   const QuestionList({
     Key? key,
     required this.questions,
@@ -14,20 +14,32 @@ class QuestionList extends StatelessWidget {
   final List<Question> questions;
 
   @override
+  _QuestionListState createState() => _QuestionListState();
+}
+
+class _QuestionListState extends State<QuestionList> {
+  ScrollController controller = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        controller: controller,
         itemBuilder: (BuildContext context, int index) {
+          var scroll = GlobalKey();
           return _QuestionTile(
-            question: questions[index],
+            key: scroll,
+            question: widget.questions[index],
             // isSelected: questions[index] ==
             //     context.read<QuestionCubit>().state.selectedQuestion,
             onSelected: (id) {
+              Scrollable.ensureVisible(scroll.currentContext!,
+                  alignment: 0.01, duration: const Duration(seconds: 1));
               context.read<QuestionCubit>().updateSelected(id, index);
             },
           );
         },
-        itemCount: questions.length,
+        itemCount: widget.questions.length,
       ),
     );
   }

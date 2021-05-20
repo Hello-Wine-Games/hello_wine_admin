@@ -1,6 +1,13 @@
 part of 'question_cubit.dart';
 
-enum QuestionStatus { empty, loading, success, failure, updateCategory }
+enum QuestionStatus {
+  empty,
+  loading,
+  success,
+  failure,
+  updateCategory,
+  newQuestion
+}
 
 class QuestionState extends Equatable {
   const QuestionState._({
@@ -18,6 +25,9 @@ class QuestionState extends Equatable {
   });
 
   const QuestionState.loading() : this._();
+
+  const QuestionState.newQuestion()
+      : this._(status: QuestionStatus.newQuestion);
 
   const QuestionState.updating(
     List<Question> questions,

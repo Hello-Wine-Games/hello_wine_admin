@@ -15,12 +15,16 @@ dependencies:
     path: packages/questions_repository
   authentication_repository:
     path: packages/authentication_repository
+  forms_package:
+    path: packages/forms_package
+    
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   intl: ^0.17.0
   equatable: ^2.0.0
   flow_builder: ^0.0.2
   font_awesome_flutter: ^9.0.0
+  formz: ^0.4.0
 
 dev_dependencies:
   flutter_test:

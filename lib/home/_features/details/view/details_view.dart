@@ -96,13 +96,17 @@ class __DetailsViewState extends State<_DetailsView> {
                           },
                         ),
                         TextButton(
+                          /// If the details had been updated
                           onPressed: (context.read<DeetsCubit>().state.status ==
                                   DeetStatus.updated)
                               ? () async {
+                                  /// If the form validates
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
                                     print('save');
 
+                                    /// copy the temp question from details
+                                    /// and update the question list
                                     final question = context
                                         .read<DeetsCubit>()
                                         .state
@@ -111,7 +115,7 @@ class __DetailsViewState extends State<_DetailsView> {
                                         .read<QuestionCubit>()
                                         .updateQuestion(question);
 
-                                    /// this works :D
+                                    /// this works :D it just refreshes the detail view
                                     await context.read<DeetsCubit>().reload();
 
                                     _formKey.currentState!.reset();

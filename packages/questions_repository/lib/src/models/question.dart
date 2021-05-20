@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-class Question extends Equatable {
+class Question extends Equatable implements Comparable {
   final String? id;
   final double? points;
   final String? question;
@@ -63,6 +63,21 @@ class Question extends Equatable {
       type: entity.type,
       answers: entity.answers,
     );
+  }
+
+  @override
+  int compareTo(dynamic other) {
+    // compare the groups
+    final gc = points!.compareTo(other.points);
+
+    // if there are not equal gc will not be 0
+    if (gc != 0) return gc;
+
+    // if there are equal, then gc will be 0 so will go and compare codes
+    final cc = question!.compareTo(other.question);
+
+    // return code compare result
+    return cc;
   }
 
   @override

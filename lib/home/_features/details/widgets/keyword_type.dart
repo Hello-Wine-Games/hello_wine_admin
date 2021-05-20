@@ -24,16 +24,93 @@ class KeywordType extends StatefulWidget {
 
 class _KeywordTypeState extends State<KeywordType> {
   late List<dynamic>? answers;
-
-  /// What's goin on here is pretty confusing at first
-  ///
-  /// Thing is.. We need a temporary state for the
-  /// TextFields
-  /// This is separate from the temporary question
-  /// (which is floated in DeetsState)
+  bool _result = false;
 
   @override
   void initState() {
+    loadAsyncData().then((result) {
+      setState(() {
+        _result = result;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return !_result
+        ? Container()
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Keywords:',
+                      style: HWTheme.lightTheme.textTheme.headline5
+                          ?.copyWith(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+
+              ///====================================================================
+              ///
+              /// Displaying the answers
+              ///
+              ///====================================================================
+              Container(
+                height: 350,
+                child: ListView.builder(
+                  key: Key(widget.question.answers.toString()),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Container(
+                                height: 50,
+                                child: TextFormField(
+                                  key: Key(answers![index].hashCode.toString()),
+                                  onChanged: (value) => widget.onUpdated(value),
+                                  onSaved: (value) {
+                                    setState(() {
+                                      answers![index]['answer'] = value;
+                                    });
+                                  },
+                                  initialValue: answers![index]['answer'],
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: HWTheme.darkGray),
+                                    ),
+                                  ),
+                                  style: HWTheme.lightTheme.textTheme.headline6
+                                      ?.copyWith(
+                                          fontSize: 16,
+                                          color: HWTheme.darkGray),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: 4,
+                ),
+              ),
+            ],
+          );
+  }
+
+  Future<bool> loadAsyncData() async {
     /// So, if the actual question type is indeed this type
     if (widget.originalQuestion.type == 'Keyword') {
       /// Then we set our value to the actual answer
@@ -53,91 +130,6 @@ class _KeywordTypeState extends State<KeywordType> {
         widget.question.copyWith(answers: answers),
       );
     }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Keywords:',
-                style: HWTheme.lightTheme.textTheme.headline5
-                    ?.copyWith(fontSize: 20),
-              ),
-            ],
-          ),
-        ),
-
-        ///====================================================================
-        ///
-        /// Displaying the answers
-        ///
-        ///====================================================================
-        Container(
-          height: 350,
-          child: ListView.builder(
-            key: Key(widget.question.answers.toString()),
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Row(
-                  children: [
-                    Text(
-                      (index + 1).toString(),
-                      style: HWTheme.lightTheme.textTheme.headline5
-                          ?.copyWith(fontSize: 16),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Container(
-                              height: 50,
-                              child: TextFormField(
-                                key: Key(answers![index].hashCode.toString()),
-                                onChanged: (value) => widget.onUpdated(value),
-                                onSaved: (value) {
-                                  setState(() {
-                                    answers![index]['answer'] = value;
-                                  });
-                                },
-                                validator: (val) {
-                                  return val!.trim().isEmpty
-                                      ? 'Please enter some text'
-                                      : null;
-                                },
-                                initialValue: answers![index]['answer'],
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: HWTheme.darkGray),
-                                  ),
-                                ),
-                                style: HWTheme.lightTheme.textTheme.headline6
-                                    ?.copyWith(
-                                        fontSize: 16, color: HWTheme.darkGray),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            itemCount: 4,
-          ),
-        ),
-      ],
-    );
+    return true;
   }
 }

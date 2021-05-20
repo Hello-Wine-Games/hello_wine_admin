@@ -61,7 +61,7 @@ class _QuestionFieldState extends State<QuestionField> {
             ),
           ),
           style: HWTheme.lightTheme.textTheme.headline6
-              ?.copyWith(fontSize: 20, color: HWTheme.darkGray),
+              ?.copyWith(fontSize: 16, color: HWTheme.darkGray),
         ),
       ],
     );
