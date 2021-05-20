@@ -58,11 +58,7 @@ class AnswerView extends StatelessWidget {
                   case 'True or False':
                     return TrueFalseAnswer(
                       key: Key(question.id!),
-                      originalType: context
-                          .read<QuestionCubit>()
-                          .state
-                          .selectedQuestion
-                          .type,
+                      originalQuestion: _questionCubit.state.selectedQuestion,
                       question: question,
                       onChange: (value) {
                         _deetsCubit.update(value);
@@ -72,7 +68,7 @@ class AnswerView extends StatelessWidget {
                     return MultipleChoiceType(
                       key: Key(question.id!),
                       question: question,
-                      originalType: _questionCubit.state.selectedQuestion.type,
+                      originalQuestion: _questionCubit.state.selectedQuestion,
                       onChange: (value) {
                         _deetsCubit.update(value);
                       },
@@ -83,7 +79,7 @@ class AnswerView extends StatelessWidget {
                     return KeywordType(
                       key: Key(question.id!),
                       question: question,
-                      originalType: _questionCubit.state.selectedQuestion.type,
+                      originalQuestion: _questionCubit.state.selectedQuestion,
                       onChange: (value) {
                         _deetsCubit.update(value);
                       },
@@ -93,7 +89,7 @@ class AnswerView extends StatelessWidget {
                     return RangeType(
                       key: Key(question.id!),
                       question: question,
-                      originalType: _questionCubit.state.selectedQuestion.type,
+                      originalQuestion: _questionCubit.state.selectedQuestion,
                       onChange: (value) {
                         _deetsCubit.update(value);
                       },

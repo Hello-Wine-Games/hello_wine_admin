@@ -7,12 +7,12 @@ class TrueFalseAnswer extends StatefulWidget {
   TrueFalseAnswer({
     Key? key,
     required this.question,
-    required this.originalType,
+    required this.originalQuestion,
     required this.onChange,
   }) : super(key: key);
 
   final Question question;
-  final String? originalType;
+  final Question originalQuestion;
   final ValueSetter<Question> onChange;
 
   @override
@@ -20,7 +20,7 @@ class TrueFalseAnswer extends StatefulWidget {
 }
 
 class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
-  late String? dropdownValue;
+  late List<dynamic>? answers;
 
   /// What's goin on here is pretty confusing at first
   ///
@@ -31,13 +31,19 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
 
   @override
   void initState() {
+    print('onInit');
+
     /// So, if the actual question type is indeed this type
-    if (widget.originalType == 'True or False') {
+    if (widget.originalQuestion.type == 'True or False') {
+      print('In Yes');
+
       /// Then we set our value to the actual answer
-      dropdownValue = widget.question.answers![0]['answer'];
+      answers = widget.originalQuestion.answers!;
     } else {
       /// If not, then we set a default temp value
-      dropdownValue = 'False';
+      answers = <dynamic>[
+        {'answer': 'False', 'correct': false},
+      ];
 
       /// and we prime our temporary question with this value
       /// in the case that we decide to hit the submit button
@@ -84,7 +90,7 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     dropdownColor: Colors.white,
-                    value: dropdownValue,
+                    value: widget.question.answers![0]['answer'],
                     icon: const Icon(
                       FontAwesomeIcons.caretDown,
                       color: Colors.grey,
@@ -94,9 +100,12 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                         ?.copyWith(color: Colors.grey, fontSize: 16),
                     onChanged: (String? newValue) {
                       /// So here we set our temporary state for the widget
-                      setState(() {
-                        dropdownValue = newValue;
-                      });
+                      setState(
+                        () {
+                          widget.onChange(
+                              widget.question.copyWith(answers: answers));
+                        },
+                      );
 
                       /// and here we prime our temporary question in the
                       /// case we decide to hit submit

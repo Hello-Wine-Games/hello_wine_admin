@@ -6,13 +6,13 @@ class RangeType extends StatefulWidget {
   const RangeType(
       {Key? key,
       required this.question,
-      required this.originalType,
+      required this.originalQuestion,
       required this.onChange,
       required this.onUpdated})
       : super(key: key);
 
   final Question question;
-  final String? originalType;
+  final Question originalQuestion;
   final ValueSetter<Question> onChange;
   final ValueSetter<String?> onUpdated;
   @override
@@ -31,10 +31,12 @@ class _RangeTypeState extends State<RangeType> {
 
   @override
   void initState() {
+    print('init');
+
     /// So, if the actual question type is indeed this type
-    if (widget.originalType == 'Range') {
+    if (widget.originalQuestion.type == 'Range') {
       /// Then we set our value to the actual answer
-      answers = widget.question.answers!.map((e) => e).toList();
+      answers = widget.originalQuestion.answers!.map((e) => e).toList();
     } else {
       /// If not, then we set a default temp value
       answers = <dynamic>[
