@@ -33,6 +33,13 @@ class QuestionCubit extends Cubit<QuestionState> {
       if (questions.isEmpty) {
         emit(const QuestionState.empty());
       } else {
+        questions.sort((a, b) => <Comparator<Question>>[
+              (o1, o2) => o2.points!.compareTo(o1.points!),
+              (o1, o2) => o2.type!.compareTo(o1.type!),
+              (o1, o2) => o1.question!.compareTo(o2.question!),
+              // add more comparators here
+            ].map((e) => e(a, b)).firstWhere((e) => e != 0, orElse: () => 0));
+
         emit(QuestionState.updating(questions));
         await updateSelected(questions[0].id!, 0);
       }

@@ -48,14 +48,11 @@ class QuestionSummary extends StatelessWidget {
                   RawMaterialButton(
                     onPressed: () {
                       var question2 = const Question(
-                        question: 'New Question',
-                        type: 'Multiple Choice',
+                        question: 'An Awesome Question',
+                        type: 'True or False',
                         points: 500,
                         answers: [
-                          {'answer': 'answer 1', 'correct': true},
-                          {'answer': 'answer 2', 'correct': false},
-                          {'answer': 'answer 3', 'correct': false},
-                          {'answer': 'answer 4', 'correct': false},
+                          {'answer': 'True', 'correct': true},
                         ],
                       );
                       context.read<QuestionCubit>().addNewQuestion(

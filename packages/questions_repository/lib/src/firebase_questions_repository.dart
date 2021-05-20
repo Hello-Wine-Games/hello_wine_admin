@@ -39,7 +39,7 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
         .collection('categories')
         .doc(category)
         .collection('questions')
-        .orderBy('points', descending: true)
+        // .orderBy('points', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs
