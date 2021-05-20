@@ -89,6 +89,16 @@ class AnswerView extends StatelessWidget {
                       },
                       onUpdated: (value) => _deetsCubit.updatedField(),
                     );
+                  case 'Range':
+                    return RangeType(
+                      key: Key(question.id!),
+                      question: question,
+                      originalType: _questionCubit.state.selectedQuestion.type,
+                      onChange: (value) {
+                        _deetsCubit.update(value);
+                      },
+                      onUpdated: (value) => _deetsCubit.updatedField(),
+                    );
                   default:
                     return const Text('default');
                 }
