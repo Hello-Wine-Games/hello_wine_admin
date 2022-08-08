@@ -12,7 +12,7 @@ class CreateTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
           Text(
@@ -25,8 +25,8 @@ class CreateTextField extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Container(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: SizedBox(
                     height: 50,
                     child: TextField(
                       decoration: const InputDecoration(

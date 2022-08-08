@@ -18,6 +18,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               : const AppState.unauthenticated(),
         ) {
     _userSubscription = _authenticationRepository.user.listen(_onUserChanged);
+    on<AppUserChanged>((event, emit) {
+      emit(
+        event.user.isNotEmpty
+            ? AppState.authenticated(event.user)
+            : const AppState.unauthenticated(),
+      );
+    });
+    on<AppLogoutRequested>((event, emit) {
+      emit(const AppState.unauthenticated());
+      unawaited(_authenticationRepository.logOut());
+    });
   }
 
   final AuthenticationRepository _authenticationRepository;
@@ -25,20 +36,19 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onUserChanged(User user) => add(AppUserChanged(user));
 
-  @override
-  Stream<AppState> mapEventToState(AppEvent event) async* {
-    if (event is AppUserChanged) {
-      yield _mapUserChangedToState(event, state);
-    } else if (event is AppLogoutRequested) {
-      unawaited(_authenticationRepository.logOut());
-    }
-  }
+  // Stream<AppState> mapEventToState(AppEvent event) async* {
+  //   if (event is AppUserChanged) {
+  //     yield _mapUserChangedToState(event, state);
+  //   } else if (event is AppLogoutRequested) {
+  //     unawaited(_authenticationRepository.logOut());
+  //   }
+  // }
 
-  AppState _mapUserChangedToState(AppUserChanged event, AppState state) {
-    return event.user.isNotEmpty
-        ? AppState.authenticated(event.user)
-        : const AppState.unauthenticated();
-  }
+  // AppState _mapUserChangedToState(AppUserChanged event, AppState state) {
+  //   return event.user.isNotEmpty
+  //       ? AppState.authenticated(event.user)
+  //       : const AppState.unauthenticated();
+  // }
 
   @override
   Future<void> close() {

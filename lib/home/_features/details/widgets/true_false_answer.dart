@@ -1,10 +1,12 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class TrueFalseAnswer extends StatefulWidget {
-  TrueFalseAnswer({
+  const TrueFalseAnswer({
     Key? key,
     required this.question,
     required this.originalQuestion,
@@ -16,6 +18,7 @@ class TrueFalseAnswer extends StatefulWidget {
   final ValueSetter<Question> onChange;
 
   @override
+  // ignore: library_private_types_in_public_api
   _TrueFalseAnswerState createState() => _TrueFalseAnswerState();
 }
 
@@ -25,7 +28,7 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
 
   @override
   void initState() {
-    loadAsyncData().then((result) {
+    loadAsyncData().then((dynamic result) {
       setState(() {
         _result = true;
       });
@@ -38,10 +41,9 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
     return !_result
         ? Container()
         : Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   'The answer is:',
@@ -49,7 +51,7 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                       ?.copyWith(fontSize: 20),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Container(
                     height: 50,
                     width: 150,
@@ -63,11 +65,12 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           dropdownColor: Colors.white,
-                          value: widget.question.answers![0]['answer'],
+                          value:
+                              widget.question.answers![0]['answer'] as String?,
                           icon: const Icon(
                             FontAwesomeIcons.caretDown,
                             color: Colors.grey,
@@ -76,23 +79,27 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
                           style: HWTheme.lightTheme.textTheme.headline5
                               ?.copyWith(color: Colors.grey, fontSize: 16),
                           onChanged: (String? newValue) {
-                            /// So here we set our temporary state for the widget
+                            /// set our temporary state for the widget
                             setState(
                               () {
                                 widget.onChange(
-                                    widget.question.copyWith(answers: answers));
+                                  widget.question.copyWith(answers: answers),
+                                );
                               },
                             );
 
                             /// and here we prime our temporary question in the
                             /// case we decide to hit submit
                             widget.onChange(
-                                widget.question.copyWith(answers: <dynamic>[
-                              {
-                                'answer': newValue.toString(),
-                                'correct': newValue
-                              },
-                            ]));
+                              widget.question.copyWith(
+                                answers: <dynamic>[
+                                  {
+                                    'answer': newValue.toString(),
+                                    'correct': newValue
+                                  },
+                                ],
+                              ),
+                            );
                           },
                           items: ['True', 'False']
                               .map<DropdownMenuItem<String>>((String value) {
@@ -115,7 +122,9 @@ class _TrueFalseAnswerState extends State<TrueFalseAnswer> {
     /// So, if the actual question type is indeed this type
     if (widget.originalQuestion.type == 'True or False') {
       /// Then we set our value to the actual answer
-      answers = widget.originalQuestion.answers!.map((e) => e).toList();
+      answers = widget.originalQuestion.answers!
+          .map<dynamic>((dynamic e) => e)
+          .toList();
     } else {
       /// If not, then we set a default temp value
       answers = <dynamic>[

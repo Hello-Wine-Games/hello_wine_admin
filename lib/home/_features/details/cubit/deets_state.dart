@@ -9,11 +9,11 @@ class DeetsState extends Equatable {
       question: 'New Question',
       type: 'Multiple Choice',
       points: 500,
-      answers: [
-        {'answer': 'answer 1', 'correct': true},
-        {'answer': 'answer 2', 'correct': false},
-        {'answer': 'answer 3', 'correct': false},
-        {'answer': 'answer 4', 'correct': false},
+      answers: <Map<String, dynamic>>[
+        <String, dynamic>{'answer': 'answer 1', 'correct': true},
+        <String, dynamic>{'answer': 'answer 2', 'correct': false},
+        <String, dynamic>{'answer': 'answer 3', 'correct': false},
+        <String, dynamic>{'answer': 'answer 4', 'correct': false},
       ],
     ),
   });

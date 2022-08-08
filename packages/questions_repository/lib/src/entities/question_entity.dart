@@ -1,3 +1,5 @@
+library questions_repository;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -39,13 +41,13 @@ class QuestionEntity extends Equatable {
     );
   }
 
-  static QuestionEntity fromSnapshot(DocumentSnapshot? snap) {
+  static QuestionEntity fromSnapshot(QueryDocumentSnapshot? snap) {
     return QuestionEntity(
       snap?.id,
-      snap?.data()?['points'],
-      snap?.data()?['question'],
-      snap?.data()?['type'],
-      snap?.data()?['answers'],
+      snap?.get('points'),
+      snap?.get('question'),
+      snap?.get('type'),
+      snap?.get('answers'),
     );
   }
 

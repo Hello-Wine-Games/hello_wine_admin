@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hello_wine_admin/home/_features/categories/categories.dart';
+import 'package:hello_wine_admin/home/_features/questions/question.dart';
+import 'package:hello_wine_admin/home/_features/questions/widgets/widgets.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import '../../categories/categories.dart';
-import '../question.dart';
-import '../widgets/widgets.dart';
-
 class QuestionsView extends StatelessWidget {
+  const QuestionsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuestionCubit, QuestionState>(
@@ -18,16 +19,17 @@ class QuestionsView extends StatelessWidget {
             return _QuestionView(questions: state.questions);
           case QuestionStatus.empty:
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               child: Column(
                 children: [
                   QuestionSummary(
-                      title: context.read<CategoriesCubit>().state.category),
+                    title: context.read<CategoriesCubit>().state.category,
+                  ),
                   const Center(child: Text('no content'))
                 ],
               ),
             );
+          // ignore: no_default_cases
           default:
             return const Center(child: CircularProgressIndicator());
         }
@@ -44,11 +46,12 @@ class _QuestionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       child: Column(
         children: [
           QuestionSummary(
-              title: context.read<CategoriesCubit>().state.category),
+            title: context.read<CategoriesCubit>().state.category,
+          ),
           QuestionList(
             questions: questions,
           )

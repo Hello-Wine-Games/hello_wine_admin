@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,14 +22,14 @@ class QuestionSummary extends StatelessWidget {
       child: Container(
         height: 120,
         decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: HWTheme.grayOutline,
-            ),
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+          border: Border.all(
+            color: HWTheme.grayOutline,
+          ),
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,21 +49,20 @@ class QuestionSummary extends StatelessWidget {
                   ),
                   RawMaterialButton(
                     onPressed: () {
-                      var question2 = const Question(
+                      const question2 = Question(
                         question: 'An Awesome Question',
                         type: 'True or False',
                         points: 500,
-                        answers: [
-                          {'answer': 'True', 'correct': true},
+                        answers: <Map<String, dynamic>>[
+                          <String, dynamic>{'answer': 'True', 'correct': true},
                         ],
                       );
                       context.read<QuestionCubit>().addNewQuestion(
                             question2,
                           );
                     },
-                    elevation: 2.0,
                     fillColor: HWTheme.burgundy,
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10),
                     shape: const CircleBorder(),
                     child: const Icon(
                       FontAwesomeIcons.plus,

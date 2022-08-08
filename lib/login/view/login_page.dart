@@ -2,10 +2,12 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
-import '../../login/login.dart';
+import 'package:hello_wine_admin/login/login.dart';
 
 class LoginPage extends StatelessWidget {
-  static Page page() => MaterialPage<void>(child: LoginPage());
+  const LoginPage({Key? key}) : super(key: key);
+
+  static Page page() => const MaterialPage<void>(child: LoginPage());
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class LoginPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: BlocProvider(
           create: (_) => LoginCubit(context.read<AuthenticationRepository>()),
-          child: LoginForm(),
+          child: const LoginForm(),
         ),
       ),
     );

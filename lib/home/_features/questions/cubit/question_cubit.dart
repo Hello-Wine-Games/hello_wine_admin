@@ -1,19 +1,22 @@
 import 'dart:async';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hello_wine_admin/home/_features/categories/categories.dart';
 import 'package:questions_repository/questions_repository.dart';
-import '../../categories/categories.dart';
 
 part 'question_state.dart';
 
 class QuestionCubit extends Cubit<QuestionState> {
-  QuestionCubit(
-      {required this.repository, required CategoriesCubit categoriesCubit})
-      : _categoriesCubit = categoriesCubit,
+  QuestionCubit({
+    required this.repository,
+    required CategoriesCubit categoriesCubit,
+  })  : _categoriesCubit = categoriesCubit,
         super(const QuestionState.loading()) {
     _categoriesSubscription = categoriesCubit.stream.listen((state) {
       if (state.status == CategoryStatus.success) {
-        print('success');
+        log('success');
         fetchQuestions(state.category);
       }
     });
@@ -33,17 +36,20 @@ class QuestionCubit extends Cubit<QuestionState> {
       if (questions.isEmpty) {
         emit(const QuestionState.empty());
       } else {
-        questions.sort((a, b) => <Comparator<Question>>[
-              (o1, o2) => o2.points!.compareTo(o1.points!),
-              (o1, o2) => o2.type!.compareTo(o1.type!),
-              (o1, o2) => o1.question!.compareTo(o2.question!),
-              // add more comparators here
-            ].map((e) => e(a, b)).firstWhere((e) => e != 0, orElse: () => 0));
+        questions.sort(
+          (a, b) => <Comparator<Question>>[
+            (o1, o2) => o2.points!.compareTo(o1.points!),
+            (o1, o2) => o2.type!.compareTo(o1.type!),
+            (o1, o2) => o1.question!.compareTo(o2.question!),
+            // add more comparators here
+          ].map((e) => e(a, b)).firstWhere((e) => e != 0, orElse: () => 0),
+        );
 
         emit(QuestionState.updating(questions));
         await updateSelected(questions[0].id!, 0);
       }
-    } on Exception {
+    } on Exception catch (e) {
+      log(e.toString());
       emit(const QuestionState.failure());
     }
   }
@@ -67,11 +73,11 @@ class QuestionCubit extends Cubit<QuestionState> {
   /// to refresh the list
   /// {@endtemplate}
   Future<void> addNewQuestion(Question question) async {
-    await (repository
+    await repository
         .addNewQuestion(question, _categoriesCubit.state.category)
         .then((_) {
       fetchQuestions(_categoriesCubit.state.category);
-    }));
+    });
   }
 
   /// {@template deleteQuestion}
@@ -80,11 +86,11 @@ class QuestionCubit extends Cubit<QuestionState> {
   /// to refresh the list
   /// {@endtemplate}
   Future<void> deleteQuestion(String id) async {
-    await (repository
+    await repository
         .deleteQuestion(id, _categoriesCubit.state.category)
         .then((_) {
       fetchQuestions(_categoriesCubit.state.category);
-    }));
+    });
   }
 
   /// {@template updateQuestion}
@@ -94,7 +100,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   /// and then reorders it based on points
   /// {@endtemplate}
   Future<void> updateQuestion(Question question) async {
-    await (repository
+    await repository
         .updateQuestion(question, _categoriesCubit.state.category)
         .then((_) {
       final updatedList = state.questions.map((question2) {
@@ -110,7 +116,7 @@ class QuestionCubit extends Cubit<QuestionState> {
         ..sort((a, b) => b.points!.compareTo(a.points!));
 
       emit(QuestionState.success(updatedList, question));
-    }));
+    });
   }
 
   @override

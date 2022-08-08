@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'HWTheme.dart';
+import 'package:hello_wine_admin/UI/HWTheme.dart';
 
 class AdminButton extends StatelessWidget {
   const AdminButton({
@@ -13,7 +13,7 @@ class AdminButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {},
+      onPressed: () => <String, dynamic>{},
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(HWTheme.darkBurgundy),
         padding: MaterialStateProperty.all(
@@ -21,8 +21,9 @@ class AdminButton extends StatelessWidget {
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              side: const BorderSide(color: HWTheme.darkBurgundy)),
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: HWTheme.darkBurgundy),
+          ),
         ),
       ),
       child: Text(

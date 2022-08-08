@@ -1,9 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:questions_repository/questions_repository.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../app/app.dart';
+import 'package:hello_wine_admin/app/app.dart';
+import 'package:questions_repository/questions_repository.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -25,14 +25,17 @@ class App extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => AppBloc(
-            authenticationRepository: context.read<AuthenticationRepository>()),
-        child: AppView(),
+          authenticationRepository: context.read<AuthenticationRepository>(),
+        ),
+        child: const AppView(),
       ),
     );
   }
 }
 
 class AppView extends StatelessWidget {
+  const AppView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

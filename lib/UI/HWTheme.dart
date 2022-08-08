@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class HWTheme {
@@ -32,12 +34,16 @@ class HWTheme {
         headline3: TextStyle(fontFamily: 'Oleo Script', color: burgundy),
         headline4: TextStyle(fontFamily: 'Oleo Script', color: burgundy),
         headline5: TextStyle(
-            fontFamily: 'Roboto', color: burgundy, fontWeight: FontWeight.bold),
+          fontFamily: 'Roboto',
+          color: burgundy,
+          fontWeight: FontWeight.bold,
+        ),
         headline6: TextStyle(fontFamily: 'Roboto', color: burgundy),
         bodyText1: TextStyle(
-            fontFamily: 'Roboto',
-            color: Colors.grey,
-            fontWeight: FontWeight.w700),
+          fontFamily: 'Roboto',
+          color: Colors.grey,
+          fontWeight: FontWeight.w700,
+        ),
         bodyText2: TextStyle(fontFamily: 'Oleo Script', color: burgundy),
       ).apply(),
     );

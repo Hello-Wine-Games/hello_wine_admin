@@ -1,12 +1,14 @@
 // Copyright 2018 The Flutter Architecture Sample Authors. All rights reserved.
 // Use of this source code is governed by the MIT license that can be found
 // in the LICENSE file.
+library questions_repository;
 
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:questions_repository/questions_repository.dart';
 import 'entities/entities.dart';
+import 'package:questions_repository/src/entities/question_entity.dart';
 
 class FirebaseQuestionsRepository implements QuestionsRepository {
   final questionsCollection =
@@ -33,19 +35,20 @@ class FirebaseQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<List<Question>> fetchQuestions(String category) {
-    print('fetching $category');
-    return FirebaseFirestore.instance
+  Future<List<Question>> fetchQuestions(String category) async {
+    final CollectionReference collectionReference = FirebaseFirestore.instance
         .collection('categories')
         .doc(category)
-        .collection('questions')
-        // .orderBy('points', descending: true)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Question.fromEntity(QuestionEntity.fromSnapshot(doc)))
-          .toList();
-    }).first;
+        .collection('questions');
+
+    final snapshot = await collectionReference.get();
+    if (snapshot.docs.isEmpty) {
+      throw Exception('No documents found.');
+    }
+
+    return snapshot.docs
+        .map((doc) => Question.fromEntity(QuestionEntity.fromSnapshot(doc)))
+        .toList();
   }
 
   @override

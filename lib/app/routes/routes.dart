@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
-// import 'package:hello_wine_admin/login/login.dart';
-
-import '../../app/app.dart';
-import '../../home/home.dart';
-import '../../login/login.dart';
+import 'package:hello_wine_admin/app/app.dart';
+import 'package:hello_wine_admin/home/home.dart';
+import 'package:hello_wine_admin/login/login.dart';
 
 List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
   switch (state) {
@@ -11,8 +9,8 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
       return [HomePage.page()];
 
     case AppStatus.unauthenticated:
-    // return [LoginPage.page()];
-    default:
-      return [HomePage.page()];
+      return [LoginPage.page()];
+    // default:
+    //   return [HomePage.page()];
   }
 }
