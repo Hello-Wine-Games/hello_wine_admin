@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:hello_wine_admin/home/_features/questions/question.dart';
 import 'package:questions_repository/questions_repository.dart';
-
-import '../question.dart';
 
 class QuestionList extends StatefulWidget {
   const QuestionList({
@@ -14,6 +13,7 @@ class QuestionList extends StatefulWidget {
   final List<Question> questions;
 
   @override
+  // ignore: library_private_types_in_public_api
   _QuestionListState createState() => _QuestionListState();
 }
 
@@ -26,15 +26,18 @@ class _QuestionListState extends State<QuestionList> {
       child: ListView.builder(
         controller: controller,
         itemBuilder: (BuildContext context, int index) {
-          var scroll = GlobalKey();
+          final scroll = GlobalKey();
           return _QuestionTile(
             key: scroll,
             question: widget.questions[index],
             // isSelected: questions[index] ==
             //     context.read<QuestionCubit>().state.selectedQuestion,
             onSelected: (id) {
-              Scrollable.ensureVisible(scroll.currentContext!,
-                  alignment: 0.01, duration: const Duration(seconds: 1));
+              Scrollable.ensureVisible(
+                scroll.currentContext!,
+                alignment: 0.01,
+                duration: const Duration(seconds: 1),
+              );
               context.read<QuestionCubit>().updateSelected(id, index);
             },
           );
@@ -85,14 +88,16 @@ class _QuestionTile extends StatelessWidget {
           TextSpan(
             text: '${question.type}: ',
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black),
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
             children: <TextSpan>[
               TextSpan(
-                text: question.question!,
+                text: question.question,
                 style: TextStyle(
-                    color: question.isSelected
-                        ? HWTheme.burgundy
-                        : HWTheme.darkGray),
+                  color:
+                      question.isSelected ? HWTheme.burgundy : HWTheme.darkGray,
+                ),
               ),
             ],
           ),

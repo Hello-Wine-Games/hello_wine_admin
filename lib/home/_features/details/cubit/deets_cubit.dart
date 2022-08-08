@@ -20,6 +20,7 @@ class DeetsCubit extends Cubit<DeetsState> {
     });
   }
 
+  // ignore: unused_field
   final QuestionCubit _questionCubit;
   StreamSubscription? _questionSubscription;
 

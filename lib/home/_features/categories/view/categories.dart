@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 
-import '../../categories/categories.dart';
-import '../widgets/widgets.dart';
+import 'package:hello_wine_admin/home/_features/categories/categories.dart';
+import 'package:hello_wine_admin/home/_features/categories/widgets/widgets.dart';
 
 class Categories extends StatelessWidget {
-  Categories({required this.categoriesChange});
+  const Categories({Key? key, required this.categoriesChange})
+      : super(key: key);
 
   final Function(String) categoriesChange;
 
@@ -16,7 +17,7 @@ class Categories extends StatelessWidget {
     return Container(
       color: HWTheme.burgundy,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

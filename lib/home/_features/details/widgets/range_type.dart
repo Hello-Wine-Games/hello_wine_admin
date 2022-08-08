@@ -1,21 +1,24 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class RangeType extends StatefulWidget {
-  const RangeType(
-      {Key? key,
-      required this.question,
-      required this.originalQuestion,
-      required this.onChange,
-      required this.onUpdated})
-      : super(key: key);
+  const RangeType({
+    Key? key,
+    required this.question,
+    required this.originalQuestion,
+    required this.onChange,
+    required this.onUpdated,
+  }) : super(key: key);
 
   final Question question;
   final Question originalQuestion;
   final ValueSetter<Question> onChange;
   final ValueSetter<String?> onUpdated;
   @override
+  // ignore: library_private_types_in_public_api
   _RangeTypeState createState() => _RangeTypeState();
 }
 
@@ -41,7 +44,7 @@ class _RangeTypeState extends State<RangeType> {
         : Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -54,7 +57,7 @@ class _RangeTypeState extends State<RangeType> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   children: [
                     Text(
@@ -67,8 +70,8 @@ class _RangeTypeState extends State<RangeType> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Container(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: SizedBox(
                               height: 50,
                               child: TextFormField(
                                 key: Key(answers![0].hashCode.toString()),
@@ -78,7 +81,7 @@ class _RangeTypeState extends State<RangeType> {
                                     answers![0]['answer'] = value;
                                   });
                                 },
-                                initialValue: answers![0]['answer'],
+                                initialValue: answers![0]['answer'] as String?,
                                 validator: (val) {
                                   return val!.trim().isEmpty
                                       ? 'Please enter a number'
@@ -92,7 +95,9 @@ class _RangeTypeState extends State<RangeType> {
                                 ),
                                 style: HWTheme.lightTheme.textTheme.headline6
                                     ?.copyWith(
-                                        fontSize: 16, color: HWTheme.darkGray),
+                                  fontSize: 16,
+                                  color: HWTheme.darkGray,
+                                ),
                               ),
                             ),
                           ),
@@ -103,7 +108,7 @@ class _RangeTypeState extends State<RangeType> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   children: [
                     Text(
@@ -116,8 +121,8 @@ class _RangeTypeState extends State<RangeType> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Container(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: SizedBox(
                               height: 50,
                               child: TextFormField(
                                 key: Key(answers![1].hashCode.toString()),
@@ -127,7 +132,7 @@ class _RangeTypeState extends State<RangeType> {
                                     answers![1]['answer'] = value;
                                   });
                                 },
-                                initialValue: answers![1]['answer'],
+                                initialValue: answers![1]['answer'] as String?,
                                 validator: (val) {
                                   return val!.trim().isEmpty
                                       ? 'Please enter a number'
@@ -141,7 +146,9 @@ class _RangeTypeState extends State<RangeType> {
                                 ),
                                 style: HWTheme.lightTheme.textTheme.headline6
                                     ?.copyWith(
-                                        fontSize: 16, color: HWTheme.darkGray),
+                                  fontSize: 16,
+                                  color: HWTheme.darkGray,
+                                ),
                               ),
                             ),
                           ),
@@ -152,7 +159,7 @@ class _RangeTypeState extends State<RangeType> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   children: [
                     Text(
@@ -165,8 +172,8 @@ class _RangeTypeState extends State<RangeType> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Container(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: SizedBox(
                               height: 50,
                               child: TextFormField(
                                 key: Key(answers![1].hashCode.toString()),
@@ -176,7 +183,7 @@ class _RangeTypeState extends State<RangeType> {
                                     answers![2]['answer'] = value;
                                   });
                                 },
-                                initialValue: answers![2]['answer'],
+                                initialValue: answers![2]['answer'] as String?,
                                 validator: (val) {
                                   return val!.trim().isEmpty
                                       ? 'Please enter a number'
@@ -190,7 +197,9 @@ class _RangeTypeState extends State<RangeType> {
                                 ),
                                 style: HWTheme.lightTheme.textTheme.headline6
                                     ?.copyWith(
-                                        fontSize: 16, color: HWTheme.darkGray),
+                                  fontSize: 16,
+                                  color: HWTheme.darkGray,
+                                ),
                               ),
                             ),
                           ),
@@ -208,7 +217,9 @@ class _RangeTypeState extends State<RangeType> {
     /// So, if the actual question type is indeed this type
     if (widget.originalQuestion.type == 'Range') {
       /// Then we set our value to the actual answer
-      answers = widget.originalQuestion.answers!.map((e) => e).toList();
+      answers = widget.originalQuestion.answers!
+          .map<dynamic>((dynamic e) => e)
+          .toList();
     } else {
       /// If not, then we set a default temp value
       answers = <dynamic>[

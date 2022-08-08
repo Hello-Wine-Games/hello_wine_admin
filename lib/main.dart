@@ -8,28 +8,36 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/widgets.dart';
-import 'package:bloc/bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:hello_wine_admin/app/app.dart';
-import 'package:hello_wine_admin/app/bloc_observer.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hello_wine_admin/app/app.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 void main() async {
-  Bloc.observer = AppBlocObserver();
+  AppBlocObserver();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyCpcdmfjOY7O9RmxeoD-e_weRyvyi-032U',
+      appId: '1:936359464122:web:5fcb7fa60daad4af5c8683',
+      messagingSenderId: '936359464122',
+      projectId: 'hello-wine',
+      authDomain: 'hello-wine.firebaseapp.com',
+    ),
+  );
   final authenticationRepository = AuthenticationRepository();
   final questionsRepository = FirebaseQuestionsRepository();
   await authenticationRepository.user.first;
   runZonedGuarded(
-    () => runApp(App(
-      questionsRepository: questionsRepository,
-      authenticationRepository: authenticationRepository,
-    )),
+    () => runApp(
+      App(
+        questionsRepository: questionsRepository,
+        authenticationRepository: authenticationRepository,
+      ),
+    ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }

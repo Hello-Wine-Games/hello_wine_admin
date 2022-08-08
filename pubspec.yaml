@@ -18,19 +18,19 @@ dependencies:
   forms_package:
     path: packages/forms_package
     
-  bloc: ^7.0.0
-  flutter_bloc: ^7.0.0
+  bloc: ^8.0.3
+  flutter_bloc: ^8.0.1
   intl: ^0.17.0
   equatable: ^2.0.0
   flow_builder: ^0.0.2
-  font_awesome_flutter: ^9.0.0
+  font_awesome_flutter: ^10.1.0
   formz: ^0.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^8.0.0
-  mocktail: ^0.1.0
+  bloc_test: ^9.0.3
+  mocktail: ^0.3.0
   very_good_analysis: ^2.0.0
 
 flutter:

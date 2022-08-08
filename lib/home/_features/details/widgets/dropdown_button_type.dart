@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 
 class DropdownButtonType extends StatelessWidget {
-  DropdownButtonType({
+  const DropdownButtonType({
     Key? key,
     required this.dropdownValue,
     required this.onChange,
@@ -19,7 +19,7 @@ class DropdownButtonType extends StatelessWidget {
       width: 200,
       color: HWTheme.burgundy,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             dropdownColor: HWTheme.burgundy,

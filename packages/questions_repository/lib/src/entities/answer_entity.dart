@@ -31,8 +31,8 @@ class AnswerEntity extends Equatable {
 
   static AnswerEntity fromSnapshot(DocumentSnapshot? snap) {
     return AnswerEntity(
-      snap?.data()?['answer'],
-      snap?.data()?['correct'],
+      snap?.get('answer'),
+      snap?.get('correct'),
     );
   }
 

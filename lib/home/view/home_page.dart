@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:hello_wine_admin/home/_features/features.dart';
+import 'package:hello_wine_admin/home/home.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import '../_features/features.dart';
-import '../home.dart';
-
 class HomePage extends StatelessWidget {
-  static Page page() => MaterialPage<void>(child: HomePage());
+  const HomePage({Key? key}) : super(key: key);
+
+  static Page page() => const MaterialPage<void>(child: HomePage());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
           CategoriesCubit(repository: context.read<QuestionsRepository>()),
-      child: HomeView(),
+      child: const HomeView(),
     );
   }
 }
 
 class HomeView extends StatelessWidget {
+  const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -44,21 +47,19 @@ class _HomeView extends StatelessWidget {
           backgroundColor: Colors.white,
           toolbarHeight: 50,
           leadingWidth: 200,
-          leading: Container(
-            child: Row(
-              children: [
-                Container(height: 50, child: HWImages.wineGlassIcon()),
-                Text(
-                  'Admin',
-                  style: HWTheme.lightTheme.textTheme.headline1
-                      ?.copyWith(fontSize: 30),
-                ),
-              ],
-            ),
+          leading: Row(
+            children: [
+              SizedBox(height: 50, child: HWImages.wineGlassIcon()),
+              Text(
+                'Admin',
+                style: HWTheme.lightTheme.textTheme.headline1
+                    ?.copyWith(fontSize: 30),
+              ),
+            ],
           ),
-          actions: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+          actions: const [
+            Padding(
+              padding: EdgeInsets.all(8),
               child: AdminButton(title: 'Logout'),
             )
           ],
@@ -72,11 +73,11 @@ class _HomeView extends StatelessWidget {
                     {context.read<CategoriesCubit>().updateCategory(category)},
               ),
             ),
-            Expanded(
+            const Expanded(
               flex: 3,
               child: QuestionsView(),
             ),
-            Expanded(
+            const Expanded(
               flex: 7,
               child: Details(),
             )

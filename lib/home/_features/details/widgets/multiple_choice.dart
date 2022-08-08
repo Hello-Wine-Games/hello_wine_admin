@@ -1,21 +1,24 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class MultipleChoiceType extends StatefulWidget {
-  const MultipleChoiceType(
-      {Key? key,
-      required this.question,
-      required this.originalQuestion,
-      required this.onChange,
-      required this.onUpdated})
-      : super(key: key);
+  const MultipleChoiceType({
+    Key? key,
+    required this.question,
+    required this.originalQuestion,
+    required this.onChange,
+    required this.onUpdated,
+  }) : super(key: key);
 
   final Question question;
   final Question originalQuestion;
   final ValueSetter<Question> onChange;
   final ValueSetter<String?> onUpdated;
   @override
+  // ignore: library_private_types_in_public_api
   _MultipleChoiceTypeState createState() => _MultipleChoiceTypeState();
 }
 
@@ -40,7 +43,7 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
         : Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -57,20 +60,19 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 350,
                 child: ListView.builder(
                   key: Key(widget.question.answers.toString()),
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: SizedBox(
                               height: 50,
                               width: 500,
                               child: TextFormField(
@@ -81,7 +83,8 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                                     answers![index]['answer'] = value;
                                   });
                                 },
-                                initialValue: answers![index]['answer'],
+                                initialValue:
+                                    answers![index]['answer'] as String?,
                                 validator: (val) {
                                   return val!.trim().isEmpty
                                       ? 'Please enter some text'
@@ -95,14 +98,18 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
                                 ),
                                 style: HWTheme.lightTheme.textTheme.headline6
                                     ?.copyWith(
-                                        fontSize: 16, color: HWTheme.darkGray),
+                                  fontSize: 16,
+                                  color: HWTheme.darkGray,
+                                ),
                               ),
                             ),
                           ),
+                          // ignore: prefer_if_elements_to_conditional_expressions
                           (index == 0)
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 24.0),
+                                    horizontal: 24,
+                                  ),
                                   child: Checkbox(
                                     value: true,
                                     onChanged: (newValue) {},
@@ -124,10 +131,12 @@ class _MultipleChoiceTypeState extends State<MultipleChoiceType> {
     /// So, if the actual question type is indeed this type
     if (widget.originalQuestion.type == 'Multiple Choice') {
       /// Then we set our value to the actual answer
-      answers = widget.originalQuestion.answers!.map((e) => e).toList()
+      answers = widget.originalQuestion.answers!
+          .map<dynamic>((dynamic e) => e)
+          .toList()
 
         /// for this particular type, we set sort the correct case to the top
-        ..sort((a, b) {
+        ..sort((dynamic a, dynamic b) {
           if (b['correct'] == true) {
             return 1;
           } else {

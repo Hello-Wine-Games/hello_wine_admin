@@ -1,14 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+import 'package:hello_wine_admin/home/_features/details/details.dart';
+// import 'package:hello_wine_admin/home/_features/details/widgets/widgets.dart';
+import 'package:hello_wine_admin/home/_features/questions/question.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import '../../questions/question.dart';
-import '../details.dart';
-import '../widgets/widgets.dart';
-
 class Details extends StatelessWidget {
+  const Details({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DeetsCubit, DeetsState>(
@@ -18,6 +21,7 @@ class Details extends StatelessWidget {
             return const Center(child: Text('Oops something went wrong!'));
           case DeetStatus.loading:
             return const Center(child: Text('no content'));
+          // ignore: no_default_cases
           default:
             return _DetailsView(
               question: state.question,
@@ -51,14 +55,14 @@ class __DetailsViewState extends State<_DetailsView> {
         padding: const EdgeInsets.fromLTRB(0, 16, 24, 16),
         child: Container(
           decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: HWTheme.grayOutline,
-              ),
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
+            border: Border.all(
+              color: HWTheme.grayOutline,
+            ),
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: Form(
               key: _formKey,
               child: Column(
@@ -77,15 +81,15 @@ class __DetailsViewState extends State<_DetailsView> {
                     question: widget.question,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          padding: const EdgeInsets.all(0),
+                          padding: EdgeInsets.zero,
                           icon: const Icon(
-                            FontAwesomeIcons.solidTrashAlt,
+                            FontAwesomeIcons.solidTrashCan,
                             color: HWTheme.burgundy,
                             size: 32,
                           ),
@@ -103,7 +107,7 @@ class __DetailsViewState extends State<_DetailsView> {
                                   /// If the form validates
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    print('save');
+                                    log('save');
 
                                     /// copy the temp question from details
                                     /// and update the question list
@@ -115,7 +119,8 @@ class __DetailsViewState extends State<_DetailsView> {
                                         .read<QuestionCubit>()
                                         .updateQuestion(question);
 
-                                    /// this works :D it just refreshes the detail view
+                                    /// refreshes the detail view
+                                    // ignore: use_build_context_synchronously
                                     await context.read<DeetsCubit>().reload();
 
                                     _formKey.currentState!.reset();
@@ -127,33 +132,37 @@ class __DetailsViewState extends State<_DetailsView> {
                               ? ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          HWTheme.darkBurgundy),
+                                    HWTheme.darkBurgundy,
+                                  ),
                                   padding: MaterialStateProperty.all(
                                     const EdgeInsets.all(20),
                                   ),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        side: const BorderSide(
-                                            color: HWTheme.darkBurgundy)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: const BorderSide(
+                                        color: HWTheme.darkBurgundy,
+                                      ),
+                                    ),
                                   ),
                                 )
                               : ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          HWTheme.darkGray),
+                                    HWTheme.darkGray,
+                                  ),
                                   padding: MaterialStateProperty.all(
                                     const EdgeInsets.all(20),
                                   ),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        side: const BorderSide(
-                                            color: HWTheme.darkGray)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: const BorderSide(
+                                        color: HWTheme.darkGray,
+                                      ),
+                                    ),
                                   ),
                                 ),
                           child: Text(

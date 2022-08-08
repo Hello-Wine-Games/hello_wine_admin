@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../UI/ui.dart';
+import 'package:hello_wine_admin/UI/ui.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({
@@ -16,7 +16,7 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextButton(
         onPressed: onPressed,
         style: ButtonStyle(
@@ -27,10 +27,11 @@ class MenuButton extends StatelessWidget {
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: isSelected
-                    ? const BorderSide(color: Colors.white, width: 2)
-                    : const BorderSide(color: HWTheme.darkBurgundy)),
+              borderRadius: BorderRadius.circular(18),
+              side: isSelected
+                  ? const BorderSide(color: Colors.white, width: 2)
+                  : const BorderSide(color: HWTheme.darkBurgundy),
+            ),
           ),
         ),
         child: icon,

@@ -1,17 +1,17 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
 import 'package:questions_repository/questions_repository.dart';
 
-import 'create_textfield.dart';
-
 class KeywordType extends StatefulWidget {
-  const KeywordType(
-      {Key? key,
-      required this.question,
-      required this.originalQuestion,
-      required this.onChange,
-      required this.onUpdated})
-      : super(key: key);
+  const KeywordType({
+    Key? key,
+    required this.question,
+    required this.originalQuestion,
+    required this.onChange,
+    required this.onUpdated,
+  }) : super(key: key);
 
   final Question question;
   final Question originalQuestion;
@@ -19,6 +19,7 @@ class KeywordType extends StatefulWidget {
   final ValueSetter<String?> onUpdated;
 
   @override
+  // ignore: library_private_types_in_public_api
   _KeywordTypeState createState() => _KeywordTypeState();
 }
 
@@ -44,7 +45,7 @@ class _KeywordTypeState extends State<KeywordType> {
         : Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -57,34 +58,37 @@ class _KeywordTypeState extends State<KeywordType> {
                 ),
               ),
 
-              ///====================================================================
+              ///===============================================================
               ///
               /// Displaying the answers
               ///
-              ///====================================================================
-              Container(
+              ///===============================================================
+              SizedBox(
                 height: 350,
                 child: ListView.builder(
                   key: Key(widget.question.answers.toString()),
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Row(
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Container(
+                              padding: const EdgeInsets.only(left: 12),
+                              child: SizedBox(
                                 height: 50,
                                 child: TextFormField(
-                                  key: Key(answers![index].hashCode.toString()),
+                                  key: Key(
+                                    answers![index].hashCode.toString(),
+                                  ),
                                   onChanged: (value) => widget.onUpdated(value),
                                   onSaved: (value) {
                                     setState(() {
                                       answers![index]['answer'] = value;
                                     });
                                   },
-                                  initialValue: answers![index]['answer'],
+                                  initialValue:
+                                      answers![index]['answer'] as String,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(
                                       borderSide:
@@ -93,8 +97,9 @@ class _KeywordTypeState extends State<KeywordType> {
                                   ),
                                   style: HWTheme.lightTheme.textTheme.headline6
                                       ?.copyWith(
-                                          fontSize: 16,
-                                          color: HWTheme.darkGray),
+                                    fontSize: 16,
+                                    color: HWTheme.darkGray,
+                                  ),
                                 ),
                               ),
                             ),
@@ -114,7 +119,9 @@ class _KeywordTypeState extends State<KeywordType> {
     /// So, if the actual question type is indeed this type
     if (widget.originalQuestion.type == 'Keyword') {
       /// Then we set our value to the actual answer
-      answers = widget.originalQuestion.answers!.map((e) => e).toList();
+      answers = widget.originalQuestion.answers!
+          .map<dynamic>((dynamic e) => e)
+          .toList();
     } else {
       /// If not, then we set a default temp value
       answers = <dynamic>[

@@ -15,9 +15,9 @@ class QuestionState extends Equatable {
       question: 'Default Question',
       type: 'Multiple Choice',
       points: 500,
-      answers: [
-        {'answer': 'answer 1', 'correct': true},
-        {'answer': 'answer 2', 'correct': false},
+      answers: <Map<String, dynamic>>[
+        <String, dynamic>{'answer': 'answer 1', 'correct': true},
+        <String, dynamic>{'answer': 'answer 2', 'correct': false},
       ],
     ),
     this.status = QuestionStatus.loading,
@@ -38,8 +38,9 @@ class QuestionState extends Equatable {
   const QuestionState.empty() : this._(status: QuestionStatus.empty);
 
   const QuestionState.success(
-      List<Question> questions, Question selectedQuestion)
-      : this._(
+    List<Question> questions,
+    Question selectedQuestion,
+  ) : this._(
           status: QuestionStatus.success,
           questions: questions,
           selectedQuestion: selectedQuestion,

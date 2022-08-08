@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_wine_admin/UI/ui.dart';
+// import 'package:hello_wine_admin/home/_features/details/details.dart';
+// import 'package:hello_wine_admin/home/_features/details/widgets/widgets.dart';
+import 'package:hello_wine_admin/home/_features/features.dart';
 import 'package:questions_repository/questions_repository.dart';
-import '../../features.dart';
-import '../details.dart';
-import './widgets.dart';
 
 class AnswerView extends StatelessWidget {
-  AnswerView({
+  const AnswerView({
     Key? key,
     required this.question,
   }) : super(key: key);
@@ -16,8 +16,8 @@ class AnswerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _deetsCubit = context.read<DeetsCubit>();
-    var _questionCubit = context.read<QuestionCubit>();
+    final _deetsCubit = context.read<DeetsCubit>();
+    final _questionCubit = context.read<QuestionCubit>();
 
     return Expanded(
       child: SingleChildScrollView(
@@ -25,7 +25,7 @@ class AnswerView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 'Answer:',
                 style: HWTheme.lightTheme.textTheme.headline5
@@ -33,21 +33,17 @@ class AnswerView extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DropdownButtonType(
                     dropdownValue: question.type,
-                    onChange: (value) {
-                      _deetsCubit.updateType(value);
-                    },
+                    onChange: _deetsCubit.updateType,
                   ),
                   DropdownButtonPoints(
                     dropdownValue: question.points,
-                    onChange: (value) {
-                      _deetsCubit.updatePoints(value);
-                    },
+                    onChange: _deetsCubit.updatePoints,
                   ),
                 ],
               ),
@@ -60,18 +56,14 @@ class AnswerView extends StatelessWidget {
                       key: Key(question.id!),
                       originalQuestion: _questionCubit.state.selectedQuestion,
                       question: question,
-                      onChange: (value) {
-                        _deetsCubit.update(value);
-                      },
+                      onChange: _deetsCubit.update,
                     );
                   case 'Multiple Choice':
                     return MultipleChoiceType(
                       key: Key(question.id!),
                       question: question,
                       originalQuestion: _questionCubit.state.selectedQuestion,
-                      onChange: (value) {
-                        _deetsCubit.update(value);
-                      },
+                      onChange: _deetsCubit.update,
                       onUpdated: (value) => _deetsCubit.updatedField(),
                     );
 
@@ -80,9 +72,7 @@ class AnswerView extends StatelessWidget {
                       key: Key(question.id!),
                       question: question,
                       originalQuestion: _questionCubit.state.selectedQuestion,
-                      onChange: (value) {
-                        _deetsCubit.update(value);
-                      },
+                      onChange: _deetsCubit.update,
                       onUpdated: (value) => _deetsCubit.updatedField(),
                     );
                   case 'Range':
@@ -90,9 +80,7 @@ class AnswerView extends StatelessWidget {
                       key: Key(question.id!),
                       question: question,
                       originalQuestion: _questionCubit.state.selectedQuestion,
-                      onChange: (value) {
-                        _deetsCubit.update(value);
-                      },
+                      onChange: _deetsCubit.update,
                       onUpdated: (value) => _deetsCubit.updatedField(),
                     );
                   default:

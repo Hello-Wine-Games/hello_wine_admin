@@ -3,7 +3,7 @@ import 'package:hello_wine_admin/UI/HWTheme.dart';
 import 'package:questions_repository/questions_repository.dart';
 
 class QuestionField extends StatefulWidget {
-  QuestionField({
+  const QuestionField({
     Key? key,
     required this.question,
     required this.onSaved,
@@ -15,6 +15,7 @@ class QuestionField extends StatefulWidget {
   final ValueSetter<String?> onUpdated;
 
   @override
+  // ignore: library_private_types_in_public_api
   _QuestionFieldState createState() => _QuestionFieldState();
 }
 
@@ -35,7 +36,7 @@ class _QuestionFieldState extends State<QuestionField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             'Question:',
             style:
@@ -48,7 +49,7 @@ class _QuestionFieldState extends State<QuestionField> {
           // onTap: () => _controller.selection = TextSelection(
           //     baseOffset: 0, extentOffset: _controller.value.text.length),
           key: Key(widget.question.question!),
-          initialValue: widget.question.question!,
+          initialValue: widget.question.question,
           validator: (val) {
             return val!.trim().isEmpty ? 'Please enter some text' : null;
           },
