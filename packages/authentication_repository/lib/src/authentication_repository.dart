@@ -88,6 +88,9 @@ class AuthenticationRepository {
             await _firebaseAuth.signInWithPopup(googleProvider);
 
         credential = userCredential.credential;
+        if (currentUser.isNotEmpty) {
+          return;
+        }
       } else {
         final googleUser = await _googleSignIn.signIn();
         final googleAuth = await googleUser!.authentication;
@@ -99,7 +102,7 @@ class AuthenticationRepository {
 
       await _firebaseAuth.signInWithCredential(credential!);
     } on Exception {
-      throw LogInWithGoogleFailure();
+      rethrow;
     }
   }
 
